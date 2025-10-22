@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "TTRPG Simulator App", "TTRPG Simulator App.pyproj", "{2F3B96D5-6E89-4E1A-808A-57A53A8DCF4F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F3B96D5-6E89-4E1A-808A-57A53A8DCF4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F3B96D5-6E89-4E1A-808A-57A53A8DCF4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59807EEC-3D01-49EA-B3B2-FE62AF544D69}
+	EndGlobalSection
+EndGlobal
