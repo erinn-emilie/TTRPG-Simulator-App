@@ -22,6 +22,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="HextileMap.py" />
+    <Compile Include="HextileNode.py" />
+    <Compile Include="MapSizes.py" />
+    <Compile Include="RandomizationTypes.py" />
+    <Compile Include="Seed.py" />
+    <Compile Include="Settings.py" />
+    <Compile Include="TileRecord.py" />
+    <Compile Include="TileTypes.py" />
     <Compile Include="TTRPG_Simulator_App.py" />
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +42,9 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>X64</Architecture>
     </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TileTypes.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
