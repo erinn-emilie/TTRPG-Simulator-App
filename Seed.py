@@ -7,7 +7,7 @@ class Seed():
         random.seed(num)
 
     def getNextBiomeInt(self):
-        return random.randint(0,9)
+        return random.randint(0,10)
 
     def getChanceInt(self):
         return random.randint(1,100)

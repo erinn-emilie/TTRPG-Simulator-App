@@ -22,14 +22,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Creatures.py" />
+    <Compile Include="CreatureToken.py" />
     <Compile Include="HextileMap.py" />
     <Compile Include="HextileNode.py" />
-    <Compile Include="MapSizes.py" />
-    <Compile Include="RandomizationTypes.py" />
+    <Compile Include="Enums\MapSizes.py" />
+    <Compile Include="Enums\RandomizationTypes.py" />
     <Compile Include="Seed.py" />
     <Compile Include="Settings.py" />
+    <Compile Include="SettingsMenu.py" />
     <Compile Include="TileRecord.py" />
     <Compile Include="TileTypes.py" />
+    <Compile Include="Toolbox.py" />
     <Compile Include="TTRPG_Simulator_App.py" />
   </ItemGroup>
   <ItemGroup>
@@ -44,7 +48,12 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TileTypes.json" />
+    <Content Include="JsonFiles\Creatures.json" />
+    <Content Include="JsonFiles\TileTypes.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="JsonFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

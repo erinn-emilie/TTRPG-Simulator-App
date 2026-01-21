@@ -1,22 +1,41 @@
 from TileTypes import TileTypes
-from MapSizes import MapSizes
+from Enums.MapSizes import MapSizes
 from Seed import Seed
 from TileRecord import TileRecord
 from HextileNode import HextileNode
+from PyQt6.QtCore import Qt, QPoint, QPointF
+import math
 
 
 class HextileMap():
     def __init__(self, tileTypesRef, settingsRef):
         self.tileTypes = tileTypesRef
         self.settings = settingsRef
+        self.tileList = []
         self.generateMap()
 
     def generateMap(self):
         self.mapSize = self.settings.getMapSize()
         self.centerNode = None
         self.seed = self.settings.getSeedRef()
+        self.totalwater = self.__setTotalRivers()
         self.__createMap()
+        #self.__populateRandomSettings()
         self.__populateMapGenericSettings()
+
+
+    def __setTotalRivers(self):
+        if self.mapSize == MapSizes.XSMALL:
+            return 2
+        elif self.mapSize == MapSizes.SMALL:
+            return 4
+        elif self.mapSize == MapSizes.MEDIUM:
+            return 6
+        elif self.mapSize == MapSizes.LARGE:
+            return 8
+        else:
+            return 10
+
 
     def getCenterNode(self) -> HextileNode:
         return self.centerNode
@@ -41,33 +60,39 @@ class HextileMap():
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
-
+        self.tileList.append(curNode)
         while(curRingNumber < self.mapSize.value):
             curTileNum += 1
             if(curNode.getNorthNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthNode(newNode)
                 newNode.setSouthNode(curNode)
+                self.tileList.append(newNode)
             if(curNode.getNorthEastNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthEastNode(newNode)
                 newNode.setSouthWestNode(curNode)
+                self.tileList.append(newNode)
             if(curNode.getSouthEastNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthEastNode(newNode)
                 newNode.setNorthWestNode(curNode)
+                self.tileList.append(newNode)
             if(curNode.getSouthNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthNode(newNode)
                 newNode.setNorthNode(curNode)
+                self.tileList.append(newNode)
             if(curNode.getSouthWestNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthWestNode(newNode)
                 newNode.setNorthEastNode(curNode)
+                self.tileList.append(newNode)
             if(curNode.getNorthWestNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthWestNode(newNode)
                 newNode.setSouthEastNode(curNode)
+                self.tileList.append(newNode)
 
             northNode = curNode.getNorthNode()
             southNode = curNode.getSouthNode()
@@ -114,6 +139,7 @@ class HextileMap():
         southeastNode = node.getSouthEastNode()
         typeArr = []
 
+
         if(northNode != None and northNode.getTileType() != "NONE"):
             typeArr.append(northNode.getTileType())
         if(southNode != None and southNode.getTileType() != "NONE"):
@@ -126,11 +152,16 @@ class HextileMap():
             typeArr.append(southwestNode.getTileType())
         if(southeastNode != None and southeastNode.getTileType() != "NONE"):
             typeArr.append(southeastNode.getTileType())
-        newBiomeValue = -1
         newBiomeName = ""
         while(True):
             posBiome = self.seed.getNextBiomeInt()
             posName = self.tileTypes.getTileNameByKey(posBiome)
+            while(posName == "WATER" and self.totalwater == 0):
+                posBiome = self.seed.getNextBiomeInt()
+                posName = self.tileTypes.getTileNameByKey(posBiome)
+            if(posName == "WATER"):
+                self.__setUpWater(node)
+                self.totalwater -= 1
             while(self.settings.findExcludedType(posName)):
                 posBiome = self.seed.getNextBiomeInt()
                 posName = self.tileTypes.getTileNameByKey(posBiome)
@@ -147,6 +178,41 @@ class HextileMap():
                 newBiomeName = posName
                 break
         return newBiomeName
+
+    def __setUpWater(self, node:HextileNode):
+        direction = self.seed.getOtherRandInt(1,6)
+        length = self.seed.getOtherRandInt(2,7)
+        counter = 0
+        if direction == 1: 
+            node = node.getNorthNode()
+        elif direction == 2:
+            node = node.getNorthEastNode()
+        elif direction == 3:
+            node = node.getSouthEastNode()
+        elif direction == 4:
+            node = node.getSouthNode()
+        elif direction == 5:
+            node = node.getSouthWestNode()
+        else:
+            node = node.getNorthWestNode()
+
+        while(node != None and counter < length):
+            node.setTileType("WATER")
+            if(direction == 1):
+                node = node.getNorthNode()
+            elif direction == 2:
+                node = node.getNorthEastNode()
+            elif direction == 3:
+                node = node.getSouthEastNode()
+            elif direction == 4:
+                node = node.getSouthNode()
+            elif direction == 5:
+                node = node.getSouthWestNode()
+            else:
+                node = node.getNorthWestNode()
+            counter += 1
+                
+
 
     def __findMatchingTileType(self, node:HextileNode):
         northNode = node.getNorthNode()
@@ -207,22 +273,23 @@ class HextileMap():
         curNode = curNode.getNorthNode()
         while(curRingNumber < self.mapSize.value + 1):
             curTileNum += 1
-            if(self.seed.getChanceInt() <= sameTypeChance):
-                newType = self.__findMatchingTileType(curNode)
-                curNode.setTileType(newType)
-                if(newType == prevType):
-                    sameTypeChance -=5
+            if(curNode.getTileType() == "NONE"):
+                if(self.seed.getChanceInt() <= sameTypeChance and prevType != "WATER"):
+                    newType = self.__findMatchingTileType(curNode)
+                    curNode.setTileType(newType)
+                    if(newType == prevType):
+                        sameTypeChance -=5
+                    else:
+                        sameTypeChance = 80
+                        prevType = newType
                 else:
-                    sameTypeChance = 80
-                    prevType = newType
-            else:
-                newType = self.__findNewTileType(curNode)
-                curNode.setTileType(newType)
-                if(newType == prevType):
-                    sameTypeChance -=5
-                else:
-                    sameTypeChance = 80
-                    prevType = newType
+                    newType = self.__findNewTileType(curNode)
+                    curNode.setTileType(newType)
+                    if(newType == prevType):
+                        sameTypeChance -=5
+                    else:
+                        sameTypeChance = 80
+                        prevType = newType
             
             if(curTileNum == numTilesInRing):
                 curRingNumber += 1
@@ -236,3 +303,60 @@ class HextileMap():
                     curTileNum = 0
             else:
                 curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
+
+
+
+    def __populateRandomSettings(self):
+        curNode = self.centerNode
+        biomeInt = self.seed.getNextBiomeInt()
+        biome = self.tileTypes.getTileNameByKey(biomeInt)
+        while(self.settings.findExcludedType(biome)):
+            biomeInt = self.seed.getNextBiomeInt()
+            biome = self.tileTypes.getTileNameByKey(biomeInt)
+        curNode.setTileType(biome)
+        curRingNumber = 1
+        curTileNum = 0
+        numTilesInRing = 6
+        curNode = curNode.getNorthNode()
+        while(curRingNumber < self.mapSize.value + 1):
+            curTileNum += 1
+            biomeInt = self.seed.getNextBiomeInt()
+            biome = self.tileTypes.getTileNameByKey(biomeInt)
+            while(self.settings.findExcludedType(biome)):
+                biomeInt = self.seed.getNextBiomeInt()
+                biome = self.tileTypes.getTileNameByKey(biomeInt)
+            curNode.setTileType(biome)
+            if(curTileNum == numTilesInRing):
+                curRingNumber += 1
+                if(not curRingNumber > self.mapSize.value):
+                    prevType = curNode.getNorthEastNode().getTileType()
+                    curNode = curNode.getNorthEastNode().getNorthNode()
+
+                    numTilesInRing = curRingNumber * 6
+                    curTileNum = 0
+            else:
+                curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
+
+
+    def searchByPositionVector(self, vector:QPoint) -> HextileNode:
+        vecX = vector.x()
+        vecY = vector.y()
+        radius = 50
+        points = []
+        
+        points.append(vector)
+        for dx in range(-radius, radius+1):
+            for dy in range(-radius, radius+1):
+                distance = math.sqrt(dx**2 + dy**2)
+                if distance <= radius:
+                    x = int(vecX + dx)
+                    y = int(vecY + dy)
+                    points.append(QPoint(x, y))
+
+        for i in range(0, len(self.tileList)):
+            curTile = self.tileList[i]
+            curVector = curTile.getPositionVector()
+            curPoint = QPoint(int(curVector[0]),int(curVector[1]))
+            if(curPoint in points):
+                return curTile
+        return None

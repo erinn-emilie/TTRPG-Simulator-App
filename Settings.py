@@ -1,5 +1,5 @@
-from RandomizationTypes import RandomizationTypes
-from MapSizes import MapSizes
+from Enums.RandomizationTypes import RandomizationTypes
+from Enums.MapSizes import MapSizes
 from Seed import Seed
 
 class Settings():
@@ -35,7 +35,7 @@ class Settings():
 
     def removeExcludedType(self, itemToRemove:str) -> bool:
         if(itemToRemove in self.excludedTypes):
-            self.excludedType.remove(itemToRemove)
+            self.excludedTypes.remove(itemToRemove)
             return True
         else:
             return False

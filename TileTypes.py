@@ -1,7 +1,7 @@
 import json
 
 class TileTypes():
-    JSON_FILE_PATH = "TileTypes.json"
+    JSON_FILE_PATH = "JsonFiles/TileTypes.json"
 
     def __init__(self):
         self.typesDict = {}
@@ -63,4 +63,6 @@ class TileTypes():
     def getDefaultTileAssetByKey(self, key:int) -> str:
         tileName = self.__getTileNameByKey(key)
         return self.getDefaultTileAssetByName(tileName)
+
+    #def addNewTile(self, tile_name:str, tile_default_asset:str, )
 

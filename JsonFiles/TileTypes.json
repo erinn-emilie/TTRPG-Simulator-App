@@ -1,0 +1,290 @@
+{
+  "BLANK": {
+    "key": -1,
+    "name": "Blank",
+    "tile_weights": {
+      "PLAINS": 0,
+      "MOUNTAIN": 0,
+      "SWAMP": 0,
+      "FOREST": 0,
+      "DESERT": 0,
+      "HILLS": 0,
+      "ICELAND": 0,
+      "JUNGLE": 0,
+      "TUNDRA": 0,
+      "WASTELAND": 0
+    },
+    "default_asset": "assets/greyhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "PLAINS": {
+    "key": 0,
+    "name": "Plains",
+    "tile_weights": {
+      "PLAINS": 100,
+      "MOUNTAIN": 80,
+      "SWAMP": 70,
+      "FOREST": 90,
+      "DESERT": 10,
+      "HILLS": 90,
+      "ICELAND": 5,
+      "JUNGLE": 5,
+      "TUNDRA": 5,
+      "WASTELAND": 5
+    },
+    "default_asset": "assets/yellowhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "MOUNTAIN": {
+    "key": 1,
+    "name": "Mountain",
+    "tile_weights": {
+      "PLAINS": 80,
+      "MOUNTAIN": 100,
+      "SWAMP": 60,
+      "FOREST": 80,
+      "DESERT": 50,
+      "HILLS": 80,
+      "ICELAND": 75,
+      "JUNGLE": 80,
+      "TUNDRA": 80,
+      "WASTELAND": 45
+    },
+    "default_asset": "assets/brownhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "SWAMP": {
+    "key": 2,
+    "name": "Swamp",
+    "tile_weights": {
+      "PLAINS": 70,
+      "MOUNTAIN": 60,
+      "SWAMP": 100,
+      "FOREST": 80,
+      "DESERT": 10,
+      "HILLS": 30,
+      "ICELAND": 5,
+      "JUNGLE": 5,
+      "TUNDRA": 5,
+      "WASTELAND": 70
+    },
+    "default_asset": "assets/blackhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "FOREST": {
+    "key": 3,
+    "name": "Forest",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/lightgreenhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "DESERT": {
+    "key": 4,
+    "name": "Desert",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/brownhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "HILLS": {
+    "key": 5,
+    "name": "Hills",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/greenhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "ICELAND": {
+    "key": 6,
+    "name": "Iceland",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/darkbluehextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "JUNGLE": {
+    "key": 7,
+    "name": "Jungle",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/purplehextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "TUNDRA": {
+    "key": 8,
+    "name": "Tundra",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/lightbluehextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "WASTELAND": {
+    "key": 9,
+    "name": "Wasteland",
+    "tile_weights": {
+      "PLAINS": 90,
+      "MOUNTAIN": 80,
+      "SWAMP": 80,
+      "FOREST": 100,
+      "DESERT": 15,
+      "HILLS": 80,
+      "ICELAND": 80,
+      "JUNGLE": 80,
+      "TUNDRA": 90,
+      "WASTELAND": 40
+    },
+    "default_asset": "assets/redhextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  },
+  "WATER": {
+    "key": 10,
+    "name": "Water",
+    "tile_weights": {
+      "PLAINS": 80,
+      "MOUNTAIN": 0,
+      "SWAMP": 0,
+      "FOREST": 80,
+      "DESERT": 0,
+      "HILLS": 80,
+      "ICELAND": 0,
+      "JUNGLE": 80,
+      "TUNDRA": 0,
+      "WASTELAND": 0
+    },
+    "default_asset": "assets/whitehextile.png",
+    "user_assets": {
+      "slot1": "",
+      "slot2": "",
+      "slot3": "",
+      "slot4": "",
+      "slot5": ""
+    }
+  }
+}

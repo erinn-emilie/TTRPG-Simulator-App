@@ -1,5 +1,5 @@
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction, QPixmap
+from PyQt6.QtCore import Qt, QPoint, QPointF
+from PyQt6.QtGui import QAction, QPixmap, QMouseEvent, QPainter, QPen, QBrush
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -16,194 +16,310 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QLineEdit,
     QPushButton,
-    QGroupBox
+    QGroupBox,
+    QListWidget,
+    QFileDialog
     )
 
+import os
+from Toolbox import Toolbox
 from TileTypes import TileTypes
 from HextileMap import HextileMap
-from MapSizes import MapSizes
+from HextileNode import HextileNode
+from Enums.MapSizes import MapSizes
 from Settings import Settings
-
-                   
-
-class Toolbox():
-    def __init__(self):
-        self.tileTypesRef = TileTypes()
-        self.settingsRef = Settings()
-        self.hextileMapRef = HextileMap(self.tileTypesRef, self.settingsRef)
-
-    def getTileTypesRef(self):
-        return self.tileTypesRef
-
-    def getHextileMapRef(self):
-        return self.hextileMapRef
-
-    def getSettingsRef(self):
-        return self.settingsRef
+from Creatures import Creatures
+from SettingsMenu import SettingsMenu
 
 
-class SettingsMenu(QWidget):
-    def __init__(self, settingsRef:Settings, tileTypes:TileTypes):
+class GridWindow(QMainWindow):
+    def __init__(self, hexNode:HextileNode, creatures:Creatures):
         super().__init__()
+        self.hexNode = hexNode
+        self.creaturesRef = creatures
 
-        self.settingsRef = settingsRef
-        self.tileTypes = tileTypes
-        self.posMapSize = self.settingsRef.getMapSize()
-
-        self.layout = QVBoxLayout()
-
-        self.mapsizeDropdown = QComboBox()
-        self.mapsizeDropdownOptions = ["Extra Small", "Small", "Medium", "Large", "Extra Large"]
-        self.mapsizeOptionIdx = 2
-        self.mapsizeDropdown.addItems(self.mapsizeDropdownOptions)
-        self.mapsizeDropdown.activated.connect(self.__onDDChanged)
-        self.mapsizeDropdown.setCurrentIndex(self.mapsizeOptionIdx)
-        self.mapsizeDropdown.setMaximumSize(100,100)
-
-        self.checkboxGroup = QGroupBox("Included Biomes")
-        self.checkboxLayout = QVBoxLayout()
-        self.checkboxGroup.setLayout(self.checkboxLayout)
-
-        tileNamesList = self.tileTypes.getTileNamesList()
-        for name in tileNamesList:
-            newCheckBox = QCheckBox(text=str(name), parent=self)
-            if(self.settingsRef.findExcludedType(name.upper())):
-                newCheckBox.setChecked(True)
-            else:
-                newCheckBox.setChecked(False)
-            newCheckBox.setStyleSheet("""
-                QCheckBox::indicator:unchecked {
-                    background-color: green;
-                }
-                QCheckBox::indicator:checked {
-                    background-color: red;
-                }
-            """)   
-            newCheckBox.toggled.connect(self.__onCBStateChange)
-            self.checkboxLayout.addWidget(newCheckBox)
-
-        self.saveSettingButton = QPushButton("Save Settings", self)
-        self.saveSettingButton.clicked.connect(self.__saveSettings)
-
-
-        self.layout.addWidget(self.checkboxGroup)
-        self.layout.addWidget(self.mapsizeDropdown)
-        self.layout.addWidget(self.saveSettingButton)
-        self.setLayout(self.layout)
-
-
-    def __onDDChanged(self, index):
-        self.posMapSize = MapSizes.getMapSizeFromStr(self.mapsizeDropdownOptions[index])
-
-    def __onCBStateChange(self, state):
-        checkbox = self.sender()
-        if(state):
-            self.settingsRef.addExcludedType(checkbox.text().upper())
-        else: 
-            self.settingsRef.removeExcludedType(checkbox.text().upper())
-
-    def __saveSettings(self):
-        self.settingsRef.setMapSize(self.posMapSize)
-        self.close()
-
-
-
-
-        
-
-
-        
-class ToolboxHome(QMainWindow):
-    #self has title, mainWidget, mapWidget, mapLayout, hextileMap, mapSettingsToolBar, navbar, scroll, settingsMenuWidget
-    def __init__(self, toolboxRef:Toolbox):
-        super().__init__()            
-        self.title = "TTRPG Simulator"
+        self.title = "Grid Window"
         self.setWindowTitle(self.title)
 
-        self.mainWidget = QWidget()
-        self.mapLayout = QVBoxLayout()
-        self.mapWidget = QWidget()
+        self.main_widget = QWidget()
+
+
+        self.creatureBox = QDockWidget("Creature Box", self.main_widget)
+        self.creatureBoxContainer = QWidget()
+        self.creatureBoxLayout = QVBoxLayout(self.creatureBoxContainer)        
+
+        self.addToken = QPushButton("Add Token")
+        self.creatureBoxLayout.addWidget(self.addToken)
+
+        self.creatureBox.setWidget(self.creatureBoxContainer)
+
+        self.mainLayout = QVBoxLayout()
+        self.mainLayout.addWidget(self.main_widget)
+        self.setCentralWidget(self.main_widget)
+
+    def __populateCreatures(self):
+        creaturesList = self.creaturesRef.getListOfCreatures()
+        for creature in creaturesList:
+            creatureLabel = QLabel(creature.getName())
+            self.creatureBoxLayout.addWidget(creatureLabel)
+        
+
+class HexLabel(QLabel):
+    def __init__(self, hexNode:HextileNode, toolbox:Toolbox, parent=None):
+        super().__init__(parent=parent)
+        self.hexNode = hexNode
+        self.creaturesRef = toolbox.get_creatures_ref()
+        self.gridWindow = GridWindow(self.hexNode, self.creaturesRef)
+
+    def mousePressEvent(self, event):
+        if(event.button() == Qt.MouseButton.LeftButton):
+            self.gridWindow.show()
+
+
+
+
+
+class GenericContainerWidget(QWidget):
+    def __init__(self, tile_name:str, tile_list:list, tile_image_path:str):
+        super().__init__()
+        self.mainLayout = QVBoxLayout()
+        # make special label with stylesheet thats automatically disabled
+        self.setStyleSheet("""
+            background-color: pink;
+        """)
+
+        self.tileNamePromptLabel = QLabel("Tile Name:")
+        self.tileNameLabel = QLineEdit(tile_name)
+        self.tileNameLabel.setEnabled(False)
+        self.tileNameLabel.setMaximumWidth(200)
+        self.tileNamePromptLabel.setMaximumWidth(200)
+        self.tileImagePixmap = QPixmap(tile_image_path)
+        self.tileImageLabel = QLabel()
+        self.tileImageLabel.setPixmap(self.tileImagePixmap)
+        self.tileImageLabel.setScaledContents(True)
+        self.tileImageLabel.setMaximumWidth(300)
+        self.tileImageLabel.setMaximumHeight(300)
+        self.tileNameRow = QHBoxLayout()
+        self.tileNameRow.addWidget(self.tileNamePromptLabel)
+        self.tileNameRow.addWidget(self.tileNameLabel)
+        self.tileNameRow.addWidget(self.tileImageLabel)
+        self.mainLayout.addLayout(self.tileNameRow)
+        self.setLayout(self.mainLayout)
+
+    def enable_tile_name_label(self):
+        self.tileNameLabel.setEnabled(True)
+
+    def disable_tile_name_label(self):
+        self.tileNameLabel.setEnabled(False)
+
+        
+
+class CustomTilesWindow(QMainWindow):
+    def __init__(self, toolboxRef:Toolbox):
+        super().__init__()
+        self.title = "Custom Tile Menu"
+        self.setWindowTitle(self.title)
         self.toolbox = toolboxRef
-        self.hextileMap = self.toolbox.getHextileMapRef()
-        self.tileTypes = self.toolbox.getTileTypesRef()
-        self.settingsRef = self.toolbox.getSettingsRef()
+        self.tileTypesRef = self.toolbox.get_tile_types_ref()
 
-        self.__layoutTiles()
-        self.mapLayout.addWidget(self.mapWidget)
-        self.mainWidget.setLayout(self.mapLayout)
-        self.mapWidget.setMinimumSize(3000,3000)
+        self.main_widget = QWidget()
+        self.mainLayout = QVBoxLayout()
+        self.tile_list = self.tileTypesRef.getTileNamesList()
+        for tile in self.tile_list:
+            image_path = self.tileTypesRef.getDefaultTileAssetByName(tile.upper())
+            widget = GenericContainerWidget(tile, self.tile_list, image_path)
+            self.mainLayout.addWidget(widget)
+        self.addTileButton = QPushButton("Add New Tile")
+        self.addTileButton.clicked.connect(self.__add_new_tile)
+        self.mainLayout.addWidget(self.addTileButton)
+        self.main_widget.setLayout(self.mainLayout)
+        self.scroll = QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(self.main_widget)
+        self.setCentralWidget(self.scroll)
 
-        self.mapSettingsToolBar = QToolBar()
-        self.mapSettingsToolBar.setStyleSheet("background-color: lightblue")
-        self.mapSettingsToolBar.setMinimumHeight(100)
+    def __add_new_tile(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Select a file to use as the image for your tile!")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
+
+        if file_dialog.exec():
+            try:
+                selected_files_list = file_dialog.selectedFiles()
+                img_path = selected_files_list[0]
+                img_name = os.path.basename(img_path)
+                cur_dir = os.getcwd()
+                asset_dir = os.path.join(cur_dir, "assets")
+                asset_path = os.path.join(asset_dir, img_name)
+                os.rename(img_path, asset_path)
+            except FileNotFoundError:
+                print("File couldn't be found")
+            except FileExistsError:
+                print("That file already exists in this location")
+
+            widget = GenericContainerWidget("New Tile", self.tile_list, asset_path)
+            widget.enable_tile_name_label()
+            self.mainLayout.addWidget(widget)
+
+
+
+#Class derived from QMainWindow, this is the homepage of the whole app,
+#where the map is generated and displayed.  
+class ToolboxHomePage(QMainWindow):
+    def __init__(self, toolbox_ref:Toolbox):
+        super().__init__()            
+        window_title = "Tabletop Roleplaying Game Simulator"
+        self.setWindowTitle(window_title)
+
+        
+        self.main_widget = QWidget()
+        self.map_layout = QVBoxLayout()
+        self.map_widget = QWidget()
+
+        self.toolbox = toolbox_ref
+
+        self.hextile_map_obj = self.toolbox.get_hextile_map_ref()
+        self.tile_types_ref_obj = self.toolbox.get_tile_types_ref()
+        self.settings_ref_obj = self.toolbox.get_settings_ref()
+
+
+        self.__layout_tiles()
+
+        #The map_layout contains the map widget, and the layout is given to the map widget
+        self.map_layout.addWidget(self.map_widget)
+        self.main_widget.setLayout(self.map_layout)
+
+        #!!!
+        #Keep for now, need to find a way to make the map fully scrollable and zoom in/out-able lol
+        self.map_widget.setMinimumSize(3000,3000)
+
+        # A bar across the top that holds a button for the user to open up custom
+        # settings, a field for the user to enter a seed, and the generate map button
+        self.map_settings_toolbar = QToolBar()
+        # !!!
+        # Looks terrible fix lol
+        self.map_settings_toolbar.setStyleSheet("background-color: lightblue")
+        self.map_settings_toolbar.setMinimumHeight(100)
+
+        # !!!
+        # Need to make a custom buttom class for buttons like this that 
+        # have a set stylesheet adn stuff
+        self.xtra_settings_btn = QPushButton("Configure Extra Settings", self)
+        self.xtra_settings_btn.clicked.connect(self.__open_xtra_settings)
+        self.map_settings_toolbar.addWidget(self.xtra_settings_btn)
+
+
+        self.seed_input_field = QLineEdit("Enter in a map seed here!")
+        self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
+        self.map_settings_toolbar.addWidget(self.seed_input_field)
+
+        self.generate_map_btn = QPushButton("Generate Map", self)
+        self.generate_map_btn.clicked.connect(self.__generate_map)
+        self.map_settings_toolbar.addWidget(self.generate_map_btn)
+
+        self.boxSelectButton = QPushButton("Box Select Tiles", self)
+        self.map_settings_toolbar.addWidget(self.boxSelectButton)
+
+        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.map_settings_toolbar)
 
         self.scroll = QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(self.mainWidget)
+        self.scroll.setWidget(self.main_widget)
 
-        self.navbar = QDockWidget(self)
+        self.navbar = QDockWidget("Navigation", self)
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
         self.navbar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
-        self.navbar.setStyleSheet("background-color: yellow")
         self.navbar.setMinimumHeight(500)
 
-        self.extraSettingsButton = QAction("Configure Extra Settings", self)
-        self.extraSettingsButton.triggered.connect(self.__openExtraSettings)
-        self.mapSettingsToolBar.addAction(self.extraSettingsButton)
 
-        self.seedInput = QLineEdit("Enter in a map seed here!")
-        self.seedInput.textEdited.connect(self.__recieveSeedInput)
-        self.mapSettingsToolBar.addWidget(self.seedInput)
+        self.navbarContainer = QWidget()
+        self.navbarLayout = QVBoxLayout(self.navbarContainer)
 
-        self.generateMapButton = QAction("GenerateMap", self)
-        self.generateMapButton.triggered.connect(self.__generateMap)
-        self.mapSettingsToolBar.addAction(self.generateMapButton)
+        self.customTilesWindow = None
 
-        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.mapSettingsToolBar)
-        self.mainWidget.setStyleSheet("background-color: pink")
+        self.customTilesButton = QPushButton("Custom Tiles", self.navbar)
+        self.customPlayerButton = QPushButton("Custom Player Characters", self.navbar)
+        self.customNonPlayerButton = QPushButton("Custom Non-Player Characters", self.navbar)
+        self.customAnimalButton = QPushButton("Custom Animals", self.navbar)
+        self.customMonsterButton = QPushButton("Custom Monsters", self.navbar)
+        self.customBuildingButton = QPushButton("Custom Buildings", self.navbar)
+        self.customStructuresButton = QPushButton("Custom Structures", self.navbar)
+
+        self.navbarLayout.addWidget(self.customTilesButton)
+        self.navbarLayout.addWidget(self.customPlayerButton)
+        self.navbarLayout.addWidget(self.customNonPlayerButton)
+        self.navbarLayout.addWidget(self.customAnimalButton)
+        self.navbarLayout.addWidget(self.customMonsterButton)
+        self.navbarLayout.addWidget(self.customBuildingButton)
+        self.navbarLayout.addWidget(self.customStructuresButton)
+
+        self.customTilesButton.clicked.connect(self.__showCustomTilesWindow)
+
+        self.navbar.setWidget(self.navbarContainer)
+
+        self.main_widget.setStyleSheet("background-color: pink")
         self.setCentralWidget(self.scroll)
 
-    def __openExtraSettings(self):
-        self.settingsMenuWidget = SettingsMenu(self.settingsRef, self.tileTypes)
-        self.settingsMenuWidget.setParent(None)  # ensure top-level
-        self.settingsMenuWidget.setWindowFlags(Qt.WindowType.Window)
-        self.settingsMenuWidget.setStyleSheet("background-color: white")
-        self.settingsMenuWidget.setWindowTitle("Settings")
-        self.settingsMenuWidget.show()
+
+    def __showCustomTilesWindow(self):
+        if(self.customTilesWindow is None):
+            self.customTilesWindow = CustomTilesWindow(self.toolbox)
+        self.customTilesWindow.show()
+
+    # creates a window of the custom class Settings Menu.
+    # !!!
+    # Should pass the Toolbox, also shouldn't set stylesheet here should set in the actual class
+    def __open_xtra_settings(self):
+        self.settings_menu_window = SettingsMenu(self.toolbox)
+        self.settings_menu_window.show()
 
 
-    def __recieveSeedInput(self, seedStr):
+    def __recieve_seed_input(self, seed_str):
         try:
-            seed = int(seedStr)
-            self.settingsRef.setNewSeed(seed)
+            seed = int(seed_str)
+            self.settings_ref_obj.setNewSeed(seed)
         except ValueError:
-            self.settingsRef.setNewRandomSeed()
+            self.settings_ref_obj.setNewRandomSeed()
 
-    def __generateMap(self):
-        self.mapLayout.removeWidget(self.mapWidget)
-        self.mapWidget = QWidget()
-        self.mapWidget.setMinimumSize(3000,3000)
-        self.hextileMap.generateMap()
-        self.__layoutTiles()
-        self.mapLayout.addWidget(self.mapWidget)
+    def __generate_map(self):
+        self.map_layout.removeWidget(self.map_widget)
+        self.map_widget = QWidget()
+        # !!!
+        # Layout so bad need fixed
+        self.map_widget.setMinimumSize(3000,3000)
+        self.hextile_map_obj.generateMap()
+        self.__layout_tiles()
+        self.map_layout.addWidget(self.map_widget)
 
 
-    def __layoutTiles(self):
-        centerNode = self.hextileMap.getCenterNode()
+    def __layout_tiles(self):
+        centerNode = self.hextile_map_obj.getCenterNode()
         pivotNode = centerNode
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
+        # !!!
+        # This works for now but the placement of the tiles desperately (cant spell)
+        # needs to be more dynamic as i have no idea how it would look on another screen
+        # size with this configuration and also its just kinda shit practice
         pivX = 1200    
         pivY = 1200
 
-        newLabel = self.__createLabel(pivotNode.getTileType())
+
+        newLabel = self.__createLabel(pivotNode)
         newLabel.move(pivX, pivY)
         pivotNode.setPlacedStatus(True)
+        posVecXOffset = 125
+        posVecYOffset = 100
+        pivotNode.setPositionVector((pivX + posVecXOffset, pivY + posVecYOffset))
 
-        while(curRingNumber <= self.hextileMap.getMapSize().value):
+
+        while(curRingNumber <= self.hextile_map_obj.getMapSize().value):
             curTileNum += 1
             north = pivotNode.getNorthNode()
             south = pivotNode.getSouthNode()
@@ -214,35 +330,42 @@ class ToolboxHome(QMainWindow):
             
 
             if(north != None and not north.getPlacedStatus()):
-                newLabel = self.__createLabel(north.getTileType())
+                newLabel = self.__createLabel(north)
                 newLabel.move(pivX, pivY-200)
                 north.setPlacedStatus(True)
+                north.setPositionVector((pivX + posVecXOffset, pivY-200 + posVecYOffset))
             if(south != None and not south.getPlacedStatus()):
-                newLabel = self.__createLabel(south.getTileType())
+                newLabel = self.__createLabel(south)
                 newLabel.move(pivX, pivY+200)
                 south.setPlacedStatus(True)
+                south.setPositionVector((pivX + posVecXOffset, pivY+200 + posVecYOffset))
             if(northeast != None and not northeast.getPlacedStatus()):
-                newLabel = self.__createLabel(northeast.getTileType())
+                newLabel = self.__createLabel(northeast)
                 newLabel.move(pivX+200, pivY-100)
+                northeast.setPositionVector((pivX+200 + posVecXOffset, pivY-100 + posVecYOffset))
                 northeast.setPlacedStatus(True)
             if(northwest != None and not northwest.getPlacedStatus()):
-                newLabel = self.__createLabel(northwest.getTileType())
+                newLabel = self.__createLabel(northwest)
                 newLabel.move(pivX-200, pivY-100)
                 northwest.setPlacedStatus(True)
+                northwest.setPositionVector((pivX-200 + posVecXOffset, pivY-100 + posVecYOffset))
             if(southeast != None and not southeast.getPlacedStatus()):
-                newLabel = self.__createLabel(southeast.getTileType())
+                newLabel = self.__createLabel(southeast)
                 newLabel.move(pivX+200, pivY+100)
                 southeast.setPlacedStatus(True)
+                southeast.setPositionVector((pivX+200+ posVecXOffset, pivY+100+posVecYOffset))
             if(southwest != None and not southwest.getPlacedStatus()):
-                newLabel = self.__createLabel(southwest.getTileType())
+                newLabel = self.__createLabel(southwest)
                 newLabel.move(pivX-200, pivY+100)
                 southwest.setPlacedStatus(True)
+                southwest.setPositionVector((pivX-200+posVecXOffset, pivY+100+posVecYOffset))
+
 
             if(curTileNum == numTilesInRing):
                 if(curRingNumber == 0):
                     pivotNode = pivotNode.getNorthNode()
                     pivY = pivY - 200
-                elif(curRingNumber != self.hextileMap.getMapSize().value):
+                elif(curRingNumber != self.hextile_map_obj.getMapSize().value):
                     pivotNode = pivotNode.getNorthEastNode().getNorthNode()
                     pivX = pivX + 200
                     pivY = pivY - 300
@@ -281,10 +404,10 @@ class ToolboxHome(QMainWindow):
             
 
 
-    def __createLabel(self, tileType:TileTypes) -> QLabel:
-        label = QLabel(self.mapWidget)
+    def __createLabel(self, tile:HextileNode) -> HexLabel:
+        label = HexLabel(tile, self.toolbox, self.map_widget,)
         pngStr = ''
-        pngStr = self.tileTypes.getDefaultTileAssetByName(tileType)
+        pngStr = self.tile_types_ref_obj.getDefaultTileAssetByName(tile.getTileType())
         pixmap = QPixmap(pngStr)
         label.setPixmap(pixmap)
         label.setContentsMargins(0,0,0,0)
@@ -294,12 +417,14 @@ class ToolboxHome(QMainWindow):
 
 
 
-
 if __name__ == "__main__":
     app = QApplication([])
+
+    #Toolbox holds all the tools necessary for the application to function
     toolbox = Toolbox()
 
-    window = ToolboxHome(toolbox)
+    #The window is a custom class derived from QWindow that is passed the toolbox
+    window = ToolboxHomePage(toolbox)
     window.show()
 
     app.exec()
