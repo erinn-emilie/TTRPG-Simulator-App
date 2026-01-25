@@ -1,12 +1,13 @@
-from Enums.RandomizationTypes import RandomizationTypes
+from Enums.TileGenerationTypes import TileGenerationTypes
 from Enums.MapSizes import MapSizes
 from Seed import Seed
 
 class Settings():
-    def __init__(self, excludedTypes = [], randType = RandomizationTypes.DEFAULT, mapSize = MapSizes.SMALL):
-        self.excludedTypes = excludedTypes
-        self.randType = randType
-        self.mapSize = mapSize
+    def __init__(self, excluded_types = [], rand_type = TileGenerationTypes.WEIGHTED, map_size = MapSizes.SMALL, tile_size = 1.0):
+        self.excluded_types = excluded_types
+        self.rand_type = rand_type
+        self.map_size = map_size
+        self.tile_size = tile_size
         self.seed = Seed()
 
     def setNewSeed(self, newSeed):
@@ -18,33 +19,39 @@ class Settings():
     def getSeedRef(self):
         return self.seed
 
-    def setRandType(self, newRandType:RandomizationTypes):
-        self.randType = newRandType
+    def setNewTileSize(self, new_tile_size:float):
+        self.tile_size = new_tile_size
 
-    def getRandType(self) -> RandomizationTypes:
-        return self.randType
+    def getTileSize(self) -> float:
+        return self.tile_size
+
+    def setRandType(self, newRandType:TileGenerationTypes):
+        self.rand_type = newRandType
+
+    def getRandType(self) -> TileGenerationTypes:
+        return self.rand_type
 
     def setMapSize(self, newMapSize:MapSizes):
-        self.mapSize = newMapSize
+        self.map_size = newMapSize
 
     def getMapSize(self) -> MapSizes:
-        return self.mapSize
+        return self.map_size
     
     def addExcludedType(self, itemToAdd:str):
-        self.excludedTypes.append(itemToAdd)
+        self.excluded_types.append(itemToAdd)
 
     def removeExcludedType(self, itemToRemove:str) -> bool:
-        if(itemToRemove in self.excludedTypes):
-            self.excludedTypes.remove(itemToRemove)
+        if(itemToRemove in self.excluded_types):
+            self.excluded_types.remove(itemToRemove)
             return True
         else:
             return False
 
     def clearExcludedTypes(self):
-        self.excludedTypes.clear()
+        self.excluded_types.clear()
 
     def findExcludedType(self, itemKey:str) -> bool:
-        if(itemKey in self.excludedTypes):
+        if(itemKey in self.excluded_types):
             return True
         else:
             return False

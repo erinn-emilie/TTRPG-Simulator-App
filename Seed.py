@@ -6,6 +6,8 @@ class Seed():
             num = random.randint(100000,999999)
         random.seed(num)
 
+    # !!!
+    # The stop number needs to not be static adn change with the number of tiles
     def getNextBiomeInt(self):
         return random.randint(0,10)
 

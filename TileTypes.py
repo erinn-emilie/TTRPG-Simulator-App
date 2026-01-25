@@ -1,15 +1,17 @@
 import json
+import math
+from PIL import Image, ImageDraw
 
 class TileTypes():
-    JSON_FILE_PATH = "JsonFiles/TileTypes.json"
+    JSON_FILE_PATH = "jsonfiles/TileTypes.json"
 
     def __init__(self):
-        self.typesDict = {}
-        self.tileKeyMap = {}
-        self.tileNamesList = []
+        self.tiles_dict = {}
+        self.tile_key_map = {}
+        self.tile_names_list = []
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
-                self.typesDict = json.load(file)
+                self.tiles_dict = json.load(file)
             self.__setup()
         except FileNotFoundError:
             print("Couldn't find JSON file with tile types!")
@@ -18,19 +20,19 @@ class TileTypes():
 
     def __setup(self):
         counter = 0
-        for tile in self.typesDict:
-            self.tileKeyMap[tile] = self.typesDict[tile]["key"]
+        for tile in self.tiles_dict:
+            self.tile_key_map[tile] = self.tiles_dict[tile]["key"]
             if(counter != 0):
-                self.tileNamesList.append(self.typesDict[tile]["name"])
+                self.tile_names_list.append(self.tiles_dict[tile]["name"])
             counter += 1
 
     def getTileNamesList(self) -> list:
-        return self.tileNamesList
+        return self.tile_names_list
 
     def getTileNameByKey(self, key) -> str:
         try: 
-            for tile in self.tileKeyMap:
-                if self.tileKeyMap[tile] == key:
+            for tile in self.tile_key_map:
+                if self.tile_key_map[tile] == key:
                     return tile
             return "NONE"
         except KeyError:
@@ -38,14 +40,14 @@ class TileTypes():
 
     def getTileKeyByName(self, tileName) -> int:
         try: 
-            return self.tileKeyMap[tileName]
+            return self.tile_key_map[tileName]
         except KeyError:
             return -1
 
 
     def getTileWeightByName(self, rowTileName:str, colTileName:str) -> int:
         try: 
-            return self.typesDict[rowTileName]["tile_weights"][colTileName]
+            return self.tiles_dict[rowTileName]["tile_weights"][colTileName]
         except KeyError:
             return 0
 
@@ -57,12 +59,68 @@ class TileTypes():
 
     def getDefaultTileAssetByName(self, tileName:str) -> str:
         try: 
-            return self.typesDict[tileName]["default_asset"]
+            return self.tiles_dict[tileName]["default_asset"]
         except KeyError:
-            return ''
-    def getDefaultTileAssetByKey(self, key:int) -> str:
-        tileName = self.__getTileNameByKey(key)
-        return self.getDefaultTileAssetByName(tileName)
+            return ""
 
-    #def addNewTile(self, tile_name:str, tile_default_asset:str, )
+    def add_new_tile(self, tile_name:str, tile_default_asset:str):
+        self.__create_hexagonal_image_mask(tile_default_asset)
+        formatted_tile_name = tile_name.upper()
+        new_weight_row = {formatted_tile_name: 100}
+        highest_key = -1
+        for tile in self.tiles_dict:
+            self.tiles_dict[tile]["tile_weights"].update(new_weight_row)
+            highest_key = self.tiles_dict[tile]["key"]
+
+        new_tile_dict = {
+            formatted_tile_name: {
+                "key": highest_key,
+                "name": tile_name,
+                "tile_weights": {},
+                "default_asset": tile_default_asset,
+                "user_assets": {
+                    "slot1": "",
+                    "slot2": "",
+                    "slot3": "",
+                    "slot4": "",
+                    "slot5": ""
+                }
+            }
+        }
+
+        for tile in self.tile_names_list:
+            new_tile_dict[formatted_tile_name]["tile_weights"].update({tile: 100})
+
+        self.tiles_dict.update(new_tile_dict)
+        with open(self.JSON_FILE_PATH, 'w') as file: 
+            json.dump(self.tiles_dict, file, indent=4)
+
+
+    def __create_hexagonal_image_mask(self, img_path_str:str):
+        img = Image.open(img_path_str).convert("RGBA")
+        width = 500
+        height = 500
+        img = img.resize((width,height))
+
+        im_a = Image.new("L", img.size, 0)
+    
+        center_x = math.floor(width/2)
+        center_y = math.floor(height/2)
+        radius = 250      
+        n_sides = 6
+    
+        points = []
+        for i in range(n_sides):
+            angle = 2 * math.pi * i / n_sides
+            x = center_x + radius * math.cos(angle)
+            y = center_y + radius * math.sin(angle)
+            points.append((x,y))
+    
+        draw = ImageDraw.Draw(im_a)
+        draw.polygon(points,fill=255)
+        im_rgba = img.copy()
+        im_rgba.putalpha(im_a)
+        im_rgba.save(img_path_str)
+
+
 

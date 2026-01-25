@@ -6,6 +6,8 @@ from HextileNode import HextileNode
 from PyQt6.QtCore import Qt, QPoint, QPointF
 import math
 
+from Enums.TileGenerationTypes import TileGenerationTypes
+
 
 class HextileMap():
     def __init__(self, tileTypesRef, settingsRef):
@@ -20,8 +22,11 @@ class HextileMap():
         self.seed = self.settings.getSeedRef()
         self.totalwater = self.__setTotalRivers()
         self.__createMap()
-        #self.__populateRandomSettings()
-        self.__populateMapGenericSettings()
+        match(self.settings.getRandType()):
+            case TileGenerationTypes.RANDOM:
+                self.__populateRandomSettings()
+            case TileGenerationTypes.WEIGHTED:
+                self.__populateMapGenericSettings()
 
 
     def __setTotalRivers(self):

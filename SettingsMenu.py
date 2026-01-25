@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import (
 
 from Toolbox import Toolbox
 from Enums.MapSizes import MapSizes
+from Enums.TileGenerationTypes import TileGenerationTypes
 
 class SettingsMenu(QMainWindow):
     def __init__(self, toolbox_ref:Toolbox):
@@ -19,7 +20,8 @@ class SettingsMenu(QMainWindow):
         self.settings_ref = toolbox_ref.get_settings_ref()
         self.tile_types = toolbox_ref.get_tile_types_ref()
         self.new_map_size = self.settings_ref.getMapSize()
-        self.map_size_dropdown_idx = 0
+        self.new_rand_type = self.settings_ref.getRandType()
+        self.map_size_dropdown_idx = 2
         match(self.new_map_size):
             case MapSizes.XSMALL: 
                 self.map_size_dropdown_idx = 0
@@ -31,8 +33,13 @@ class SettingsMenu(QMainWindow):
                 self.map_size_dropdown_idx = 3
             case MapSizes.XLARGE: 
                 self.map_size_dropdown_idx = 4
-            case _: 
-                self.map_size_dropdown_idx = 2
+
+        self.tile_gen_type_dropdown_idx = 1
+        match(self.new_rand_type):
+            case TileGenerationTypes.RANDOM:
+                self.tile_gen_type_dropdown_idx = 0
+            case TileGenerationTypes.WEIGHTED:
+                self.tile_gen_type_dropdown_idx = 1
 
 
         self.main_widget = QWidget()
@@ -42,10 +49,20 @@ class SettingsMenu(QMainWindow):
         self.map_size_dropdown = QComboBox()
         self.map_size_dropdown_options = ["Extra Small", "Small", "Medium", "Large", "Extra Large"]
         self.map_size_dropdown.addItems(self.map_size_dropdown_options)
-        self.map_size_dropdown.activated.connect(self.__on_dropdown_change)
+        self.map_size_dropdown.activated.connect(self.__on_map_dropdown_change)
         self.map_size_dropdown.setCurrentIndex(self.map_size_dropdown_idx)
         self.map_size_dropdown.setMaximumSize(100,100)
 
+        self.tile_gen_type_dropdown = QComboBox()
+        self.tile_gen_type_dropdown_options = ["Random", "Weighted"]
+        self.tile_gen_type_dropdown.addItems(self.tile_gen_type_dropdown_options)
+        self.tile_gen_type_dropdown.activated.connect(self.__on_tile_gen_dropdown_change)
+        self.tile_gen_type_dropdown.setCurrentIndex(self.tile_gen_type_dropdown_idx)
+        self.tile_gen_type_dropdown.setMaximumSize(100,100)
+
+
+
+    
 
         self.checkbox_group = QGroupBox("Included Tiles")
         self.checkbox_layout = QVBoxLayout()
@@ -77,11 +94,15 @@ class SettingsMenu(QMainWindow):
 
         self.main_layout.addWidget(self.checkbox_group)
         self.main_layout.addWidget(self.map_size_dropdown)
+        self.main_layout.addWidget(self.tile_gen_type_dropdown)
         self.main_layout.addWidget(self.save_btn)
         self.setCentralWidget(self.main_widget)
 
-    def __on_dropdown_change(self, index):
+    def __on_map_dropdown_change(self, index):
         self.new_map_size = MapSizes.getMapSizeFromStr(self.map_size_dropdown_options[index])
+
+    def __on_tile_gen_dropdown_change(self, index):
+        self.new_rand_type = TileGenerationTypes.get_gen_type_from_key(index)
 
     def __on_checkbox_change(self, state):
         checkbox = self.sender()
@@ -92,4 +113,5 @@ class SettingsMenu(QMainWindow):
 
     def __save_settings(self):
         self.settings_ref.setMapSize(self.new_map_size)
+        self.settings_ref.setRandType(self.new_rand_type)
         self.close()

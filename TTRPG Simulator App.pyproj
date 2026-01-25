@@ -22,12 +22,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Creatures.py" />
-    <Compile Include="CreatureToken.py" />
+    <Compile Include="enums\TokenTypes.py" />
     <Compile Include="HextileMap.py" />
     <Compile Include="HextileNode.py" />
-    <Compile Include="Enums\MapSizes.py" />
-    <Compile Include="Enums\RandomizationTypes.py" />
+    <Compile Include="enums\MapSizes.py" />
+    <Compile Include="enums\TileGenerationTypes.py" />
+    <Compile Include="pages\CustomTokenExploreWindow.py" />
+    <Compile Include="pages\HomeWindow.py" />
     <Compile Include="Seed.py" />
     <Compile Include="Settings.py" />
     <Compile Include="SettingsMenu.py" />
@@ -48,12 +49,13 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="JsonFiles\Creatures.json" />
-    <Content Include="JsonFiles\TileTypes.json" />
+    <Content Include="jsonfiles\Creatures.json" />
+    <Content Include="jsonfiles\TileTypes.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enums\" />
-    <Folder Include="JsonFiles\" />
+    <Folder Include="enums\" />
+    <Folder Include="jsonfiles\" />
+    <Folder Include="pages\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
