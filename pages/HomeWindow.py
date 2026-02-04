@@ -1,6 +1,7 @@
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QPoint, QEvent, QElapsedTimer
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import (
+    QDialogButtonBox,
     QDockWidget,
     QLabel,
     QMainWindow,
@@ -9,14 +10,19 @@ from PyQt6.QtWidgets import (
     QWidget,
     QScrollArea,
     QLineEdit,
-    QPushButton
+    QPushButton,
+    QMessageBox,
+    QCheckBox
     )
 
 from Toolbox import Toolbox
 from HextileNode import HextileNode
-from SettingsMenu import SettingsMenu
+from SettingsMenu import QComboBox, SettingsMenu
 from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
 from Enums.TokenTypes import TokenTypes
+from widgets.TileChangeMessageBox import TileChangeMessageBox
+
+import math
 
 
 class GridWindow(QMainWindow):
@@ -33,15 +39,42 @@ class GridWindow(QMainWindow):
         self.mainLayout.addWidget(self.main_widget)
         self.setCentralWidget(self.main_widget)
 
+
+
+
+
+
 class HexLabel(QLabel):
-    def __init__(self, hexNode:HextileNode, toolbox:Toolbox, parent=None):
+    def __init__(self, hex_node:HextileNode, toolbox:Toolbox, home_window, parent=None):
         super().__init__(parent=parent)
-        self.hexNode = hexNode
-        self.gridWindow = GridWindow(self.hexNode)
+        self.message = None
+        self.hex_node = hex_node
+        self.toolbox = toolbox
+        self.tile_types_ref = self.toolbox.get_tile_types_ref()
+        self.gridWindow = GridWindow(self.hex_node)
+        self.home_window = home_window
+
+    def get_hex_node(self) -> HextileNode:
+        return self.hex_node
 
     def mousePressEvent(self, event):
-        if(event.button() == Qt.MouseButton.LeftButton):
-            self.gridWindow.show()
+        if(event.button() == Qt.MouseButton.RightButton):
+            self.message = TileChangeMessageBox(self.toolbox, parent=self)
+            self.tile_type = self.hex_node.getTileType()
+            self.ret_value = self.message.exec()
+            if(self.ret_value == QMessageBox.StandardButton.Cancel):
+                self.hex_node.setTileType(self.tile_type)
+            else:
+                new_tile_type = self.hex_node.getTileType()
+                png_str = self.tile_types_ref.get_default_tile_asset_by_name(new_tile_type)
+                pixmap = QPixmap(png_str)
+                self.setPixmap(pixmap)
+        if(event.button() == Qt.MouseButton.LeftButton and self.home_window.is_in_ring_select()):
+            self.home_window.set_ring_select_pivot(self)
+            
+        return super().mousePressEvent(event)
+
+
 
 
 #Class derived from QMainWindow, this is the homepage of the whole app,
@@ -57,8 +90,19 @@ class HomeWindow(QMainWindow):
         self.map_layout = QVBoxLayout()
         self.map_widget = QWidget()
 
+        self.elapsed_timer = QElapsedTimer()
+
         self.box_select_flag = False
-        self.ring_select_flag= False
+        self.corner_one = QPoint(0,0)
+        self.corner_two = QPoint(0,0)
+        self.top_boundary = 0
+        self.bottom_boundary = 0
+        self.left_boundary = 0
+        self.right_boundary = 0
+
+        self.ring_select_flag = False
+        self.ring_select_pivot = None
+
         self.line_select_flag = False
 
         self.toolbox = toolbox_ref
@@ -68,6 +112,7 @@ class HomeWindow(QMainWindow):
         self.settings_ref_obj = self.toolbox.get_settings_ref()
 
 
+        self.tile_labels_list = []
         self.__layout_tiles()
 
         #The map_layout contains the map widget, and the layout is given to the map widget
@@ -102,11 +147,18 @@ class HomeWindow(QMainWindow):
         self.generate_map_btn.clicked.connect(self.__generate_map)
         self.map_settings_toolbar.addWidget(self.generate_map_btn)
 
+
+        self.selected_tiles = []
+        self.setMouseTracking(True)
         self.box_select_btn = QPushButton("Box Select Tiles", self)
         self.box_select_btn.clicked.connect(self.__toggle_box_select)
         self.map_settings_toolbar.addWidget(self.box_select_btn)
 
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.map_settings_toolbar)
+
+        self.ring_select_btn = QPushButton("Ring Select Tiles", self)
+        self.ring_select_btn.clicked.connect(self.__toggle_ring_select)
+        self.map_settings_toolbar.addWidget(self.ring_select_btn)
 
         self.scroll = QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
@@ -133,6 +185,8 @@ class HomeWindow(QMainWindow):
         self.customBuildingButton = QPushButton("Custom Buildings", self.navbar)
         self.customStructuresButton = QPushButton("Custom Structures", self.navbar)
 
+        self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
+
         self.navbarLayout.addWidget(self.customTilesButton)
         self.navbarLayout.addWidget(self.customPlayerButton)
         self.navbarLayout.addWidget(self.customNonPlayerButton)
@@ -150,12 +204,95 @@ class HomeWindow(QMainWindow):
         self.setCentralWidget(self.scroll)
 
 
+    def is_in_box_select(self):
+        return self.box_select_flag
+
+    def is_in_ring_select(self):
+        return self.ring_select_flag
+
+    def set_ring_select_pivot(self, node:HexLabel):
+        self.ring_select_pivot = node
+
+
     def __toggle_box_select(self):
         if(self.box_select_flag):
             self.box_select_flag = False
         else:
             self.box_select_flag = True
 
+    def __toggle_ring_select(self):
+        if(self.ring_select_flag):
+            self.ring_select_flag = False
+        else:
+            self.ring_select_flag = True
+
+
+    def __determine_box(self):
+        c1_x = self.corner_one.x()
+        c2_x = self.corner_two.x()
+        c1_y = self.corner_one.y()
+        c2_y = self.corner_two.y()
+
+        if(c1_x < c2_x):
+            self.left_boundary = c1_x
+            self.right_boundary = c2_x
+        else:
+            self.left_boundary = c2_x
+            self.right_boundary = c1_x
+
+        if(c1_y < c2_y):
+            self.bottom_boundary = c1_y
+            self.top_boundary = c2_y
+        else:
+            self.bottom_boundary = c2_y
+            self.top_boundary = c1_y
+
+        self.__find_selected_tiles()
+
+    def __find_selected_tiles(self):
+        for tile in self.tile_labels_list:
+            global_position = tile.mapToGlobal(tile.pos())
+            x = global_position.x()
+            y = global_position.y()
+            if(x >= self.left_boundary and x <= self.right_boundary and y >= self.bottom_boundary and y <= self.top_boundary):
+                self.selected_tiles.append(tile)
+
+        self.__select_tiles()
+
+    def __select_tiles(self):
+        for tile in self.selected_tiles:
+            tile.clear()
+
+
+    def eventFilter(self, child, event):
+        if event.type() == QEvent.Type.MouseButtonPress:
+            global_position = event.globalPosition().toPoint()
+            self.__handle_mouse_press_event(global_position)
+            return False
+        if event.type() == QEvent.Type.MouseButtonRelease:
+            global_position = event.position().toPoint()
+            self.__handle_mouse_release_event(global_position)
+            return False
+        return super().eventFilter(child, event)
+
+    def __handle_mouse_press_event(self, global_position):
+        #local_position = self.mapToParent(global_position)
+        print(str(global_position) + "From WINDOW LOCAL")
+        if(self.box_select_flag):
+            self.corner_one = global_position
+        if(self.ring_select_flag):
+            self.elapsed_timer.start()
+
+    def __handle_mouse_release_event(self, global_position):
+        if(self.box_select_flag):
+            self.corner_two = global_position
+            self.__determine_box()
+        if(self.ring_select_flag):
+            total_time_ms = self.elapsed_timer.elapsed()
+            total_time_s = total_time_ms / 1000
+            total_rings = math.floor(total_time_s / 3)
+
+            print(total_rings)
 
     #def __start_box_select(self):
 
@@ -204,6 +341,7 @@ class HomeWindow(QMainWindow):
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
+        self.tile_labels_list = []
         # !!!
         # This works for now but the placement of the tiles desperately (cant spell)
         # needs to be more dynamic as i have no idea how it would look on another screen
@@ -214,8 +352,9 @@ class HomeWindow(QMainWindow):
 
         newLabel = self.__createLabel(pivotNode)
         newLabel.move(pivX, pivY)
+        self.tile_labels_list.append(newLabel)
         pivotNode.setPlacedStatus(True)
-        posVecXOffset = 125
+        posVecXOffset = 0
         posVecYOffset = 100
         pivotNode.setPositionVector((pivX + posVecXOffset, pivY + posVecYOffset))
 
@@ -233,31 +372,37 @@ class HomeWindow(QMainWindow):
             if(north != None and not north.getPlacedStatus()):
                 newLabel = self.__createLabel(north)
                 newLabel.move(pivX, pivY-200)
+                self.tile_labels_list.append(newLabel)
                 north.setPlacedStatus(True)
                 north.setPositionVector((pivX + posVecXOffset, pivY-200 + posVecYOffset))
             if(south != None and not south.getPlacedStatus()):
                 newLabel = self.__createLabel(south)
                 newLabel.move(pivX, pivY+200)
+                self.tile_labels_list.append(newLabel)
                 south.setPlacedStatus(True)
                 south.setPositionVector((pivX + posVecXOffset, pivY+200 + posVecYOffset))
             if(northeast != None and not northeast.getPlacedStatus()):
                 newLabel = self.__createLabel(northeast)
-                newLabel.move(pivX+200, pivY-100)
+                newLabel.move(pivX+175, pivY-100)
+                self.tile_labels_list.append(newLabel)
                 northeast.setPositionVector((pivX+200 + posVecXOffset, pivY-100 + posVecYOffset))
                 northeast.setPlacedStatus(True)
             if(northwest != None and not northwest.getPlacedStatus()):
                 newLabel = self.__createLabel(northwest)
-                newLabel.move(pivX-200, pivY-100)
+                newLabel.move(pivX-175, pivY-100)
+                self.tile_labels_list.append(newLabel)
                 northwest.setPlacedStatus(True)
                 northwest.setPositionVector((pivX-200 + posVecXOffset, pivY-100 + posVecYOffset))
             if(southeast != None and not southeast.getPlacedStatus()):
                 newLabel = self.__createLabel(southeast)
-                newLabel.move(pivX+200, pivY+100)
+                newLabel.move(pivX+175, pivY+100)
+                self.tile_labels_list.append(newLabel)
                 southeast.setPlacedStatus(True)
                 southeast.setPositionVector((pivX+200+ posVecXOffset, pivY+100+posVecYOffset))
             if(southwest != None and not southwest.getPlacedStatus()):
                 newLabel = self.__createLabel(southwest)
-                newLabel.move(pivX-200, pivY+100)
+                newLabel.move(pivX-175, pivY+100)
+                self.tile_labels_list.append(newLabel)
                 southwest.setPlacedStatus(True)
                 southwest.setPositionVector((pivX-200+posVecXOffset, pivY+100+posVecYOffset))
 
@@ -268,14 +413,14 @@ class HomeWindow(QMainWindow):
                     pivY = pivY - 200
                 elif(curRingNumber != self.hextile_map_obj.getMapSize().value):
                     pivotNode = pivotNode.getNorthEastNode().getNorthNode()
-                    pivX = pivX + 200
+                    pivX = pivX + 175
                     pivY = pivY - 300
                 curRingNumber += 1
                 numTilesInRing = curRingNumber * 6
                 curTileNum = 0
             else:
                 nextNode = pivotNode.getSouthEastNode()
-                posX = pivX + 200
+                posX = pivX + 175
                 posY = pivY + 100
                 
                 if(nextNode == None or nextNode.getPositionIdx() != curRingNumber or curTileNum > numTilesInRing/2):
@@ -284,11 +429,11 @@ class HomeWindow(QMainWindow):
                     posY = pivY + 200
                     if(nextNode == None or nextNode.getPositionIdx() != curRingNumber or curTileNum > numTilesInRing/2):
                         nextNode = pivotNode.getSouthWestNode()
-                        posX = pivX - 200
+                        posX = pivX - 175
                         posY = pivY + 100
                         if(nextNode == None or nextNode.getPositionIdx() != curRingNumber or curTileNum > numTilesInRing/2):
                             nextNode = pivotNode.getNorthWestNode()
-                            posX = pivX - 200
+                            posX = pivX - 175
                             posY = pivY - 100
                             if(nextNode == None or nextNode.getPositionIdx() != curRingNumber):
                                 nextNode = pivotNode.getNorthNode()
@@ -296,7 +441,7 @@ class HomeWindow(QMainWindow):
                                 posY = pivY - 200
                                 if(nextNode == None or nextNode.getPositionIdx() != curRingNumber):
                                     nextNode = pivotNode.getNorthEastNode()
-                                    posX = pivX + 200
+                                    posX = pivX + 175
                                     posY = pivY - 100
                 pivX = posX
                 pivY = posY
@@ -306,12 +451,14 @@ class HomeWindow(QMainWindow):
 
 
     def __createLabel(self, tile:HextileNode) -> HexLabel:
-        label = HexLabel(tile, self.toolbox, self.map_widget,)
+        label = HexLabel(tile, self.toolbox, self, parent=self.map_widget,)
         pngStr = ''
-        pngStr = self.tile_types_ref_obj.getDefaultTileAssetByName(tile.getTileType())
+        pngStr = self.tile_types_ref_obj.get_default_tile_asset_by_name(tile.getTileType())
         pixmap = QPixmap(pngStr)
         label.setPixmap(pixmap)
         label.setContentsMargins(0,0,0,0)
         label.setScaledContents(True)
+        label.setFixedSize(225,225)
         label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        label.installEventFilter(self)        
         return label

@@ -13,7 +13,7 @@
             "JUNGLE": 0,
             "TUNDRA": 0,
             "WASTELAND": 0,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/greyhextile.png",
         "user_assets": {
@@ -38,7 +38,7 @@
             "JUNGLE": 5,
             "TUNDRA": 5,
             "WASTELAND": 5,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/yellowhextile.png",
         "user_assets": {
@@ -63,7 +63,7 @@
             "JUNGLE": 80,
             "TUNDRA": 80,
             "WASTELAND": 45,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/brownhextile.png",
         "user_assets": {
@@ -88,7 +88,7 @@
             "JUNGLE": 5,
             "TUNDRA": 5,
             "WASTELAND": 70,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/blackhextile.png",
         "user_assets": {
@@ -113,7 +113,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/lightgreenhextile.png",
         "user_assets": {
@@ -138,7 +138,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/brownhextile.png",
         "user_assets": {
@@ -163,7 +163,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/greenhextile.png",
         "user_assets": {
@@ -188,7 +188,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/darkbluehextile.png",
         "user_assets": {
@@ -213,7 +213,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/purplehextile.png",
         "user_assets": {
@@ -238,7 +238,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/lightbluehextile.png",
         "user_assets": {
@@ -263,7 +263,7 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/redhextile.png",
         "user_assets": {
@@ -288,7 +288,7 @@
             "JUNGLE": 80,
             "TUNDRA": 0,
             "WASTELAND": 0,
-            "NEW TILE": 100
+            "MAGIC": 100
         },
         "default_asset": "assets/whitehextile.png",
         "user_assets": {

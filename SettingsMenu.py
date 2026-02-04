@@ -70,7 +70,7 @@ class SettingsMenu(QMainWindow):
 
         # !!!
         # This needs to be better
-        tileNamesList = self.tile_types.getTileNamesList()
+        tileNamesList = self.tile_types.get_tile_names_list()
         for name in tileNamesList:
             new_checkbox = QCheckBox(text=str(name), parent=self)
             if(self.settings_ref.findExcludedType(name.upper())):

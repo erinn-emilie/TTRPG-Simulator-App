@@ -160,21 +160,21 @@ class HextileMap():
         newBiomeName = ""
         while(True):
             posBiome = self.seed.getNextBiomeInt()
-            posName = self.tileTypes.getTileNameByKey(posBiome)
+            posName = self.tileTypes.get_tile_name_by_key(posBiome)
             while(posName == "WATER" and self.totalwater == 0):
                 posBiome = self.seed.getNextBiomeInt()
-                posName = self.tileTypes.getTileNameByKey(posBiome)
+                posName = self.tileTypes.get_tile_name_by_key(posBiome)
             if(posName == "WATER"):
                 self.__setUpWater(node)
                 self.totalwater -= 1
             while(self.settings.findExcludedType(posName)):
                 posBiome = self.seed.getNextBiomeInt()
-                posName = self.tileTypes.getTileNameByKey(posBiome)
+                posName = self.tileTypes.get_tile_name_by_key(posBiome)
 
             totalValue = 0
             for i in range(0, len(typeArr)):
-                curBiome = self.tileTypes.getTileKeyByName(typeArr[i])
-                totalValue = totalValue + self.tileTypes.getTileWeightByKey(curBiome, posBiome)
+                curBiome = self.tileTypes.get_tile_key_by_name(typeArr[i])
+                totalValue = totalValue + self.tileTypes.get_tile_weight_by_key(curBiome, posBiome)
             valueToBeat = 100
             if(len(typeArr) != 0):
                 valueToBeat = int(totalValue / len(typeArr))
@@ -265,10 +265,10 @@ class HextileMap():
     def __populateMapGenericSettings(self):
         curNode = self.centerNode
         biomeInt = self.seed.getNextBiomeInt()
-        prevType = self.tileTypes.getTileNameByKey(biomeInt)
+        prevType = self.tileTypes.get_tile_name_by_key(biomeInt)
         while(self.settings.findExcludedType(prevType)):
             biomeInt = self.seed.getNextBiomeInt()
-            prevType = self.tileTypes.getTileNameByKey(biomeInt)
+            prevType = self.tileTypes.get_tile_name_by_key(biomeInt)
         curNode.setTileType(prevType)
         sameTypeChance = 80
 
@@ -314,10 +314,10 @@ class HextileMap():
     def __populateRandomSettings(self):
         curNode = self.centerNode
         biomeInt = self.seed.getNextBiomeInt()
-        biome = self.tileTypes.getTileNameByKey(biomeInt)
+        biome = self.tileTypes.get_tile_name_by_key(biomeInt)
         while(self.settings.findExcludedType(biome)):
             biomeInt = self.seed.getNextBiomeInt()
-            biome = self.tileTypes.getTileNameByKey(biomeInt)
+            biome = self.tileTypes.get_tile_name_by_key(biomeInt)
         curNode.setTileType(biome)
         curRingNumber = 1
         curTileNum = 0
@@ -326,10 +326,10 @@ class HextileMap():
         while(curRingNumber < self.mapSize.value + 1):
             curTileNum += 1
             biomeInt = self.seed.getNextBiomeInt()
-            biome = self.tileTypes.getTileNameByKey(biomeInt)
+            biome = self.tileTypes.get_tile_name_by_key(biomeInt)
             while(self.settings.findExcludedType(biome)):
                 biomeInt = self.seed.getNextBiomeInt()
-                biome = self.tileTypes.getTileNameByKey(biomeInt)
+                biome = self.tileTypes.get_tile_name_by_key(biomeInt)
             curNode.setTileType(biome)
             if(curTileNum == numTilesInRing):
                 curRingNumber += 1

@@ -9,6 +9,7 @@ class TileTypes():
         self.tiles_dict = {}
         self.tile_key_map = {}
         self.tile_names_list = []
+        self.total_tiles = 0
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.tiles_dict = json.load(file)
@@ -25,11 +26,32 @@ class TileTypes():
             if(counter != 0):
                 self.tile_names_list.append(self.tiles_dict[tile]["name"])
             counter += 1
+        self.total_tiles = counter-1
 
-    def getTileNamesList(self) -> list:
+    def get_total_tiles(self) -> int:
+        return self.total_tiles
+
+    def change_tile_name(self, old_name, new_name):
+        counter = -1
+        for tile in self.tiles_dict:
+            if(self.tiles_dict[tile]["name"] == old_name):
+                self.tiles_dict[tile]["name"] = new_name
+                self.tiles_dict[new_name.upper()] = self.tiles_dict.pop(old_name.upper())
+                self.tile_names_list[counter] = new_name
+                break
+            else:
+                self.tiles_dict[tile]["tile_weights"][new_name.upper()] = self.tiles_dict[tile]["tile_weights"].pop(old_name.upper())
+            counter += 1
+        self.__update_json_file()
+
+    def __update_json_file(self):
+        with open(self.JSON_FILE_PATH, 'w') as file: 
+            json.dump(self.tiles_dict, file, indent=4)
+
+    def get_tile_names_list(self) -> list:
         return self.tile_names_list
 
-    def getTileNameByKey(self, key) -> str:
+    def get_tile_name_by_key(self, key) -> str:
         try: 
             for tile in self.tile_key_map:
                 if self.tile_key_map[tile] == key:
@@ -38,26 +60,26 @@ class TileTypes():
         except KeyError:
             return "NONE"
 
-    def getTileKeyByName(self, tileName) -> int:
+    def get_tile_key_by_name(self, tileName) -> int:
         try: 
             return self.tile_key_map[tileName]
         except KeyError:
             return -1
 
 
-    def getTileWeightByName(self, rowTileName:str, colTileName:str) -> int:
+    def get_tile_weight_by_name(self, rowTileName:str, colTileName:str) -> int:
         try: 
             return self.tiles_dict[rowTileName]["tile_weights"][colTileName]
         except KeyError:
             return 0
 
-    def getTileWeightByKey(self, row:int, col:int) -> int:
-        rowTileName = self.getTileNameByKey(row)
-        colTileName = self.getTileNameByKey(col)
-        return self.getTileWeightByName(rowTileName, colTileName)
+    def get_tile_weight_by_key(self, row:int, col:int) -> int:
+        rowTileName = self.get_tile_name_by_key(row)
+        colTileName = self.get_tile_name_by_key(col)
+        return self.get_tile_weight_by_name(rowTileName, colTileName)
 
 
-    def getDefaultTileAssetByName(self, tileName:str) -> str:
+    def get_default_tile_asset_by_name(self, tileName:str) -> str:
         try: 
             return self.tiles_dict[tileName]["default_asset"]
         except KeyError:
@@ -74,7 +96,7 @@ class TileTypes():
 
         new_tile_dict = {
             formatted_tile_name: {
-                "key": highest_key,
+                "key": highest_key+1,
                 "name": tile_name,
                 "tile_weights": {},
                 "default_asset": tile_default_asset,
@@ -89,11 +111,10 @@ class TileTypes():
         }
 
         for tile in self.tile_names_list:
-            new_tile_dict[formatted_tile_name]["tile_weights"].update({tile: 100})
+            new_tile_dict[formatted_tile_name]["tile_weights"].update({tile.upper(): 100})
 
         self.tiles_dict.update(new_tile_dict)
-        with open(self.JSON_FILE_PATH, 'w') as file: 
-            json.dump(self.tiles_dict, file, indent=4)
+        self.__update_json_file()
 
 
     def __create_hexagonal_image_mask(self, img_path_str:str):

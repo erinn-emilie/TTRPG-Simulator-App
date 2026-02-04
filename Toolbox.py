@@ -10,7 +10,7 @@ from Settings import Settings
 class Toolbox():
     def __init__(self):
         self.tile_types_ref = TileTypes()
-        self.settings_ref = Settings()
+        self.settings_ref = Settings(self.tile_types_ref)
         self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref)
 
     def get_tile_types_ref(self) -> TileTypes:

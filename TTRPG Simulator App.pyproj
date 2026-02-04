@@ -36,6 +36,8 @@
     <Compile Include="TileTypes.py" />
     <Compile Include="Toolbox.py" />
     <Compile Include="TTRPG_Simulator_App.py" />
+    <Compile Include="widgets\GenericContainerWidget.py" />
+    <Compile Include="widgets\TileChangeMessageBox.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
@@ -55,6 +57,7 @@
   <ItemGroup>
     <Folder Include="enums\" />
     <Folder Include="jsonfiles\" />
+    <Folder Include="widgets\" />
     <Folder Include="pages\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
