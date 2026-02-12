@@ -1,6 +1,6 @@
 from Enums.TileGenerationTypes import TileGenerationTypes
 from Enums.MapSizes import MapSizes
-from Seed import Seed
+from toolbox.Seed import Seed
 
 class Settings():
     def __init__(self, tile_types_ref, excluded_types = [], rand_type = TileGenerationTypes.WEIGHTED, map_size = MapSizes.SMALL, tile_size = 1.0):

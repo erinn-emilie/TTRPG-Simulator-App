@@ -1,0 +1,29 @@
+from toolbox.TileTypes import TileTypes
+from toolbox.HextileMap import HextileMap
+from toolbox.Settings import Settings
+from toolbox.Tokens import Tokens
+
+
+class Toolbox():
+    def __init__(self):
+        self.tile_types_ref = TileTypes()
+        self.player_characters_ref = Tokens("jsonfiles/PlayerCharacters.json")
+        self.nonplayer_characters_ref = Tokens("jsonfiles/NonPlayerCharacters.json")
+        self.settings_ref = Settings(self.tile_types_ref)
+        self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref)
+
+    def get_tile_types_ref(self) -> TileTypes:
+        return self.tile_types_ref
+
+    def get_player_characters_ref(self) -> Tokens:
+        return self.player_characters_ref
+
+    def get_nonplayer_characters_ref(self) -> Tokens:
+        return self.nonplayer_characters_ref
+
+    def get_hextile_map_ref(self) -> HextileMap:
+        return self.hextile_map_ref
+
+    def get_settings_ref(self) -> Settings:
+        return self.settings_ref
+

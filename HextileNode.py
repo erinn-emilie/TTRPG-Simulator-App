@@ -1,4 +1,4 @@
-from TileTypes import TileTypes
+from toolbox.TileTypes import TileTypes
 from TileRecord import TileRecord
 
 class HextileNode():

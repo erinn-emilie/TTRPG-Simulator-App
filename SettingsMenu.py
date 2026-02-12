@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import (
     QPushButton
 )
 
-from Toolbox import Toolbox
+from toolbox.Toolbox import Toolbox
 from Enums.MapSizes import MapSizes
 from Enums.TileGenerationTypes import TileGenerationTypes
 

@@ -12,8 +12,8 @@
             "ICELAND": 0,
             "JUNGLE": 0,
             "TUNDRA": 0,
-            "WASTELAND": 0,
-            "MAGIC": 100
+            "WASTELAND": 0
+            
         },
         "default_asset": "assets/greyhextile.png",
         "user_assets": {
@@ -37,8 +37,8 @@
             "ICELAND": 5,
             "JUNGLE": 5,
             "TUNDRA": 5,
-            "WASTELAND": 5,
-            "MAGIC": 100
+            "WASTELAND": 5
+            
         },
         "default_asset": "assets/yellowhextile.png",
         "user_assets": {
@@ -62,8 +62,8 @@
             "ICELAND": 75,
             "JUNGLE": 80,
             "TUNDRA": 80,
-            "WASTELAND": 45,
-            "MAGIC": 100
+            "WASTELAND": 45
+            
         },
         "default_asset": "assets/brownhextile.png",
         "user_assets": {
@@ -87,8 +87,8 @@
             "ICELAND": 5,
             "JUNGLE": 5,
             "TUNDRA": 5,
-            "WASTELAND": 70,
-            "MAGIC": 100
+            "WASTELAND": 70
+            
         },
         "default_asset": "assets/blackhextile.png",
         "user_assets": {
@@ -112,8 +112,8 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
+            
         },
         "default_asset": "assets/lightgreenhextile.png",
         "user_assets": {
@@ -137,8 +137,8 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
+            
         },
         "default_asset": "assets/brownhextile.png",
         "user_assets": {
@@ -162,8 +162,8 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
+            
         },
         "default_asset": "assets/greenhextile.png",
         "user_assets": {
@@ -187,8 +187,8 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
+            
         },
         "default_asset": "assets/darkbluehextile.png",
         "user_assets": {
@@ -212,8 +212,8 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
+            
         },
         "default_asset": "assets/purplehextile.png",
         "user_assets": {
@@ -237,8 +237,8 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
+            
         },
         "default_asset": "assets/lightbluehextile.png",
         "user_assets": {
@@ -262,8 +262,7 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40,
-            "MAGIC": 100
+            "WASTELAND": 40
         },
         "default_asset": "assets/redhextile.png",
         "user_assets": {
@@ -287,8 +286,8 @@
             "ICELAND": 0,
             "JUNGLE": 80,
             "TUNDRA": 0,
-            "WASTELAND": 0,
-            "MAGIC": 100
+            "WASTELAND": 0
+            
         },
         "default_asset": "assets/whitehextile.png",
         "user_assets": {

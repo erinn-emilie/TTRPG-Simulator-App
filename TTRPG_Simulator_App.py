@@ -22,12 +22,12 @@ from PyQt6.QtWidgets import (
     )
 
 import os
-from Toolbox import Toolbox
-from TileTypes import TileTypes
-from HextileMap import HextileMap
+from toolbox.Toolbox import Toolbox
+from toolbox.TileTypes import TileTypes
+from toolbox.HextileMap import HextileMap
 from HextileNode import HextileNode
 from Enums.MapSizes import MapSizes
-from Settings import Settings
+from toolbox.Settings import Settings
 from SettingsMenu import SettingsMenu
 from pages.HomeWindow import HomeWindow
 

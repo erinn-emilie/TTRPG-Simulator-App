@@ -15,10 +15,9 @@ from PyQt6.QtWidgets import (
     QCheckBox
     )
 
-from Toolbox import Toolbox
+from toolbox.Toolbox import Toolbox
 from HextileNode import HextileNode
 from SettingsMenu import QComboBox, SettingsMenu
-from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
 from Enums.TokenTypes import TokenTypes
 class TileChangeMessageBox(QMessageBox):
     def __init__(self, toolbox:Toolbox, parent=None):

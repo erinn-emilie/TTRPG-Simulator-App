@@ -10,21 +10,80 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 
 
-from Toolbox import Toolbox
+from toolbox.Toolbox import Toolbox
+from widgets.GenericContainerWidget import TileContainerWidget
+from widgets.GenericContainerWidget import TokenContainerWidget
 from Enums.TokenTypes import TokenTypes
-from widgets.GenericContainerWidget import GenericContainerWidget
 
 import os
 
-
 class CustomTokenExploreWindow(QMainWindow):
-    def __init__(self, toolbox_ref:Toolbox, token_set_type:TokenTypes):
+    def __init__(self, toolbox_ref:Toolbox, home_window, token_type:TokenTypes):
+        super().__init__()
+        self.title = "Custom Token Menu"
+        self.setWindowTitle(self.title)
+        self.toolbox = toolbox_ref
+        self.home_window = home_window
+        self.token_type = token_type
+        self.token_ref = self.__find_token_ref()
+        self.main_widget = QWidget()
+        self.main_layout = QVBoxLayout()
+
+
+
+        self.add_token_btn = QPushButton("Add New Token")
+        self.main_layout.addWidget(self.add_token_btn)
+        self.add_token_btn.clicked.connect(self.__add_new_token)
+
+        self.player_characters_list = self.token_ref.get_tokens_list()
+        for token in self.player_characters_list:
+            new_widget = TokenContainerWidget(token, self.toolbox, self.token_ref)
+            self.main_layout.addWidget(new_widget)
+
+        self.main_widget.setLayout(self.main_layout)
+        self.scroll = QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(self.main_widget)
+        self.setCentralWidget(self.scroll)
+
+
+    def __add_new_token(self):
+        new_token = self.token_ref.create_new_token()
+        new_widget = TokenContainerWidget(new_token, self.toolbox, self.token_ref)
+        self.main_layout.insertWidget(1,new_widget)
+
+        
+    def __find_token_ref(self):
+        match(self.token_type):
+            case(TokenTypes.PLAYER_CHARACTERS):
+                return self.toolbox.get_player_characters_ref()
+            case(TokenTypes.NON_PLAYER_CHARACTERS):
+                return self.toolbox.get_nonplayer_characters_ref()
+            case _:
+                return self.toolbox.get_player_characters_ref()
+
+
+    def closeEvent(self, event):
+        match(self.token_type):
+            case(TokenTypes.PLAYER_CHARACTERS):
+                self.home_window.close_custom_players_window()
+            case(TokenTypes.NON_PLAYER_CHARACTERS):
+                self.home_window.close_custom_nonplayers_window()
+            case _:
+                self.home_window.close_custom_players_window()
+        event.accept()
+
+class CustomTileExploreWindow(QMainWindow):
+    def __init__(self, toolbox_ref:Toolbox, home_window):
         super().__init__()
 
-        self.title = "Custom Menu"
+        self.title = "Custom Tile Menu"
         self.setWindowTitle(self.title)
         self.toolbox = toolbox_ref
         self.tile_types_ref = self.toolbox.get_tile_types_ref()
+        self.home_window = home_window
 
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
@@ -43,7 +102,7 @@ class CustomTokenExploreWindow(QMainWindow):
         self.tile_widgets = []
         for tile in self.tile_list:
             image_path = self.tile_types_ref.get_default_tile_asset_by_name(tile.upper())
-            widget = GenericContainerWidget(tile, self.toolbox, image_path)
+            widget = TileContainerWidget(tile, self.toolbox, image_path)
             self.tile_widgets.append(widget)
             self.main_layout.addWidget(widget)
         self.add_tile_btn = QPushButton("Add New Tile")
@@ -81,7 +140,7 @@ class CustomTokenExploreWindow(QMainWindow):
             except FileExistsError:
                 print("That file already exists in this location")
 
-            widget = GenericContainerWidget("New Tile", self.tile_list, asset_path)
+            widget = TileContainerWidget("New Tile", self.tile_list, asset_path)
             self.main_layout.addWidget(widget)
             self.tile_types_ref.add_new_tile("New Tile", asset_path)
 

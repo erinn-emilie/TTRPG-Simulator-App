@@ -12,35 +12,20 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QMessageBox,
-    QCheckBox
+    QCheckBox,
+    QGraphicsScene
     )
 
-from Toolbox import Toolbox
+from toolbox.Toolbox import Toolbox
 from HextileNode import HextileNode
 from SettingsMenu import QComboBox, SettingsMenu
+from pages.CustomTokenExploreWindow import CustomTileExploreWindow
 from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
+from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
 
 import math
-
-
-class GridWindow(QMainWindow):
-    def __init__(self, hexNode:HextileNode):
-        super().__init__()
-        self.hexNode = hexNode
-
-        self.title = "Grid Window"
-        self.setWindowTitle(self.title)
-
-        self.main_widget = QWidget()
-
-        self.mainLayout = QVBoxLayout()
-        self.mainLayout.addWidget(self.main_widget)
-        self.setCentralWidget(self.main_widget)
-
-
-
 
 
 
@@ -71,6 +56,8 @@ class HexLabel(QLabel):
                 self.setPixmap(pixmap)
         if(event.button() == Qt.MouseButton.LeftButton and self.home_window.is_in_ring_select()):
             self.home_window.set_ring_select_pivot(self)
+        elif(event.button() == Qt.MouseButton.LeftButton):
+            self.gridWindow.show()
             
         return super().mousePressEvent(event)
 
@@ -176,6 +163,8 @@ class HomeWindow(QMainWindow):
         self.navbarLayout = QVBoxLayout(self.navbarContainer)
 
         self.customTilesWindow = None
+        self.customPlayersWindow = None
+        self.customNonPlayersWindow = None
 
         self.customTilesButton = QPushButton("Custom Tiles", self.navbar)
         self.customPlayerButton = QPushButton("Custom Player Characters", self.navbar)
@@ -185,7 +174,6 @@ class HomeWindow(QMainWindow):
         self.customBuildingButton = QPushButton("Custom Buildings", self.navbar)
         self.customStructuresButton = QPushButton("Custom Structures", self.navbar)
 
-        self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
 
         self.navbarLayout.addWidget(self.customTilesButton)
         self.navbarLayout.addWidget(self.customPlayerButton)
@@ -197,11 +185,13 @@ class HomeWindow(QMainWindow):
 
         self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
         self.customPlayerButton.clicked.connect(self.__show_custom_players_window)
+        self.customNonPlayerButton.clicked.connect(self.__show_custom_nonplayers_window)
 
         self.navbar.setWidget(self.navbarContainer)
 
         self.main_widget.setStyleSheet("background-color: pink")
         self.setCentralWidget(self.scroll)
+            
 
 
     def is_in_box_select(self):
@@ -294,20 +284,33 @@ class HomeWindow(QMainWindow):
 
             print(total_rings)
 
-    #def __start_box_select(self):
 
         
 
 
     def __show_custom_tiles_window(self):
         if(self.customTilesWindow is None):
-            self.customTilesWindow = CustomTokenExploreWindow(self.toolbox, TokenTypes.TILES)
+            self.customTilesWindow = CustomTileExploreWindow(self.toolbox, self)
         self.customTilesWindow.show()
 
     def __show_custom_players_window(self):
-        if(self.customTilesWindow is None):
-            self.customTilesWindow = CustomTokenExploreWindow(self.toolbox, TokenTypes.PLAYER_CHARACTERS)
-        self.customTilesWindow.show()
+        if(self.customPlayersWindow is None):
+            self.customPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.PLAYER_CHARACTERS)
+        self.customPlayersWindow.show()
+
+    def __show_custom_nonplayers_window(self):
+        if(self.customNonPlayersWindow is None):
+            self.customNonPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NON_PLAYER_CHARACTERS)
+        self.customNonPlayersWindow.show()
+
+    def close_custom_tiles_window(self):
+        self.customTilesWindow.hide()
+
+    def close_custom_players_window(self):
+        self.customPlayersWindow = None
+
+    def close_custom_nonplayers_window(self):
+        self.customNonPlayersWindow = None
 
     # creates a window of the custom class Settings Menu.
     # !!!

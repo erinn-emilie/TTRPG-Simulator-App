@@ -23,18 +23,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="enums\TokenTypes.py" />
-    <Compile Include="HextileMap.py" />
+    <Compile Include="pages\GridWindow.py" />
+    <Compile Include="toolbox\HextileMap.py" />
     <Compile Include="HextileNode.py" />
     <Compile Include="enums\MapSizes.py" />
     <Compile Include="enums\TileGenerationTypes.py" />
     <Compile Include="pages\CustomTokenExploreWindow.py" />
     <Compile Include="pages\HomeWindow.py" />
-    <Compile Include="Seed.py" />
-    <Compile Include="Settings.py" />
+    <Compile Include="toolbox\Seed.py" />
+    <Compile Include="toolbox\Settings.py" />
     <Compile Include="SettingsMenu.py" />
     <Compile Include="TileRecord.py" />
-    <Compile Include="TileTypes.py" />
-    <Compile Include="Toolbox.py" />
+    <Compile Include="toolbox\TileTypes.py" />
+    <Compile Include="toolbox\Tokens.py" />
+    <Compile Include="toolbox\Toolbox.py" />
     <Compile Include="TTRPG_Simulator_App.py" />
     <Compile Include="widgets\GenericContainerWidget.py" />
     <Compile Include="widgets\TileChangeMessageBox.py" />
@@ -51,12 +53,14 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="jsonfiles\Creatures.json" />
+    <Content Include="jsonfiles\NonPlayerCharacters.json" />
+    <Content Include="jsonfiles\PlayerCharacters.json" />
     <Content Include="jsonfiles\TileTypes.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="enums\" />
     <Folder Include="jsonfiles\" />
+    <Folder Include="toolbox\" />
     <Folder Include="widgets\" />
     <Folder Include="pages\" />
   </ItemGroup>

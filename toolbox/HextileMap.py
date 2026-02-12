@@ -1,6 +1,6 @@
-from TileTypes import TileTypes
+from toolbox.TileTypes import TileTypes
 from Enums.MapSizes import MapSizes
-from Seed import Seed
+from toolbox.Seed import Seed
 from TileRecord import TileRecord
 from HextileNode import HextileNode
 from PyQt6.QtCore import Qt, QPoint, QPointF
@@ -241,6 +241,8 @@ class HextileMap():
         if(southeastNode != None and southeastNode.getTileType() != "NONE"):
             typeArr.append(southeastNode.getTileType())
 
+        if(len(typeArr) == 0):
+            return self.__findNewTileType(node)
         idx = self.seed.getOtherRandInt(0,len(typeArr)-1)
         return typeArr[idx]
 
