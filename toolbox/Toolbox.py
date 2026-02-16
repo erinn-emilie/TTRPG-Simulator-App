@@ -9,6 +9,11 @@ class Toolbox():
         self.tile_types_ref = TileTypes()
         self.player_characters_ref = Tokens("jsonfiles/PlayerCharacters.json")
         self.nonplayer_characters_ref = Tokens("jsonfiles/NonPlayerCharacters.json")
+        self.animals_ref = Tokens("jsonfiles/Animals.json")
+        self.monsters_ref = Tokens("jsonfiles/Monsters.json")
+        self.buildings_ref = Tokens("jsonfiles/Buildings.json")
+        self.structures_ref = Tokens("jsonfiles/Structures.json")
+        self.nature_ref = Tokens("jsonfiles/Nature.json")
         self.settings_ref = Settings(self.tile_types_ref)
         self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref)
 
@@ -20,6 +25,21 @@ class Toolbox():
 
     def get_nonplayer_characters_ref(self) -> Tokens:
         return self.nonplayer_characters_ref
+
+    def get_animals_ref(self) -> Tokens:
+        return self.animals_ref
+
+    def get_monsters_ref(self) -> Tokens:
+        return self.monsters_ref
+
+    def get_buildings_ref(self) -> Tokens:
+        return self.buildings_ref
+
+    def get_structures_ref(self) -> Tokens:
+        return self.structures_ref
+
+    def get_nature_ref(self) -> Tokens:
+        return self.nature_ref
 
     def get_hextile_map_ref(self) -> HextileMap:
         return self.hextile_map_ref

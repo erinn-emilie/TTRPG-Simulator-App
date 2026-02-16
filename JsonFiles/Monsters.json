@@ -1,0 +1,44 @@
+{
+  "DEFAULT": {
+    "key": -1,
+    "name": "",
+    "duplicatable": true,
+    "small_fields": {
+      "health": 0,
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "large_fields": {
+      "biography": "",
+      "notes": ""
+    },
+    "large_assets": [],
+    "set_map_asset": "",
+    "old_map_assets": []
+  },
+  "Dedra Meero": {
+    "key": 1,
+    "name": "Dedra Meero",
+    "duplicatable": true,
+    "small_fields": {
+      "health": "15",
+      "strength": "12",
+      "dexterity": "10",
+      "constitution": "15",
+      "intelligence": "20",
+      "wisdom": "5",
+      "charisma": "8"
+    },
+    "large_fields": {
+      "biography": "ISB scum.\t",
+      "notes": "Poor Syril. "
+    },
+    "large_assets": [],
+    "set_map_asset": "",
+    "old_map_assets": []
+  }
+}

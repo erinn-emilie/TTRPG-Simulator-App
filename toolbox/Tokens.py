@@ -12,9 +12,9 @@ class Tokens():
                 self.tokens_dict = json.load(file)
             self.__setup()
         except FileNotFoundError:
-            print("Couldn't find JSON file with player characters!")
+            print("Couldn't find JSON file with tokens!")
         except json.JSONDecodeError:
-            print("JSON file with player characters couldn't be decoded!")
+            print("JSON file with tokens couldn't be decoded!")
 
     def __setup(self):
         self.default_token_setup = self.tokens_dict["DEFAULT"]
@@ -48,11 +48,12 @@ class Tokens():
         self.total_tokens += 1
         new_name = "new token"
         new_token = {}
-        for field in default_token:
-            new_token[field] = default_token[field]
         new_token["name"] = new_name
         new_token["key"] = self.total_tokens
-        self.tokens_dict[new_name.upper()] = new_token
+        for field in default_token:
+            if(field != "key" and field != "name"):
+                new_token[field] = default_token[field]
+            self.tokens_dict[new_name.upper()] = new_token
         self.__update_json_file()
         return self.tokens_dict[new_name.upper()]
 
@@ -76,7 +77,11 @@ class Tokens():
     def change_small_field_values(self, token_key, value_key, new_value):
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
-                self.tokens_dict[token]["small_fields"][value_key] = new_value
+                if(value_key == "name"):
+                    self.tokens_dict[token]["name"] = new_value
+                    self.tokens_dict[new_value.upper()] = self.tokens_dict[token].pop()
+                else:
+                    self.tokens_dict[token]["small_fields"][value_key] = new_value
                 break
         self.__update_json_file()
 

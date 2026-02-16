@@ -4,8 +4,8 @@ class TokenTypes(Enum):
     TILES = 0
     PLAYER_CHARACTERS = 1
     NON_PLAYER_CHARACTERS = 2
-    MONSTERS = 3
-    CREATURES = 4
+    ANIMALS = 3
+    MONSTERS = 4
     BUILDINGS = 5
     STRUCTURES = 6
     NATURE = 7
@@ -17,21 +17,24 @@ class TokenTypes(Enum):
             case TokenTypes.PLAYER_CHARACTERS:
                 return ("Player Characters")
             case TokenTypes.NON_PLAYER_CHARACTERS:
-                return ("Non-Player Characters")
+                return ("NonPlayer Characters")
+            case TokenTypes.ANIMALS:
+                return ("Animals")
             case TokenTypes.MONSTERS:
                 return ("Monsters")
-            case TokenTypes.CREATURES:
-                return ("Creatures")
             case TokenTypes.BUILDINGS:
                 return ("Buildings")
             case TokenTypes.STRUCTURES:
                 return ("Structures")
+            case TokenTypes.NATURE:
+                return ("Nature")
 
 
 
 
     def get_token_str_from_key(key:int):
         token_type = TokenTypes.get_token_type_from_key(key)
+        return token_type
 
     def get_token_type_from_key(key:int):
         match(key):
@@ -42,10 +45,12 @@ class TokenTypes(Enum):
             case 2:
                 return TokenTypes.NON_PLAYER_CHARACTERS
             case 3:
-                return TokenTypes.MONSTERS
+                return TokenTypes.ANIMALS
             case 4:
-                return TokenTypes.CREATURES
+                return TokenTypes.MONSTERS
             case 5:
                 return TokenTypes.BUILDINGS
             case 6:
                 return TokenTypes.STRUCTURES
+            case 7:
+                return TokenTypes.NATURE

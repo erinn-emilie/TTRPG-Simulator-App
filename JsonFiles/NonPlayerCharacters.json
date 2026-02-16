@@ -1,21 +1,42 @@
 {
-  "DEFAULT": {
-    "key": -1,
-    "name": "",
-    "small_fields": {
-      "health": 0,
-      "strength": 0,
-      "dexterity": 0,
-      "constitution": 0,
-      "intelligence": 0,
-      "wisdom": 0,
-      "charisma": 0
+    "DEFAULT": {
+        "key": -1,
+        "name": "",
+        "small_fields": {
+            "health": "",
+            "strength": "",
+            "dexterity": "",
+            "constitution": "",
+            "intelligence": "",
+            "wisdom": "",
+            "charisma": ""
+        },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
+        "large_assets": [],
+        "set_map_asset": "",
+        "old_map_assets": []
     },
-    "large_fields": {
-      "biography": "",
-      "notes": ""
-    },
-    "large_assets": [],
-    "map_asset": ""
-  }
+    "GERALD": {
+      "key": 2,
+      "name": "Gerald",
+      "small_fields": {
+        "health": "5",
+        "strength": "5",
+        "dexterity": "5",
+        "constitution": "5",
+        "intelligence": "5",
+        "wisdom": "5",
+        "charisma": "5"
+      },
+      "large_fields": {
+        "biography": "its Gerald time",
+        "notes": "time for Gerald?"
+      },
+      "large_assets": [],
+      "set_map_asset": "",
+      "old_map_assets": []
+    }
 }

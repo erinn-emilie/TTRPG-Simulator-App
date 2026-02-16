@@ -1,0 +1,23 @@
+{
+  "DEFAULT": {
+    "key": -1,
+    "name": "",
+    "duplicatable": true,
+    "small_fields": {
+      "health": 0,
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "large_fields": {
+      "biography": "",
+      "notes": ""
+    },
+    "large_assets": [],
+    "set_map_asset": "",
+    "old_map_assets": []
+  }
+}

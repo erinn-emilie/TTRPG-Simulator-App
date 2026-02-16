@@ -165,14 +165,20 @@ class HomeWindow(QMainWindow):
         self.customTilesWindow = None
         self.customPlayersWindow = None
         self.customNonPlayersWindow = None
+        self.customAnimalsWindow = None
+        self.customMonstersWindow = None
+        self.customBuildingsWindow = None
+        self.customStructuresWindow = None
+        self.customNatureWindow = None
 
         self.customTilesButton = QPushButton("Custom Tiles", self.navbar)
         self.customPlayerButton = QPushButton("Custom Player Characters", self.navbar)
         self.customNonPlayerButton = QPushButton("Custom Non-Player Characters", self.navbar)
         self.customAnimalButton = QPushButton("Custom Animals", self.navbar)
         self.customMonsterButton = QPushButton("Custom Monsters", self.navbar)
-        self.customBuildingButton = QPushButton("Custom Buildings", self.navbar)
+        self.customBuildingsButton = QPushButton("Custom Buildings", self.navbar)
         self.customStructuresButton = QPushButton("Custom Structures", self.navbar)
+        self.customNatureButton = QPushButton("Custom Nature", self.navbar)
 
 
         self.navbarLayout.addWidget(self.customTilesButton)
@@ -180,12 +186,19 @@ class HomeWindow(QMainWindow):
         self.navbarLayout.addWidget(self.customNonPlayerButton)
         self.navbarLayout.addWidget(self.customAnimalButton)
         self.navbarLayout.addWidget(self.customMonsterButton)
-        self.navbarLayout.addWidget(self.customBuildingButton)
+        self.navbarLayout.addWidget(self.customBuildingsButton)
         self.navbarLayout.addWidget(self.customStructuresButton)
+        self.navbarLayout.addWidget(self.customNatureButton)
+
 
         self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
         self.customPlayerButton.clicked.connect(self.__show_custom_players_window)
         self.customNonPlayerButton.clicked.connect(self.__show_custom_nonplayers_window)
+        self.customAnimalButton.clicked.connect(self.__show_custom_animals_window)
+        self.customMonsterButton.clicked.connect(self.__show_custom_monsters_window)
+        self.customBuildingsButton.clicked.connect(self.__show_custom_buildings_window)
+        self.customStructuresButton.clicked.connect(self.__show_custom_structures_window)
+        self.customNatureButton.clicked.connect(self.__show_custom_nature_window)
 
         self.navbar.setWidget(self.navbarContainer)
 
@@ -303,6 +316,31 @@ class HomeWindow(QMainWindow):
             self.customNonPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NON_PLAYER_CHARACTERS)
         self.customNonPlayersWindow.show()
 
+    def __show_custom_animals_window(self):
+        if(self.customAnimalsWindow is None):
+            self.customAnimalsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.ANIMALS)
+        self.customAnimalsWindow.show()
+
+    def __show_custom_monsters_window(self):
+        if(self.customMonstersWindow is None):
+            self.customMonstersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.MONSTERS)
+        self.customMonstersWindow.show()
+
+    def __show_custom_buildings_window(self):
+        if(self.customBuildingsWindow is None):
+            self.customBuildingsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.BUILDINGS)
+        self.customBuildingsWindow.show()
+
+    def __show_custom_structures_window(self):
+        if(self.customStructuresWindow is None):
+            self.customStructuresWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.STRUCTURES)
+        self.customStructuresWindow.show()
+
+    def __show_custom_nature_window(self):
+        if(self.customNatureButton is None):
+            self.customNatureButton = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
+        self.customNatureButton.show()
+
     def close_custom_tiles_window(self):
         self.customTilesWindow.hide()
 
@@ -311,6 +349,23 @@ class HomeWindow(QMainWindow):
 
     def close_custom_nonplayers_window(self):
         self.customNonPlayersWindow = None
+
+    def close_custom_animals_window(self):
+        self.customAnimalsWindow = None
+
+    def close_custom_monsters_window(self):
+        self.customMonstersWindow = None
+
+    def close_custom_buildings_window(self):
+        self.customBuildingsWindow = None
+
+    def close_custom_structures_window(self):
+        self.customStructuresWindow = None
+
+    def close_custom_nature_window(self):
+        self.customNatureWindow = None
+
+
 
     # creates a window of the custom class Settings Menu.
     # !!!

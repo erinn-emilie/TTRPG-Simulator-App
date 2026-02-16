@@ -25,7 +25,7 @@ class CustomTokenExploreWindow(QMainWindow):
         self.toolbox = toolbox_ref
         self.home_window = home_window
         self.token_type = token_type
-        self.token_ref = self.__find_token_ref()
+        self.__find_token_ref()
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
 
@@ -35,10 +35,11 @@ class CustomTokenExploreWindow(QMainWindow):
         self.main_layout.addWidget(self.add_token_btn)
         self.add_token_btn.clicked.connect(self.__add_new_token)
 
-        self.player_characters_list = self.token_ref.get_tokens_list()
-        for token in self.player_characters_list:
-            new_widget = TokenContainerWidget(token, self.toolbox, self.token_ref)
-            self.main_layout.addWidget(new_widget)
+        self.tokens_list = self.token_ref.get_tokens_list()
+        if(len(self.tokens_list) > 0):
+            for token in self.tokens_list:
+                new_widget = TokenContainerWidget(token, self.toolbox, self.token_ref)
+                self.main_layout.addWidget(new_widget)
 
         self.main_widget.setLayout(self.main_layout)
         self.scroll = QScrollArea()
@@ -57,22 +58,38 @@ class CustomTokenExploreWindow(QMainWindow):
         
     def __find_token_ref(self):
         match(self.token_type):
-            case(TokenTypes.PLAYER_CHARACTERS):
-                return self.toolbox.get_player_characters_ref()
-            case(TokenTypes.NON_PLAYER_CHARACTERS):
-                return self.toolbox.get_nonplayer_characters_ref()
-            case _:
-                return self.toolbox.get_player_characters_ref()
+            case TokenTypes.PLAYER_CHARACTERS:
+                self.token_ref = self.toolbox.get_player_characters_ref()
+            case TokenTypes.NON_PLAYER_CHARACTERS:
+                self.token_ref = self.toolbox.get_nonplayer_characters_ref()
+            case TokenTypes.ANIMALS:
+                self.token_ref = self.toolbox.get_animals_ref()
+            case TokenTypes.MONSTERS:
+                self.token_ref = self.toolbox.get_monsters_ref()
+            case TokenTypes.BUILDINGS:
+                self.token_ref = self.toolbox.get_buildings_ref()
+            case TokenTypes.STRUCTURES:
+                self.token_ref = self.toolbox.get_structures_ref()
+            case TokenTypes.NATURE:
+                self.token_ref = self.toolbox.get_nature_ref()
 
 
     def closeEvent(self, event):
         match(self.token_type):
-            case(TokenTypes.PLAYER_CHARACTERS):
+            case TokenTypes.PLAYER_CHARACTERS:
                 self.home_window.close_custom_players_window()
-            case(TokenTypes.NON_PLAYER_CHARACTERS):
+            case TokenTypes.NON_PLAYER_CHARACTERS:
                 self.home_window.close_custom_nonplayers_window()
-            case _:
-                self.home_window.close_custom_players_window()
+            case TokenTypes.ANIMALS:
+                self.home_window.close_custom_animals_window()
+            case TokenTypes.MONSTERS:
+                self.home_window.close_custom_monsters_window()
+            case TokenTypes.BUILDINGS:
+                self.home_window.close_custom_buildings_window()
+            case TokenTypes.STRUCTURES:
+                self.home_window.close_custom_structures_window()
+            case TokenTypes.NATURE:
+                self.home_window.close_custom_nature_window()
         event.accept()
 
 class CustomTileExploreWindow(QMainWindow):

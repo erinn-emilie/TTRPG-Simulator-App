@@ -1,0 +1,39 @@
+{
+  "DEFAULT": {
+    "key": -1,
+    "name": "",
+    "duplicatable": false,
+    "small_fields": {
+      "type": "Tavern",
+      "hours": "24/7",
+      "public?": "Yes",
+      "primary material": "Stone",
+      "name": "Billy Bob's Tavern"
+    },
+    "large_fields": {
+      "biography": "Beloved by the whole town.",
+      "notes": "Used to be named William Robert's Tavern."
+    },
+    "large_assets": [],
+    "set_map_asset": "",
+    "old_map_assets": []
+  },
+  "BILLY BOB'S TAVERN'": {
+    "key": 0,
+    "name": "Billy Bob's Tavern",
+    "duplicatable": false,
+    "small_fields": {
+      "type": "Tavern",
+      "hours": "24/7",
+      "public?": "Yes",
+      "primary material": "Stone"
+    },
+    "large_fields": {
+      "biography": "Beloved by the whole town.",
+      "notes": "Used to be named William Robert's Tavern."
+    },
+    "large_assets": [],
+    "set_map_asset": "",
+    "old_map_assets": []
+  }
+}

@@ -30,6 +30,7 @@ class TokenContainerWidget(QWidget):
         self.token_large_fields = self.token["large_fields"]
         self.token_name = self.token["name"]
         self.token_key = self.token["key"]
+        self.map_asset = self.token["set_map_asset"]
 
         self.all_labels = []
 
@@ -57,6 +58,13 @@ class TokenContainerWidget(QWidget):
         self.all_labels.append(name_label)
 
         self.main_layout.addLayout(name_row)
+
+        map_asset_row = QHBoxLayout()
+        map_asset_label = QLabel()
+        map_asset_pix = QPixmap(self.map_asset)
+        map_asset_label.setPixmap(map_asset_pix)
+        map_asset_row.addWidget(map_asset_label)
+        self.main_layout.addLayout(map_asset_row)
 
         self.total_images = 0
         self.images = self.token["large_assets"]
