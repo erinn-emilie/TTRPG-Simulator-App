@@ -26,6 +26,15 @@ class Tokens():
         self.total_tokens = counter
 
 
+    def get_num_of_tokens(self):
+        return self.total_tokens
+
+    def get_random_token_by_value(self, idx):
+        if(idx < len(self.tokens_list)):
+            return self.tokens_list[idx]
+        return None
+
+
     def add_new_large_image(self, token_key, img_path):
          for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
@@ -79,7 +88,7 @@ class Tokens():
             if(self.tokens_dict[token]["key"] == token_key):
                 if(value_key == "name"):
                     self.tokens_dict[token]["name"] = new_value
-                    self.tokens_dict[new_value.upper()] = self.tokens_dict[token].pop()
+                    self.tokens_dict[new_value.upper()] = self.tokens_dict.pop(token)
                 else:
                     self.tokens_dict[token]["small_fields"][value_key] = new_value
                 break

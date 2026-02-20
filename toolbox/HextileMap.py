@@ -1,19 +1,34 @@
 from toolbox.TileTypes import TileTypes
 from Enums.MapSizes import MapSizes
-from toolbox.Seed import Seed
 from TileRecord import TileRecord
 from HextileNode import HextileNode
 from PyQt6.QtCore import Qt, QPoint, QPointF
 import math
 
 from Enums.TileGenerationTypes import TileGenerationTypes
-
+from Enums.TokenTypes import TokenTypes
+import TokenRecord
 
 class HextileMap():
-    def __init__(self, tileTypesRef, settingsRef):
-        self.tileTypes = tileTypesRef
-        self.settings = settingsRef
-        self.tileList = []
+    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref):
+        self.tileTypes = tile_types_ref
+        self.settings = settings_ref
+        self.seed = settings_ref.getSeedRef()
+        self.tile_list = []
+        self.tokens_on_map = []
+
+
+
+        self.players_ref = players_ref
+        self.nonplayers_ref = nonplayers_ref
+        self.animals_ref = animals_ref
+        self.monsters_ref = monsters_ref
+        self.buildings_ref = buildings_ref
+        self.structures_ref = structures_ref
+        self.nature_ref = nature_ref
+
+        self.tokens_ref_list = [self.players_ref, self.nonplayers_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref]
+
         self.generateMap()
 
     def generateMap(self):
@@ -59,45 +74,65 @@ class HextileMap():
         return newNode
 
 
+
+    def __addTokenToNode(self, node:HextileNode, token_dict:dict, token_type:TokenTypes):
+        multiple = token_dict["duplicatable"]
+        name = token_dict["name"]
+        allowed = True
+        if not multiple:
+            for token in self.tokens_on_map:
+                if(token_type == token.get_token_type() and name == token.get_name()):
+                    allowed = False
+                    break
+        if allowed:
+            tile_rec = node.getTileRecord()
+
+            match(token_type):
+                case(TokenTypes.PLAYER_CHARACTERS):
+                    tile_rec.add_player_character(token)
+            return True
+        return False
+
+
     def __createMap(self):
         self.centerNode = self.__createBlankNode(0)
         curNode = self.centerNode
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
-        self.tileList.append(curNode)
+        self.tile_list.append(curNode)
         while(curRingNumber < self.mapSize.value):
             curTileNum += 1
             if(curNode.getNorthNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthNode(newNode)
                 newNode.setSouthNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getNorthEastNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthEastNode(newNode)
                 newNode.setSouthWestNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getSouthEastNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthEastNode(newNode)
                 newNode.setNorthWestNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getSouthNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthNode(newNode)
                 newNode.setNorthNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getSouthWestNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthWestNode(newNode)
                 newNode.setNorthEastNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getNorthWestNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthWestNode(newNode)
                 newNode.setSouthEastNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
 
             northNode = curNode.getNorthNode()
             southNode = curNode.getSouthNode()
@@ -263,6 +298,26 @@ class HextileMap():
 
 
 
+    def __populateTilesGenericSettings(self):
+        tile_size = self.settings_ref.getTileSize()
+        min_tokens_per_tile = math.ceil(tile_size/10)
+        max_tokens_per_tile = math.ceil(tile_size/5)
+        for tile in self.tile_list:
+            total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
+            used_positions = []
+            for x in range(0, total_tokens-1):
+                rand_token_ref_idx = self.seed.getOtherRandInt(0, len(self.tokens_ref_list)-1)
+                rand_token_ref = self.tokens_ref_list[rand_token_ref_idx]
+
+                num_rand_tokens = rand_token_ref.get_num_of_tokens()
+
+                if(num_rand_tokens > 0):
+                    rand_token_idx = self.seed.getOtherRandInt(0, num_rand_tokens)
+
+            
+
+
+
 
     def __populateMapGenericSettings(self):
         curNode = self.centerNode
@@ -360,8 +415,8 @@ class HextileMap():
                     y = int(vecY + dy)
                     points.append(QPoint(x, y))
 
-        for i in range(0, len(self.tileList)):
-            curTile = self.tileList[i]
+        for i in range(0, len(self.tile_list)):
+            curTile = self.tile_list[i]
             curVector = curTile.getPositionVector()
             curPoint = QPoint(int(curVector[0]),int(curVector[1]))
             if(curPoint in points):

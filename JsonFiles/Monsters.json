@@ -16,6 +16,8 @@
       "biography": "",
       "notes": ""
     },
+    "spawn_all": true,
+    "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": []
@@ -37,6 +39,8 @@
       "biography": "ISB scum.\t",
       "notes": "Poor Syril. "
     },
+    "spawn_all": true,
+    "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": []

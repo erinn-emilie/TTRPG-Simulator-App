@@ -1,27 +1,57 @@
 {
-  "DEFAULT": {
-    "key": -1,
-    "name": "",
-    "small_fields": {
-      "health": 0,
-      "strength": 0,
-      "dexterity": 0,
-      "constitution": 0,
-      "intelligence": 0,
-      "wisdom": 0,
-      "charisma": 0
+    "DEFAULT": {
+        "key": -1,
+        "name": "",
+        "duplicatable": false,
+        "small_fields": {
+            "health": 0,
+            "strength": 0,
+            "dexterity": 0,
+            "constitution": 0,
+            "intelligence": 0,
+            "wisdom": 0,
+            "charisma": 0
+        },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": "",
+        "old_map_assets": []
     },
-    "large_fields": {
-      "biography": "",
-      "notes": ""
+    "CALEB": {
+        "key": 1,
+        "name": "Caleb Wickline",
+        "duplicatable": false,
+        "small_fields": {
+            "health": "15",
+            "strength": "20",
+            "dexterity": "8",
+            "constitution": "15",
+            "intelligence": "11.5",
+            "wisdom": "8.5",
+            "charisma": "15"
+        },
+        "large_fields": {
+            "biography": "This is my biography.\n Hello!\n",
+            "notes": "This is my notes.\n yippeee\n"
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [
+            "assets/bigpic1",
+            "assets/bigpic2"
+        ],
+        "set_map_asset": "assets/smallasset.png",
+        "old_map_assets": []
     },
-    "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
-  },
-    "ERINN": {
+    "MR GUY": {
         "key": 0,
-        "name": "Erinn Keohane",
+        "name": "Mr Guy",
+        "duplicatable": false,
         "small_fields": {
             "health": "12",
             "strength": "20",
@@ -32,38 +62,17 @@
             "charisma": "13"
         },
         "large_fields": {
-            "biography": "This is my biography.\n Hello!\nHmmmm I wonder how well this works\nI wonder what happens if I put \\t and then this text\nHow about if i edit it agian\nwill the scroll bar stay this time",
+            "biography": "This is my biography.",
             "New Notes": ""
         },
+        "spawn_all": true,
+        "spawnable_tiles": [],
         "large_assets": [
-            "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\green_man.png",
-            "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\red_guy.png",
-            "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\DevianArt MTG Swamp Redesign.png"
+            "assets\\green_man.png",
+            "assets\\red_guy.png",
+            "assets\\DevianArt MTG Swamp Redesign.png"
         ],
-      "set_map_asset": "assets/smallasset.png",
-      "old_map_assets": []
-    },
-  "CALEB": {
-    "key": 1,
-    "name": "Caleb Wickline",
-    "small_fields": {
-      "health": "15",
-      "strength": "20",
-      "dexterity": "8",
-      "constitution": "15",
-      "intelligence": "11.5",
-      "wisdom": "8.5",
-      "charisma": "15"
-    },
-    "large_fields": {
-      "biography": "This is my biography.\n Hello!\n",
-      "notes": "This is my notes.\n yippeee\n"
-    },
-    "large_assets": [
-      "assets/bigpic1",
-      "assets/bigpic2"
-    ],
-    "set_map_asset": "assets/smallasset.png",
-    "old_map_assets": []
-  }
+        "set_map_asset": "assets/smallasset.png",
+        "old_map_assets": []
+    }
 }

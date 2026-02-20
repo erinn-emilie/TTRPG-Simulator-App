@@ -16,6 +16,8 @@
       "biography": "",
       "notes": ""
     },
+    "spawn_all":  true,
+    "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": []
@@ -38,6 +40,8 @@
       "biography": "The best boy.",
       "notes": "Kind of smelly?"
     },
+    "spawn_all": true,
+    "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": []

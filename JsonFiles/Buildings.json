@@ -14,6 +14,8 @@
       "biography": "Beloved by the whole town.",
       "notes": "Used to be named William Robert's Tavern."
     },
+    "spawn_all": true,
+    "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": []
@@ -32,6 +34,8 @@
       "biography": "Beloved by the whole town.",
       "notes": "Used to be named William Robert's Tavern."
     },
+    "spawn_all": true,
+    "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": []

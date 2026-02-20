@@ -1,7 +1,6 @@
 from PyQt6.QtCore import Qt, QPoint, QEvent, QElapsedTimer
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import (
-    QDialogButtonBox,
     QDockWidget,
     QLabel,
     QMainWindow,
@@ -11,14 +10,12 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QLineEdit,
     QPushButton,
-    QMessageBox,
-    QCheckBox,
-    QGraphicsScene
+    QMessageBox
     )
 
 from toolbox.Toolbox import Toolbox
 from HextileNode import HextileNode
-from SettingsMenu import QComboBox, SettingsMenu
+from SettingsMenu import SettingsMenu
 from pages.CustomTokenExploreWindow import CustomTileExploreWindow
 from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
 from pages.GridWindow import GridWindow
@@ -36,7 +33,7 @@ class HexLabel(QLabel):
         self.hex_node = hex_node
         self.toolbox = toolbox
         self.tile_types_ref = self.toolbox.get_tile_types_ref()
-        self.gridWindow = GridWindow(self.hex_node)
+        self.gridWindow = GridWindow(self.hex_node, self.toolbox)
         self.home_window = home_window
 
     def get_hex_node(self) -> HextileNode:
