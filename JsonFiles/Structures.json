@@ -16,12 +16,15 @@
     },
     "large_assets": [],
     "set_map_asset": "",
-    "old_map_assets": []
+    "old_map_assets": [],
+    "excluded_tiles": [],
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
   },
   "DUCK STATUE": {
     "key": 1,
     "name": "Duck Statue",
-    "duplicatable": true,
+    "duplicatable": false,
     "small_fields": {
       "type": "Monument",
       "hours": "N/A",
@@ -35,7 +38,10 @@
     "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
+    "set_map_asset": "assets//duckstatue.png",
+    "old_map_assets": [],
+    "excluded_tiles": [],
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
   }
 }

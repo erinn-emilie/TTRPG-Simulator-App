@@ -7,7 +7,7 @@ import math
 
 from Enums.TileGenerationTypes import TileGenerationTypes
 from Enums.TokenTypes import TokenTypes
-import TokenRecord
+from TokenRecord import TokenRecord
 
 class HextileMap():
     def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref):
@@ -40,8 +40,11 @@ class HextileMap():
         match(self.settings.getRandType()):
             case TileGenerationTypes.RANDOM:
                 self.__populateRandomSettings()
+                self.__populateTilesRandomSettings()
             case TileGenerationTypes.WEIGHTED:
                 self.__populateMapGenericSettings()
+                
+                self.__populateTilesRandomSettings()
 
 
     def __setTotalRivers(self):
@@ -63,6 +66,26 @@ class HextileMap():
     def getMapSize(self) -> MapSizes:
         return self.mapSize
 
+
+    def __get_token_ref_type(self, idx:int) -> TokenTypes:
+        match(idx):
+            case 0:
+                return TokenTypes.PLAYER_CHARACTERS
+            case 1:
+                return TokenTypes.NON_PLAYER_CHARACTERS
+            case 2:
+                return TokenTypes.ANIMALS
+            case 3:
+                return TokenTypes.MONSTERS
+            case 4:
+                return TokenTypes.BUILDINGS
+            case 5:
+                return TokenTypes.STRUCTURES
+            case 6:
+                return TokenTypes.NATURE
+            case _:
+                return TokenTypes.NON_PLAYER_CHARACTERS
+
     def __createBlankNode(self, position:int) -> HextileNode:
         tileRec = TileRecord("NONE")
         newNode = HextileNode(tileRecord=tileRec, positionIdx=position)
@@ -74,24 +97,6 @@ class HextileMap():
         return newNode
 
 
-
-    def __addTokenToNode(self, node:HextileNode, token_dict:dict, token_type:TokenTypes):
-        multiple = token_dict["duplicatable"]
-        name = token_dict["name"]
-        allowed = True
-        if not multiple:
-            for token in self.tokens_on_map:
-                if(token_type == token.get_token_type() and name == token.get_name()):
-                    allowed = False
-                    break
-        if allowed:
-            tile_rec = node.getTileRecord()
-
-            match(token_type):
-                case(TokenTypes.PLAYER_CHARACTERS):
-                    tile_rec.add_player_character(token)
-            return True
-        return False
 
 
     def __createMap(self):
@@ -298,23 +303,79 @@ class HextileMap():
 
 
 
-    def __populateTilesGenericSettings(self):
-        tile_size = self.settings_ref.getTileSize()
-        min_tokens_per_tile = math.ceil(tile_size/10)
-        max_tokens_per_tile = math.ceil(tile_size/5)
+    def __populateTilesRandomSettings(self):
+        tile_size = self.settings.getTileSize()
+        min_tokens_per_tile = 0
+        max_tokens_per_tile = math.ceil(tile_size/2)
+        rows_cols = math.ceil(tile_size/4)
+        record_key = 0
         for tile in self.tile_list:
             total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
+            tile_record = tile.getTileRecord()
             used_positions = []
             for x in range(0, total_tokens-1):
-                rand_token_ref_idx = self.seed.getOtherRandInt(0, len(self.tokens_ref_list)-1)
-                rand_token_ref = self.tokens_ref_list[rand_token_ref_idx]
+                num_rand_tokens = 0
 
-                num_rand_tokens = rand_token_ref.get_num_of_tokens()
+                rand_token_ref = None
+                rand_token_ref_idx = -1
 
-                if(num_rand_tokens > 0):
+
+                iteration = 0
+                while(num_rand_tokens == 0):
+                    rand_token_ref_idx = self.seed.getOtherRandInt(0, len(self.tokens_ref_list)-1)
+                    rand_token_ref = self.tokens_ref_list[rand_token_ref_idx]
+                    num_rand_tokens = rand_token_ref.get_num_of_tokens()
+                    iteration += 1
+                    if(iteration == 100):
+                        break
+                if(iteration == 100):
+                    continue
+
+
+                rand_token_idx = -1
+                rand_token = None
+                allowed = False
+                name = ""
+                token_type = None
+                while(not allowed):
                     rand_token_idx = self.seed.getOtherRandInt(0, num_rand_tokens)
+                    rand_token = rand_token_ref.get_random_token_by_value(rand_token_idx)
 
-            
+                    if not rand_token is None:
+                        multiple = rand_token["duplicatable"]
+                        name = rand_token["name"]
+
+                        token_type = self.__get_token_ref_type(rand_token_ref_idx)
+                        allowed = True
+                        if not multiple:
+                            for token in self.tokens_on_map:
+                                if(token_type == token.get_token_type() and name == token.get_name()):
+                                    allowed = False
+                                    break
+
+                if(not allowed):
+                    continue
+
+
+                record_key += 1
+                token_record = TokenRecord(rand_token, token_type, record_key)
+
+                match(token_type):
+                    case TokenTypes.PLAYER_CHARACTERS:
+                        tile_record.add_player_character(token_record)
+                    case TokenTypes.NON_PLAYER_CHARACTERS:
+                        tile_record.add_nonplayer_character(token_record)
+                    case TokenTypes.ANIMALS:
+                        tile_record.add_animal_token(token_record)
+                    case TokenTypes.MONSTERS:
+                        tile_record.add_monster_token(token_record)
+                    case TokenTypes.BUILDINGS:
+                        tile_record.add_building_token(token_record)
+                    case TokenTypes.STRUCTURES:
+                        tile_record.add_structure_token(token_record)
+                    case TokenTypes.NATURE:
+                        tile_record.add_nature_token(token_record)
+
 
 
 
@@ -366,7 +427,7 @@ class HextileMap():
             else:
                 curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
 
-
+                
 
     def __populateRandomSettings(self):
         curNode = self.centerNode

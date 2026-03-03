@@ -7,15 +7,15 @@ class TileRecord():
 
         self.all_player_characters = []
         self.all_nonplayer_characters = []
-        self.all_animals_characters = []
-        self.all_buildings_characters = []
-        self.all_monsters_characters = []
-        self.all_nature_characters = []
-        self.all_structures_characters = []
+        self.all_animal_tokens = []
+        self.all_building_tokens = []
+        self.all_monster_tokens = []
+        self.all_nature_tokens = []
+        self.all_structure_tokens = []
 
-        self.all_tokens = []
         self.filled_positions = []
 
+        self.all_tokens = []
     def get_all_tokens(self) -> list:
         return self.all_tokens
 
@@ -26,22 +26,41 @@ class TileRecord():
         return self.all_nonplayer_characters
 
     def get_animals_list(self) -> list:
-        return self.all_animals_characters
+        return self.all_animal_tokens
 
-    def add_player_character(self, token:TokenRecord, position:tuple):
-        package = (token, position)
-        self.all_player_characters.append(package)
-        self.all_tokens.append(package)
+    def add_player_character(self, token:TokenRecord ):
+        self.all_player_characters.append(token)
+        self.all_tokens.append(token)
 
-    def add_nonplayer_character(self, token:TokenRecord, position:tuple):
-        package = (token, position)
-        self.all_nonplayer_characters.append(package)
-        self.all_tokens.append(package)
+    def add_nonplayer_character(self, token:TokenRecord ):
 
-    def add_animal_token(self, token:TokenRecord, position:tuple):
-        package = (token, position)
-        self.all_animals_characters.append(package)
-        self.all_tokens.append(package)
+        self.all_nonplayer_characters.append(token)
+        self.all_tokens.append(token)
+
+    def add_animal_token(self, token:TokenRecord ):
+
+        self.all_animal_tokens.append(token)
+        self.all_tokens.append(token)
+
+    def add_building_token(self, token:TokenRecord ):
+
+        self.all_building_tokens.append(token)
+        self.all_tokens.append(token)
+
+    def add_structure_token(self, token:TokenRecord ):
+
+        self.all_structure_tokens.append(token)
+        self.all_tokens.append(token)
+
+    def add_nature_token(self, token:TokenRecord ):
+
+        self.all_nature_tokens.append(token)
+        self.all_tokens.append(token)
+
+    def add_monster_token(self, token:TokenRecord ):
+
+        self.all_monster_tokens.append(token)
+        self.all_tokens.append(token)
 
     def remove_player_character(self, token:TokenRecord):
         record_key = token.get_record_key()
@@ -50,6 +69,16 @@ class TileRecord():
                 self.all_player_characters.remove(player)
                 break
         self.__remove_from_all_tokens(record_key)
+
+
+    def add_position(self, position:tuple):
+        self.filled_positions.append(position)
+
+    def check_position(self, pos_position:tuple) -> bool:
+        for position in self.filled_positions:
+            if(position[0] == pos_position[0] and position[1] == pos_position[1]):
+                return False
+        return True
 
 
     def __remove_from_all_tokens(self, record_key:int):

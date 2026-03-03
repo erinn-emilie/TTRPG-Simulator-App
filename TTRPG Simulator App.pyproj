@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="enums\InternalTileTypes.py" />
     <Compile Include="enums\TokenTypes.py" />
     <Compile Include="pages\GridWindow.py" />
     <Compile Include="TokenRecord.py" />
@@ -33,7 +34,7 @@
     <Compile Include="pages\HomeWindow.py" />
     <Compile Include="toolbox\Seed.py" />
     <Compile Include="toolbox\Settings.py" />
-    <Compile Include="SettingsMenu.py" />
+    <Compile Include="widgets\SettingsMenu.py" />
     <Compile Include="TileRecord.py" />
     <Compile Include="toolbox\TileTypes.py" />
     <Compile Include="toolbox\Tokens.py" />
@@ -60,6 +61,7 @@
     <Content Include="jsonfiles\Nature.json" />
     <Content Include="jsonfiles\NonPlayerCharacters.json" />
     <Content Include="jsonfiles\PlayerCharacters.json" />
+    <Content Include="jsonfiles\SavedMaps.json" />
     <Content Include="jsonfiles\Structures.json" />
     <Content Include="jsonfiles\TileTypes.json" />
   </ItemGroup>

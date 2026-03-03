@@ -17,7 +17,7 @@ from PyQt6.QtWidgets import (
 
 from toolbox.Toolbox import Toolbox
 from HextileNode import HextileNode
-from SettingsMenu import QComboBox, SettingsMenu
+from widgets.SettingsMenu import SettingsMenu
 from Enums.TokenTypes import TokenTypes
 class TileChangeMessageBox(QMessageBox):
     def __init__(self, toolbox:Toolbox, parent=None):

@@ -18,7 +18,10 @@
     "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
-    "old_map_assets": []
+    "old_map_assets": [],
+    "excluded_tiles": [],
+    "base_height_multiplier": 1,
+    "base_width_multiplier":  1
   },
   "BILLY BOB'S TAVERN'": {
     "key": 0,
@@ -37,7 +40,10 @@
     "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
+    "set_map_asset": "assets\\tavern.png",
+    "old_map_assets": [],
+    "excluded_tiles": [],
+    "base_height_multiplier": 2,
+    "base_width_multiplier": 1
   }
 }

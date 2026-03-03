@@ -2,7 +2,7 @@
   "DEFAULT": {
     "key": -1,
     "name": "",
-    "duplicatable": true, 
+    "duplicatable": true,
     "small_fields": {
       "health": 0,
       "strength": 0,
@@ -16,11 +16,14 @@
       "biography": "",
       "notes": ""
     },
-    "spawn_all":  true,
+    "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],
     "set_map_asset": "",
-    "old_map_assets": []
+    "old_map_assets": [],
+    "excluded_tiles": [],
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
   },
   "TAURUS": {
     "key": 1,
@@ -43,7 +46,10 @@
     "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
+    "set_map_asset": "assets\\dog.png",
+    "old_map_assets": [],
+    "excluded_tiles": [],
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
   }
 }

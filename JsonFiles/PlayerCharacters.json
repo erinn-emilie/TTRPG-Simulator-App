@@ -20,7 +20,10 @@
         "spawnable_tiles": [],
         "large_assets": [],
         "set_map_asset": "",
-        "old_map_assets": []
+        "old_map_assets": [],
+        "excluded_tiles": [],
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     },
     "CALEB": {
         "key": 1,
@@ -45,8 +48,13 @@
             "assets/bigpic1",
             "assets/bigpic2"
         ],
-        "set_map_asset": "assets/smallasset.png",
-        "old_map_assets": []
+        "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\ACM Logo.png",
+        "old_map_assets": [
+            "assets/smallasset.png"
+        ],
+        "excluded_tiles": [],
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     },
     "MR GUY": {
         "key": 0,
@@ -73,6 +81,9 @@
             "assets\\DevianArt MTG Swamp Redesign.png"
         ],
         "set_map_asset": "assets/smallasset.png",
-        "old_map_assets": []
+        "old_map_assets": [],
+        "excluded_tiles": [],
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     }
 }

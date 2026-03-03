@@ -1,48 +1,54 @@
 {
-  "DEFAULT": {
-    "key": -1,
-    "name": "",
-    "duplicatable": true,
-    "small_fields": {
-      "health": 0,
-      "strength": 0,
-      "dexterity": 0,
-      "constitution": 0,
-      "intelligence": 0,
-      "wisdom": 0,
-      "charisma": 0
+    "DEFAULT": {
+        "key": -1,
+        "name": "",
+        "duplicatable": true,
+        "small_fields": {
+            "health": 0,
+            "strength": 0,
+            "dexterity": 0,
+            "constitution": 0,
+            "intelligence": 0,
+            "wisdom": 0,
+            "charisma": 0
+        },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": "",
+        "old_map_assets": [],
+        "excluded_tiles": [],
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     },
-    "large_fields": {
-      "biography": "",
-      "notes": ""
-    },
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
-  },
-  "Dedra Meero": {
-    "key": 1,
-    "name": "Dedra Meero",
-    "duplicatable": true,
-    "small_fields": {
-      "health": "15",
-      "strength": "12",
-      "dexterity": "10",
-      "constitution": "15",
-      "intelligence": "20",
-      "wisdom": "5",
-      "charisma": "8"
-    },
-    "large_fields": {
-      "biography": "ISB scum.\t",
-      "notes": "Poor Syril. "
-    },
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
-  }
+    "Dedra Meero": {
+        "key": 1,
+        "name": "Dedra Meero",
+        "duplicatable": true,
+        "small_fields": {
+            "health": "16",
+            "strength": "12",
+            "dexterity": "10",
+            "constitution": "15",
+            "intelligence": "20",
+            "wisdom": "5",
+            "charisma": "8"
+        },
+        "large_fields": {
+            "biography": "ISB scum.\t",
+            "notes": "Poor Syril. "
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": "assets//meanwoman.png",
+        "old_map_assets": [],
+        "excluded_tiles": [],
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
+    }
 }

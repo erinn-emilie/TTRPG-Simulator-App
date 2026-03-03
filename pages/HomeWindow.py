@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import (
 
 from toolbox.Toolbox import Toolbox
 from HextileNode import HextileNode
-from SettingsMenu import SettingsMenu
+from widgets.SettingsMenu import SettingsMenu
 from pages.CustomTokenExploreWindow import CustomTileExploreWindow
 from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
 from pages.GridWindow import GridWindow
@@ -334,9 +334,9 @@ class HomeWindow(QMainWindow):
         self.customStructuresWindow.show()
 
     def __show_custom_nature_window(self):
-        if(self.customNatureButton is None):
-            self.customNatureButton = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
-        self.customNatureButton.show()
+        if(self.customNatureWindow is None):
+            self.customNatureWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
+        self.customNatureWindow.show()
 
     def close_custom_tiles_window(self):
         self.customTilesWindow.hide()

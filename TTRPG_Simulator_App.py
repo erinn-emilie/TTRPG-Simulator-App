@@ -28,7 +28,7 @@ from toolbox.HextileMap import HextileMap
 from HextileNode import HextileNode
 from Enums.MapSizes import MapSizes
 from toolbox.Settings import Settings
-from SettingsMenu import SettingsMenu
+from widgets.SettingsMenu import SettingsMenu
 from pages.HomeWindow import HomeWindow
 
 
