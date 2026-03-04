@@ -1,8 +1,9 @@
 from Enums.TokenTypes import TokenTypes
+from Enums.SettlementTypes import SettlementTypes
 import TokenRecord
 
 class TileRecord():
-    def __init__(self, tile_type:str):
+    def __init__(self, tile_type:str, safe_status=True, settlement_type=SettlementTypes.UNINHABITED):
         self.tile_type = tile_type
 
         self.all_player_characters = []
@@ -16,6 +17,23 @@ class TileRecord():
         self.filled_positions = []
 
         self.all_tokens = []
+
+        self.safe_status = safe_status
+        
+        self.settlement_type = settlement_type
+
+    def get_safe_status(self) -> bool:
+        return self.safe_status
+
+    def set_safe_status(self, status:bool):
+        self.safe_status = status
+
+    def get_settlement_type(self) -> SettlementTypes:
+        return self.settlement_type
+
+    def set_settlement_type(self, settlement:SettlementTypes):
+        self.settlement_type = settlement
+
     def get_all_tokens(self) -> list:
         return self.all_tokens
 
@@ -33,27 +51,22 @@ class TileRecord():
         self.all_tokens.append(token)
 
     def add_nonplayer_character(self, token:TokenRecord ):
-
         self.all_nonplayer_characters.append(token)
         self.all_tokens.append(token)
 
     def add_animal_token(self, token:TokenRecord ):
-
         self.all_animal_tokens.append(token)
         self.all_tokens.append(token)
 
     def add_building_token(self, token:TokenRecord ):
-
         self.all_building_tokens.append(token)
         self.all_tokens.append(token)
 
     def add_structure_token(self, token:TokenRecord ):
-
         self.all_structure_tokens.append(token)
         self.all_tokens.append(token)
 
     def add_nature_token(self, token:TokenRecord ):
-
         self.all_nature_tokens.append(token)
         self.all_tokens.append(token)
 

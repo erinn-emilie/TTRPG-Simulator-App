@@ -8,7 +8,8 @@ from PyQt6.QtWidgets import (
     QLabel,
     QScrollArea,
     QDockWidget,
-    QPushButton
+    QPushButton,
+    QGridLayout
 )
 
 from Enums.TokenTypes import TokenTypes
@@ -89,6 +90,8 @@ class GridWindow(QMainWindow):
         self.label_being_dragged = None
         self.setStyleSheet("background-color:pink;");
 
+        self.main_layout = QGridLayout()
+
         self.title = "Grid Window"
         self.setWindowTitle(self.title)
 
@@ -108,9 +111,14 @@ class GridWindow(QMainWindow):
 
         self.__populate_token_bar()
 
+        self.rows = 0
+        self.cols = 0
+        self.total_boxes = 0
+
         self.__position_tokens()
 
         self.__paint_tokens_on_window()
+
 
 
     def paintEvent(self, event):
@@ -123,11 +131,17 @@ class GridWindow(QMainWindow):
 
         tile_size = self.settings_ref.getTileSize()
 
+        self.rows = 0
+        self.cols = 0
 
         for x in range(0, width, math.ceil(tile_size)):
             painter.drawLine(x, 0, x, height)
+            self.rows += 1
         for y in range(0, height, math.ceil(tile_size)):
             painter.drawLine(0, y, width, y)
+            self.cols += 1
+
+        self.total_boxes = self.rows * self.cols
 
 
     def __position_tokens(self):
@@ -176,8 +190,8 @@ class GridWindow(QMainWindow):
             label.resize((tile_size*width_mult), (tile_size*height_mult))
             label.setScaledContents(True)
             pixmap = QPixmap(token.get_map_asset())
-            pixmap = pixmap.fill(Qt.GlobalColor.transparent)
             label.setPixmap(pixmap)
+            label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
             label.move(x_pos, y_pos)
             self.all_labels.append(label)
 
@@ -231,6 +245,7 @@ class GridWindow(QMainWindow):
         label.setScaledContents(True)
         pixmap = QPixmap(token_record.get_map_asset())
         label.setPixmap(pixmap)
+        label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         label.move(600, 400)
         label.show()
         self.all_labels.append(label)

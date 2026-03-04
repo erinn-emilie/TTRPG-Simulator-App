@@ -3,6 +3,8 @@ from Enums.MapSizes import MapSizes
 from TileRecord import TileRecord
 from HextileNode import HextileNode
 from PyQt6.QtCore import Qt, QPoint, QPointF
+
+import json
 import math
 
 from Enums.TileGenerationTypes import TileGenerationTypes
@@ -11,6 +13,7 @@ from TokenRecord import TokenRecord
 
 class HextileMap():
     def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref):
+        self.JSON_SAVE_FILE = "jsonfiles/SavedMaps.json"
         self.tileTypes = tile_types_ref
         self.settings = settings_ref
         self.seed = settings_ref.getSeedRef()
@@ -312,7 +315,7 @@ class HextileMap():
         for tile in self.tile_list:
             total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
             tile_record = tile.getTileRecord()
-            used_positions = []
+            tile_type = tile_record.get_tile_type()
             for x in range(0, total_tokens-1):
                 num_rand_tokens = 0
 
@@ -337,6 +340,8 @@ class HextileMap():
                 allowed = False
                 name = ""
                 token_type = None
+
+                iteration = 0
                 while(not allowed):
                     rand_token_idx = self.seed.getOtherRandInt(0, num_rand_tokens)
                     rand_token = rand_token_ref.get_random_token_by_value(rand_token_idx)
@@ -352,13 +357,22 @@ class HextileMap():
                                 if(token_type == token.get_token_type() and name == token.get_name()):
                                     allowed = False
                                     break
+                        
+                        if allowed:
+                            for tile in rand_token["excluded_tiles"]:
+                                if(tile == tile_type):
+                                    allowed = False
+                                    break
+                    iteration += 1
+                    if(iteration == 50):
+                        break
 
-                if(not allowed):
+                if(iteration == 50):
                     continue
-
 
                 record_key += 1
                 token_record = TokenRecord(rand_token, token_type, record_key)
+                self.tokens_on_map.append(token_record)
 
                 match(token_type):
                     case TokenTypes.PLAYER_CHARACTERS:
@@ -483,3 +497,72 @@ class HextileMap():
             if(curPoint in points):
                 return curTile
         return None
+
+    def saveMap(self, map_name:str):
+        cur_node = self.centerNode
+        cur_record = cur_node.getTileRecord()
+        cur_tokens_list = []
+        all_tiles_dict = {}
+        cur_tile_pos_key = 0
+        all_tiles_dict[str(cur_tile_pos_key)] = {}
+        for token in cur_record.get_all_tokens():
+            token_dict = token.get_token_dict()
+            if(token.get_default_status):
+                abrev_dict = {
+                    token_dict["name"]: {
+                        "type": token_dict["token_type"],
+                        "key": token_dict["key"],
+                        "x_position": token_dict["x_position"],
+                        "y_position": token_dict["y_position"]
+                    }
+                }
+                cur_tokens_list.append(abrev_dict)
+            else:
+                token_dict = token.get_token_dict()
+                cur_tokens_list.append(token_dict)
+        all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
+        all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
+        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tileTypes.get_tile_key_by_name(cur_record.get_tile_type())
+
+
+
+        curRingNumber = 1
+        curTileNum = 0
+        numTilesInRing = 6
+        cur_node = cur_node.getNorthNode()
+        while(curRingNumber < self.mapSize.value + 1):
+            curTileNum += 1
+            cur_tokens_list = []
+            cur_tile_pos_key += 1
+            all_tiles_dict[str(cur_tile_pos_key)] = {}
+            for token in cur_record.get_all_tokens():
+                token_dict = token.get_token_dict()
+                if(token.get_default_status):
+                    abrev_dict = {
+                        token_dict["name"]: {
+                            "type": token_dict["token_type"],
+                            "key": token_dict["key"],
+                            "x_position": token_dict["x_position"],
+                            "y_position": token_dict["y_position"]
+                        }
+                    }
+                    cur_tokens_list.append(abrev_dict)
+                else:
+                    token_dict = token.get_token_dict()
+                    cur_tokens_list.append(token_dict)
+            all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
+            all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
+            all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tileTypes.get_tile_key_by_name(cur_record.get_tile_type())
+            if(curTileNum == numTilesInRing):
+                curRingNumber += 1
+                if(not curRingNumber > self.mapSize.value):
+                    cur_node = cur_node.getNorthEastNode().getNorthNode()
+
+                    numTilesInRing = curRingNumber * 6
+                    curTileNum = 0
+            else:
+                cur_node = self.__iterateThroughNodes(cur_node, curRingNumber, curTileNum, numTilesInRing)
+
+        final_dict = {map_name: all_tiles_dict}
+        with open(self.JSON_SAVE_FILE, 'w') as file: 
+            json.dump(final_dict, file, indent=4)

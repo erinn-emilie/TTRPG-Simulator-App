@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QLineEdit,
     QPushButton,
-    QMessageBox
+    QMessageBox,
+    QInputDialog
     )
 
 from toolbox.Toolbox import Toolbox
@@ -130,6 +131,10 @@ class HomeWindow(QMainWindow):
         self.generate_map_btn = QPushButton("Generate Map", self)
         self.generate_map_btn.clicked.connect(self.__generate_map)
         self.map_settings_toolbar.addWidget(self.generate_map_btn)
+
+        self.save_map_btn = QPushButton("Save Map", self)
+        self.save_map_btn.clicked.connect(self.__save_map)
+        self.map_settings_toolbar.addWidget(self.save_map_btn)
 
 
         self.selected_tiles = []
@@ -405,7 +410,7 @@ class HomeWindow(QMainWindow):
         pivY = 1200
 
 
-        newLabel = self.__createLabel(pivotNode)
+        newLabel = self.__create_label(pivotNode)
         newLabel.move(pivX, pivY)
         self.tile_labels_list.append(newLabel)
         pivotNode.setPlacedStatus(True)
@@ -425,37 +430,37 @@ class HomeWindow(QMainWindow):
             
 
             if(north != None and not north.getPlacedStatus()):
-                newLabel = self.__createLabel(north)
+                newLabel = self.__create_label(north)
                 newLabel.move(pivX, pivY-200)
                 self.tile_labels_list.append(newLabel)
                 north.setPlacedStatus(True)
                 north.setPositionVector((pivX + posVecXOffset, pivY-200 + posVecYOffset))
             if(south != None and not south.getPlacedStatus()):
-                newLabel = self.__createLabel(south)
+                newLabel = self.__create_label(south)
                 newLabel.move(pivX, pivY+200)
                 self.tile_labels_list.append(newLabel)
                 south.setPlacedStatus(True)
                 south.setPositionVector((pivX + posVecXOffset, pivY+200 + posVecYOffset))
             if(northeast != None and not northeast.getPlacedStatus()):
-                newLabel = self.__createLabel(northeast)
+                newLabel = self.__create_label(northeast)
                 newLabel.move(pivX+175, pivY-100)
                 self.tile_labels_list.append(newLabel)
                 northeast.setPositionVector((pivX+200 + posVecXOffset, pivY-100 + posVecYOffset))
                 northeast.setPlacedStatus(True)
             if(northwest != None and not northwest.getPlacedStatus()):
-                newLabel = self.__createLabel(northwest)
+                newLabel = self.__create_label(northwest)
                 newLabel.move(pivX-175, pivY-100)
                 self.tile_labels_list.append(newLabel)
                 northwest.setPlacedStatus(True)
                 northwest.setPositionVector((pivX-200 + posVecXOffset, pivY-100 + posVecYOffset))
             if(southeast != None and not southeast.getPlacedStatus()):
-                newLabel = self.__createLabel(southeast)
+                newLabel = self.__create_label(southeast)
                 newLabel.move(pivX+175, pivY+100)
                 self.tile_labels_list.append(newLabel)
                 southeast.setPlacedStatus(True)
                 southeast.setPositionVector((pivX+200+ posVecXOffset, pivY+100+posVecYOffset))
             if(southwest != None and not southwest.getPlacedStatus()):
-                newLabel = self.__createLabel(southwest)
+                newLabel = self.__create_label(southwest)
                 newLabel.move(pivX-175, pivY+100)
                 self.tile_labels_list.append(newLabel)
                 southwest.setPlacedStatus(True)
@@ -505,7 +510,7 @@ class HomeWindow(QMainWindow):
             
 
 
-    def __createLabel(self, tile:HextileNode) -> HexLabel:
+    def __create_label(self, tile:HextileNode) -> HexLabel:
         label = HexLabel(tile, self.toolbox, self, parent=self.map_widget,)
         pngStr = ''
         pngStr = self.tile_types_ref_obj.get_default_tile_asset_by_name(tile.getTileType())
@@ -517,3 +522,9 @@ class HomeWindow(QMainWindow):
         label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         label.installEventFilter(self)        
         return label
+
+
+    def __save_map(self):
+        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name to save the map under!")
+        if ok and map_name:
+            self.hextile_map_obj.saveMap(map_name)

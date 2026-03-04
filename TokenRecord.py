@@ -10,8 +10,13 @@ class TokenRecord():
         self.token_dict["y_position"] = self.position[1]
         self.record_key = record_key
         self.token_type = token_type
+        self.token_dict["token_type"] = TokenTypes.get_str_from_token_type(self.token_type)
         self.name = self.token_dict["name"]
         self.key = self.token_dict["key"]
+        self.default = True
+
+    def get_name(self) -> str:
+        return self.name
 
     def get_record_key(self) -> int:
         return self.record_key
@@ -37,7 +42,7 @@ class TokenRecord():
     def get_map_asset(self) -> str:
         return self.token_dict["set_map_asset"]
 
-    def get_excluded_tiles(self) -> list:
+    def get_excluded_tiles(self) -> dict:
         return self.token_dict["excluded_tiles"]
 
     def get_small_fields(self):
@@ -58,6 +63,9 @@ class TokenRecord():
     def get_large_assets(self):
         return self.token_dict["large_assets"]
 
+    def get_default_status(self):
+        return self.default
+
     def set_position(self, new_pos:tuple):
         self.position = new_pos
         self.token_dict["x_position"] = new_pos[0]
@@ -65,20 +73,24 @@ class TokenRecord():
 
 
     def change_small_field_values(self, token_key, value_key, new_value):
+        self.default = False
         if(value_key == "name"):
             self.token_dict["name"] = new_value
         else:
             self.token_dict["small_fields"][value_key] = new_value
 
     def change_small_field_keys(self, token_key, old_key, new_key):
+        self.default = False
         self.token_dict["small_fields"][new_key] = self.token_dict["small_fields"].pop(old_key)
 
 
     def change_lg_field_values(self, token_key, value_key, new_value):
+        self.default = False
         plain_txt = new_value.toPlainText()
         self.token_dict["large_fields"][value_key] = plain_txt
 
 
     def change_lg_field_keys(self, token_key, old_key, new_key):
+        self.default = False
         self.token_dict["large_fields"][new_key] = self.token_dict["large_fields"].pop(old_key)
         

@@ -21,7 +21,7 @@
     "large_assets": [],
     "set_map_asset": "",
     "old_map_assets": [],
-    "excluded_tiles": [],
+    "excluded_tiles": {},
     "base_height_multiplier": 1,
     "base_width_multiplier": 1
   },
@@ -47,7 +47,7 @@
     "large_assets": [],
     "set_map_asset": "assets//tree.png",
     "old_map_assets": [],
-    "excluded_tiles": [],
+    "excluded_tiles": {},
     "base_height_multiplier": 1,
     "base_width_multiplier": 1
   }
