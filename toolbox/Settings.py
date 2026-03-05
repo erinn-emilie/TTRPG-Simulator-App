@@ -3,7 +3,7 @@ from Enums.MapSizes import MapSizes
 from toolbox.Seed import Seed
 
 class Settings():
-    def __init__(self, tile_types_ref, excluded_types = [], rand_type = TileGenerationTypes.WEIGHTED, map_size = MapSizes.SMALL, tile_size = 1.0):
+    def __init__(self, tile_types_ref, excluded_types = [], rand_type = TileGenerationTypes.WEIGHTED, map_size = MapSizes.SMALL, tile_size = 50.0):
         self.excluded_types = excluded_types
         self.rand_type = rand_type
         self.map_size = map_size

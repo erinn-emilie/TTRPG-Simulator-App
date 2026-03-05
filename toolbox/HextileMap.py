@@ -1,19 +1,37 @@
 from toolbox.TileTypes import TileTypes
 from Enums.MapSizes import MapSizes
-from toolbox.Seed import Seed
 from TileRecord import TileRecord
 from HextileNode import HextileNode
 from PyQt6.QtCore import Qt, QPoint, QPointF
+
+import json
 import math
 
 from Enums.TileGenerationTypes import TileGenerationTypes
-
+from Enums.TokenTypes import TokenTypes
+from TokenRecord import TokenRecord
 
 class HextileMap():
-    def __init__(self, tileTypesRef, settingsRef):
-        self.tileTypes = tileTypesRef
-        self.settings = settingsRef
-        self.tileList = []
+    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref):
+        self.JSON_SAVE_FILE = "jsonfiles/SavedMaps.json"
+        self.tileTypes = tile_types_ref
+        self.settings = settings_ref
+        self.seed = settings_ref.getSeedRef()
+        self.tile_list = []
+        self.tokens_on_map = []
+
+
+
+        self.players_ref = players_ref
+        self.nonplayers_ref = nonplayers_ref
+        self.animals_ref = animals_ref
+        self.monsters_ref = monsters_ref
+        self.buildings_ref = buildings_ref
+        self.structures_ref = structures_ref
+        self.nature_ref = nature_ref
+
+        self.tokens_ref_list = [self.players_ref, self.nonplayers_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref]
+
         self.generateMap()
 
     def generateMap(self):
@@ -25,8 +43,11 @@ class HextileMap():
         match(self.settings.getRandType()):
             case TileGenerationTypes.RANDOM:
                 self.__populateRandomSettings()
+                self.__populateTilesRandomSettings()
             case TileGenerationTypes.WEIGHTED:
                 self.__populateMapGenericSettings()
+                
+                self.__populateTilesRandomSettings()
 
 
     def __setTotalRivers(self):
@@ -48,6 +69,26 @@ class HextileMap():
     def getMapSize(self) -> MapSizes:
         return self.mapSize
 
+
+    def __get_token_ref_type(self, idx:int) -> TokenTypes:
+        match(idx):
+            case 0:
+                return TokenTypes.PLAYER_CHARACTERS
+            case 1:
+                return TokenTypes.NON_PLAYER_CHARACTERS
+            case 2:
+                return TokenTypes.ANIMALS
+            case 3:
+                return TokenTypes.MONSTERS
+            case 4:
+                return TokenTypes.BUILDINGS
+            case 5:
+                return TokenTypes.STRUCTURES
+            case 6:
+                return TokenTypes.NATURE
+            case _:
+                return TokenTypes.NON_PLAYER_CHARACTERS
+
     def __createBlankNode(self, position:int) -> HextileNode:
         tileRec = TileRecord("NONE")
         newNode = HextileNode(tileRecord=tileRec, positionIdx=position)
@@ -59,45 +100,47 @@ class HextileMap():
         return newNode
 
 
+
+
     def __createMap(self):
         self.centerNode = self.__createBlankNode(0)
         curNode = self.centerNode
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
-        self.tileList.append(curNode)
+        self.tile_list.append(curNode)
         while(curRingNumber < self.mapSize.value):
             curTileNum += 1
             if(curNode.getNorthNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthNode(newNode)
                 newNode.setSouthNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getNorthEastNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthEastNode(newNode)
                 newNode.setSouthWestNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getSouthEastNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthEastNode(newNode)
                 newNode.setNorthWestNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getSouthNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthNode(newNode)
                 newNode.setNorthNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getSouthWestNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setSouthWestNode(newNode)
                 newNode.setNorthEastNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
             if(curNode.getNorthWestNode() == None):
                 newNode = self.__createBlankNode(curRingNumber+1)
                 curNode.setNorthWestNode(newNode)
                 newNode.setSouthEastNode(curNode)
-                self.tileList.append(newNode)
+                self.tile_list.append(newNode)
 
             northNode = curNode.getNorthNode()
             southNode = curNode.getSouthNode()
@@ -263,6 +306,93 @@ class HextileMap():
 
 
 
+    def __populateTilesRandomSettings(self):
+        tile_size = self.settings.getTileSize()
+        min_tokens_per_tile = 0
+        max_tokens_per_tile = math.ceil(tile_size/2)
+        rows_cols = math.ceil(tile_size/4)
+        record_key = 0
+        for tile in self.tile_list:
+            total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
+            tile_record = tile.getTileRecord()
+            tile_type = tile_record.get_tile_type()
+            for x in range(0, total_tokens-1):
+                num_rand_tokens = 0
+
+                rand_token_ref = None
+                rand_token_ref_idx = -1
+
+
+                iteration = 0
+                while(num_rand_tokens == 0):
+                    rand_token_ref_idx = self.seed.getOtherRandInt(0, len(self.tokens_ref_list)-1)
+                    rand_token_ref = self.tokens_ref_list[rand_token_ref_idx]
+                    num_rand_tokens = rand_token_ref.get_num_of_tokens()
+                    iteration += 1
+                    if(iteration == 100):
+                        break
+                if(iteration == 100):
+                    continue
+
+
+                rand_token_idx = -1
+                rand_token = None
+                allowed = False
+                name = ""
+                token_type = None
+
+                iteration = 0
+                while(not allowed):
+                    rand_token_idx = self.seed.getOtherRandInt(0, num_rand_tokens)
+                    rand_token = rand_token_ref.get_random_token_by_value(rand_token_idx)
+
+                    if not rand_token is None:
+                        multiple = rand_token["duplicatable"]
+                        name = rand_token["name"]
+
+                        token_type = self.__get_token_ref_type(rand_token_ref_idx)
+                        allowed = True
+                        if not multiple:
+                            for token in self.tokens_on_map:
+                                if(token_type == token.get_token_type() and name == token.get_name()):
+                                    allowed = False
+                                    break
+                        
+                        if allowed:
+                            for tile in rand_token["excluded_tiles"]:
+                                if(tile == tile_type):
+                                    allowed = False
+                                    break
+                    iteration += 1
+                    if(iteration == 50):
+                        break
+
+                if(iteration == 50):
+                    continue
+
+                record_key += 1
+                token_record = TokenRecord(rand_token, token_type, record_key)
+                self.tokens_on_map.append(token_record)
+
+                match(token_type):
+                    case TokenTypes.PLAYER_CHARACTERS:
+                        tile_record.add_player_character(token_record)
+                    case TokenTypes.NON_PLAYER_CHARACTERS:
+                        tile_record.add_nonplayer_character(token_record)
+                    case TokenTypes.ANIMALS:
+                        tile_record.add_animal_token(token_record)
+                    case TokenTypes.MONSTERS:
+                        tile_record.add_monster_token(token_record)
+                    case TokenTypes.BUILDINGS:
+                        tile_record.add_building_token(token_record)
+                    case TokenTypes.STRUCTURES:
+                        tile_record.add_structure_token(token_record)
+                    case TokenTypes.NATURE:
+                        tile_record.add_nature_token(token_record)
+
+
+
+
 
     def __populateMapGenericSettings(self):
         curNode = self.centerNode
@@ -311,7 +441,7 @@ class HextileMap():
             else:
                 curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
 
-
+                
 
     def __populateRandomSettings(self):
         curNode = self.centerNode
@@ -360,10 +490,79 @@ class HextileMap():
                     y = int(vecY + dy)
                     points.append(QPoint(x, y))
 
-        for i in range(0, len(self.tileList)):
-            curTile = self.tileList[i]
+        for i in range(0, len(self.tile_list)):
+            curTile = self.tile_list[i]
             curVector = curTile.getPositionVector()
             curPoint = QPoint(int(curVector[0]),int(curVector[1]))
             if(curPoint in points):
                 return curTile
         return None
+
+    def saveMap(self, map_name:str):
+        cur_node = self.centerNode
+        cur_record = cur_node.getTileRecord()
+        cur_tokens_list = []
+        all_tiles_dict = {}
+        cur_tile_pos_key = 0
+        all_tiles_dict[str(cur_tile_pos_key)] = {}
+        for token in cur_record.get_all_tokens():
+            token_dict = token.get_token_dict()
+            if(token.get_default_status):
+                abrev_dict = {
+                    token_dict["name"]: {
+                        "type": token_dict["token_type"],
+                        "key": token_dict["key"],
+                        "x_position": token_dict["x_position"],
+                        "y_position": token_dict["y_position"]
+                    }
+                }
+                cur_tokens_list.append(abrev_dict)
+            else:
+                token_dict = token.get_token_dict()
+                cur_tokens_list.append(token_dict)
+        all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
+        all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
+        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tileTypes.get_tile_key_by_name(cur_record.get_tile_type())
+
+
+
+        curRingNumber = 1
+        curTileNum = 0
+        numTilesInRing = 6
+        cur_node = cur_node.getNorthNode()
+        while(curRingNumber < self.mapSize.value + 1):
+            curTileNum += 1
+            cur_tokens_list = []
+            cur_tile_pos_key += 1
+            all_tiles_dict[str(cur_tile_pos_key)] = {}
+            for token in cur_record.get_all_tokens():
+                token_dict = token.get_token_dict()
+                if(token.get_default_status):
+                    abrev_dict = {
+                        token_dict["name"]: {
+                            "type": token_dict["token_type"],
+                            "key": token_dict["key"],
+                            "x_position": token_dict["x_position"],
+                            "y_position": token_dict["y_position"]
+                        }
+                    }
+                    cur_tokens_list.append(abrev_dict)
+                else:
+                    token_dict = token.get_token_dict()
+                    cur_tokens_list.append(token_dict)
+            all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
+            all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
+            all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tileTypes.get_tile_key_by_name(cur_record.get_tile_type())
+            if(curTileNum == numTilesInRing):
+                curRingNumber += 1
+                if(not curRingNumber > self.mapSize.value):
+                    cur_node = cur_node.getNorthEastNode().getNorthNode()
+
+                    numTilesInRing = curRingNumber * 6
+                    curTileNum = 0
+            else:
+                cur_node = self.__iterateThroughNodes(cur_node, curRingNumber, curTileNum, numTilesInRing)
+
+        final_dict = {map_name: all_tiles_dict}
+        with open(self.JSON_SAVE_FILE, 'w') as file: 
+            json.dump(final_dict, file, indent=4)

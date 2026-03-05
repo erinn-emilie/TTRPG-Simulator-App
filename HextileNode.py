@@ -30,10 +30,10 @@ class HextileNode():
         return self.tileRecord
 
     def getTileType(self) -> TileTypes:
-        return self.tileRecord.getTileType()
+        return self.tileRecord.get_tile_type()
     
     def setTileType(self, tileType:TileTypes):
-        self.tileRecord.setTileType(tileType)
+        self.tileRecord.set_tile_type(tileType)
 
     def getPositionIdx(self):
         return self.positionIdx

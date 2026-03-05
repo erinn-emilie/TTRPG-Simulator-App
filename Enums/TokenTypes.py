@@ -13,21 +13,21 @@ class TokenTypes(Enum):
     def get_str_from_token_type(token_type):
         match(token_type):
             case TokenTypes.TILES:
-                return ("Tiles")
+                return "Tiles"
             case TokenTypes.PLAYER_CHARACTERS:
-                return ("Player Characters")
+                return "Player Characters"
             case TokenTypes.NON_PLAYER_CHARACTERS:
-                return ("NonPlayer Characters")
+                return "NonPlayer Characters"
             case TokenTypes.ANIMALS:
-                return ("Animals")
+                return "Animals"
             case TokenTypes.MONSTERS:
-                return ("Monsters")
+                return "Monsters"
             case TokenTypes.BUILDINGS:
-                return ("Buildings")
+                return "Buildings"
             case TokenTypes.STRUCTURES:
-                return ("Structures")
+                return "Structures"
             case TokenTypes.NATURE:
-                return ("Nature")
+                return "Nature"
 
 
 

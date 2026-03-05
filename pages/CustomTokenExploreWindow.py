@@ -157,7 +157,7 @@ class CustomTileExploreWindow(QMainWindow):
             except FileExistsError:
                 print("That file already exists in this location")
 
-            widget = TileContainerWidget("New Tile", self.tile_list, asset_path)
+            widget = TileContainerWidget("New Tile", self.toolbox, asset_path)
             self.main_layout.addWidget(widget)
             self.tile_types_ref.add_new_tile("New Tile", asset_path)
 

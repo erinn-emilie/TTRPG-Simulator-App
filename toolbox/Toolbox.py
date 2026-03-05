@@ -15,7 +15,7 @@ class Toolbox():
         self.structures_ref = Tokens("jsonfiles/Structures.json")
         self.nature_ref = Tokens("jsonfiles/Nature.json")
         self.settings_ref = Settings(self.tile_types_ref)
-        self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref)
+        self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref, self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref)
 
     def get_tile_types_ref(self) -> TileTypes:
         return self.tile_types_ref
@@ -40,6 +40,9 @@ class Toolbox():
 
     def get_nature_ref(self) -> Tokens:
         return self.nature_ref
+
+    def get_list_of_token_refs(self) -> list:
+        return [self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref]
 
     def get_hextile_map_ref(self) -> HextileMap:
         return self.hextile_map_ref

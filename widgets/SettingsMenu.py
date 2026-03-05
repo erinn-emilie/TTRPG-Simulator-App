@@ -2,10 +2,13 @@ from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
     QVBoxLayout,
+    QHBoxLayout,
     QComboBox,
     QGroupBox,
     QCheckBox,
-    QPushButton
+    QPushButton,
+    QLineEdit,
+    QLabel
 )
 
 from toolbox.Toolbox import Toolbox
@@ -60,6 +63,10 @@ class SettingsMenu(QMainWindow):
         self.tile_gen_type_dropdown.setCurrentIndex(self.tile_gen_type_dropdown_idx)
         self.tile_gen_type_dropdown.setMaximumSize(100,100)
 
+        self.old_tile_size = self.settings_ref.getTileSize()
+        self.new_tile_size = -1
+        self.tile_size_input = QLineEdit(str(self.old_tile_size))
+        self.tile_size_input.textEdited.connect(self.__change_tile_size)
 
 
     
@@ -93,8 +100,24 @@ class SettingsMenu(QMainWindow):
 
 
         self.main_layout.addWidget(self.checkbox_group)
-        self.main_layout.addWidget(self.map_size_dropdown)
-        self.main_layout.addWidget(self.tile_gen_type_dropdown)
+
+        map_size_row = QHBoxLayout()
+        map_size_label = QLabel("Pick the size of your map!")
+        map_size_row.addWidget(map_size_label)
+        map_size_row.addWidget(self.map_size_dropdown)
+        self.main_layout.addLayout(map_size_row)
+
+        tile_gen_row = QHBoxLayout()
+        tile_gen_label = QLabel("Pick the type of tile generation!")
+        tile_gen_row.addWidget(tile_gen_label)
+        tile_gen_row.addWidget(self.tile_gen_type_dropdown)
+        self.main_layout.addLayout(tile_gen_row)
+        
+        tile_size_row = QHBoxLayout()
+        tile_size_label = QLabel("Pick the size your tiles represent!")
+        tile_size_row.addWidget(tile_size_label)
+        tile_size_row.addWidget(self.tile_size_input)
+        self.main_layout.addLayout(tile_size_row)
         self.main_layout.addWidget(self.save_btn)
         self.setCentralWidget(self.main_widget)
 
@@ -111,7 +134,19 @@ class SettingsMenu(QMainWindow):
         else: 
             self.settings_ref.removeExcludedType(checkbox.text().upper())
 
+    def __change_tile_size(self, text):
+        try:
+            value = float(text)
+            if(value > 0):
+                self.new_tile_size = value
+            else:
+                self.tile_size_input.setText(str(self.old_tile_size))
+        except ValueError:
+            if(text != ""):
+                self.tile_size_input.setText(str(self.old_tile_size))
+
     def __save_settings(self):
         self.settings_ref.setMapSize(self.new_map_size)
         self.settings_ref.setRandType(self.new_rand_type)
+        self.settings_ref.setNewTileSize(self.new_tile_size)
         self.close()

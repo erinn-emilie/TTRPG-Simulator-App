@@ -7,6 +7,7 @@ class Tokens():
         self.tokens_list = []
         self.default_token_setup = {}
         self.total_tokens = 0
+        self.title_str = self.JSON_FILE_PATH.lower().replace(".json", "").replace("jsonfiles/", "")
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.tokens_dict = json.load(file)
@@ -24,6 +25,31 @@ class Tokens():
                 self.tokens_list.append(self.tokens_dict[token])
             counter += 1
         self.total_tokens = counter
+
+    def get_title_str(self):
+        return self.title_str
+
+
+    def get_num_of_tokens(self):
+        return self.total_tokens
+
+    def get_random_token_by_value(self, idx):
+        if(idx < len(self.tokens_list)):
+            return self.tokens_list[idx]
+        return None
+
+
+
+    def change_map_asset(self, token_key, img_path):
+         for token in self.tokens_dict:
+            if(self.tokens_dict[token]["key"] == token_key):
+                old_map_asset = self.tokens_dict[token]["set_map_asset"]
+                self.tokens_dict[token]["set_map_asset"] = img_path
+                old_map_assets_list = self.tokens_dict[token]["old_map_assets"]
+                old_map_assets_list.append(old_map_asset)
+                self.tokens_dict[token]["old_map_assets"] = old_map_assets_list
+                self.__update_json_file()
+                break
 
 
     def add_new_large_image(self, token_key, img_path):
@@ -79,7 +105,7 @@ class Tokens():
             if(self.tokens_dict[token]["key"] == token_key):
                 if(value_key == "name"):
                     self.tokens_dict[token]["name"] = new_value
-                    self.tokens_dict[new_value.upper()] = self.tokens_dict[token].pop()
+                    self.tokens_dict[new_value.upper()] = self.tokens_dict.pop(token)
                 else:
                     self.tokens_dict[token]["small_fields"][value_key] = new_value
                 break

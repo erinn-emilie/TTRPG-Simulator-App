@@ -12,8 +12,8 @@
             "ICELAND": 0,
             "JUNGLE": 0,
             "TUNDRA": 0,
-            "WASTELAND": 0
-            
+            "WASTELAND": 0,
+            "NEW TILE": 100
         },
         "default_asset": "assets/greyhextile.png",
         "user_assets": {
@@ -37,10 +37,10 @@
             "ICELAND": 5,
             "JUNGLE": 5,
             "TUNDRA": 5,
-            "WASTELAND": 5
-            
+            "WASTELAND": 5,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/yellowhextile.png",
+        "default_asset": "assets/plainshextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -62,10 +62,10 @@
             "ICELAND": 75,
             "JUNGLE": 80,
             "TUNDRA": 80,
-            "WASTELAND": 45
-            
+            "WASTELAND": 45,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/brownhextile.png",
+        "default_asset": "assets/mountainhextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -87,10 +87,10 @@
             "ICELAND": 5,
             "JUNGLE": 5,
             "TUNDRA": 5,
-            "WASTELAND": 70
-            
+            "WASTELAND": 70,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/blackhextile.png",
+        "default_asset": "assets/swamphextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -112,10 +112,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
-            
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/lightgreenhextile.png",
+        "default_asset": "assets/foresthextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -137,10 +137,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
-            
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/brownhextile.png",
+        "default_asset": "assets/deserthextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -162,10 +162,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
-            
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/greenhextile.png",
+        "default_asset": "assets/hillshextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -187,10 +187,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
-            
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/darkbluehextile.png",
+        "default_asset": "assets/icelandhextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -212,10 +212,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
-            
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/purplehextile.png",
+        "default_asset": "assets/junglehextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -237,10 +237,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
-            
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/lightbluehextile.png",
+        "default_asset": "assets/tundrahextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -262,9 +262,10 @@
             "ICELAND": 80,
             "JUNGLE": 80,
             "TUNDRA": 90,
-            "WASTELAND": 40
+            "WASTELAND": 40,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/redhextile.png",
+        "default_asset": "assets/wastelandhextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",
@@ -286,10 +287,10 @@
             "ICELAND": 0,
             "JUNGLE": 80,
             "TUNDRA": 0,
-            "WASTELAND": 0
-            
+            "WASTELAND": 0,
+            "NEW TILE": 100
         },
-        "default_asset": "assets/whitehextile.png",
+        "default_asset": "assets/waterhextile.png",
         "user_assets": {
             "slot1": "",
             "slot2": "",

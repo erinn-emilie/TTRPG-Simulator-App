@@ -1,38 +1,47 @@
 {
-    "DEFAULT": {
-        "key": -1,
-        "name": "",
-        "small_fields": {
-            "type": "Monument",
-            "hours": "N/A",
-            "public?": "Yes",
-            "primary material": "Marble",
-            "name": "Duck Statue"
-        },
-        "large_fields": {
-            "biography": "This statue has been there for centuries. Nobody knows who made it.\t",
-            "notes": "Why a duck?"
-        },
-        "large_assets": [],
-        "set_map_asset": "",
-        "old_map_assets": []
+  "DEFAULT": {
+    "key": -1,
+    "name": "",
+    "duplicatable": true,
+    "small_fields": {
+      "type": "Monument",
+      "hours": "N/A",
+      "public?": "Yes",
+      "primary material": "Marble",
+      "name": "Duck Statue"
     },
-    "NEW TOKEN": {
-        "key": 1,
-        "name": "new token",
-        "small_fields": {
-            "type": "Monument",
-            "hours": "N/A",
-            "public?": "Yes",
-            "primary material": "Marble",
-            "name": "Duck Statue"
-        },
-        "large_fields": {
-            "biography": "This statue has been there for centuries. Nobody knows who made it.\t",
-            "notes": "Why a duck?"
-        },
-        "large_assets": [],
-        "set_map_asset": "",
-        "old_map_assets": []
-    }
+    "large_fields": {
+      "biography": "This statue has been there for centuries. Nobody knows who made it.\t",
+      "notes": "Why a duck?"
+    },
+    "large_assets": [],
+    "set_map_asset": "",
+    "old_map_assets": [],
+    "excluded_tiles": {},
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
+  },
+  "DUCK STATUE": {
+    "key": 1,
+    "name": "Duck Statue",
+    "duplicatable": false,
+    "small_fields": {
+      "type": "Monument",
+      "hours": "N/A",
+      "public?": "Yes",
+      "primary material": "Marble"
+    },
+    "large_fields": {
+      "biography": "This statue has been there for centuries. Nobody knows who made it.\t",
+      "notes": "Why a duck?"
+    },
+    "spawn_all": true,
+    "spawnable_tiles": [],
+    "large_assets": [],
+    "set_map_asset": "assets//duckstatue.png",
+    "old_map_assets": [],
+    "excluded_tiles": {},
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
+  }
 }
