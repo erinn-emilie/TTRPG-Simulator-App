@@ -37,20 +37,10 @@
     <Compile Include="toolbox\TileTypes.py" />
     <Compile Include="toolbox\Tokens.py" />
     <Compile Include="toolbox\Toolbox.py" />
+    <Compile Include="TTRPG_Login_Window.py" />
     <Compile Include="TTRPG_Simulator_App.py" />
     <Compile Include="widgets\GenericContainerWidget.py" />
     <Compile Include="widgets\TileChangeMessageBox.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Interpreter Include="env\">
-      <Id>env</Id>
-      <Version>3.13</Version>
-      <Description>env (Python 3.13 (64-bit))</Description>
-      <InterpreterPath>Scripts\python.exe</InterpreterPath>
-      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
-      <Architecture>X64</Architecture>
-    </Interpreter>
   </ItemGroup>
   <ItemGroup>
     <Content Include="jsonfiles\Animals.json" />
@@ -68,6 +58,17 @@
     <Folder Include="toolbox\" />
     <Folder Include="widgets\" />
     <Folder Include="pages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.14</Version>
+      <Description>env (Python 3.14.3)</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
