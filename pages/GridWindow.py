@@ -88,7 +88,7 @@ class GridWindow(QMainWindow):
         self.seed_ref = self.settings_ref.getSeedRef()
         self.all_labels = []
         self.label_being_dragged = None
-        self.setStyleSheet("background-color:pink;");
+        self.setStyleSheet("background-color:white;");
 
         self.main_layout = QGridLayout()
 

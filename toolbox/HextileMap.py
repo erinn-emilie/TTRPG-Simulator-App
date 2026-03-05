@@ -12,11 +12,12 @@ from Enums.TokenTypes import TokenTypes
 from TokenRecord import TokenRecord
 
 class HextileMap():
-    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref):
+    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref):
         self.JSON_SAVE_FILE = "jsonfiles/SavedMaps.json"
         self.tileTypes = tile_types_ref
         self.settings = settings_ref
         self.seed = settings_ref.getSeedRef()
+        self.saved_maps = saved_maps_ref()
         self.tile_list = []
         self.tokens_on_map = []
 
@@ -566,3 +567,15 @@ class HextileMap():
         final_dict = {map_name: all_tiles_dict}
         with open(self.JSON_SAVE_FILE, 'w') as file: 
             json.dump(final_dict, file, indent=4)
+
+    def loadSavedMap(self, map_name:str):
+        map_dict = self.saved_maps.find_map_by_name(map_name)
+        if map_dict:
+            for tile in map_dict:
+                token_list = map_dict[tile]["tokens"]
+                tile_type = map_dict[tile]["type_str"]
+                type_key = map_dict[tile]["type_key"]
+
+                for token in token_list:
+                    token_listaj;o
+                

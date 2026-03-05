@@ -25,6 +25,7 @@
     <Compile Include="enums\SettlementTypes.py" />
     <Compile Include="enums\TokenTypes.py" />
     <Compile Include="pages\GridWindow.py" />
+    <Compile Include="toolbox\SavedMaps.py" />
     <Compile Include="TokenRecord.py" />
     <Compile Include="toolbox\HextileMap.py" />
     <Compile Include="HextileNode.py" />

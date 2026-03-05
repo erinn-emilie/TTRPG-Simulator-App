@@ -2,6 +2,7 @@ from toolbox.TileTypes import TileTypes
 from toolbox.HextileMap import HextileMap
 from toolbox.Settings import Settings
 from toolbox.Tokens import Tokens
+from toolbox.SavedMaps import SavedMaps
 
 
 class Toolbox():
@@ -15,7 +16,8 @@ class Toolbox():
         self.structures_ref = Tokens("jsonfiles/Structures.json")
         self.nature_ref = Tokens("jsonfiles/Nature.json")
         self.settings_ref = Settings(self.tile_types_ref)
-        self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref, self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref)
+        self.saved_maps_ref = SavedMaps()
+        self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref, self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref, self.saved_maps_ref)
 
     def get_tile_types_ref(self) -> TileTypes:
         return self.tile_types_ref
@@ -49,4 +51,7 @@ class Toolbox():
 
     def get_settings_ref(self) -> Settings:
         return self.settings_ref
+
+    def get_saved_maps_ref(self) -> SavedMaps:
+        return self.saved_maps_ref
 
