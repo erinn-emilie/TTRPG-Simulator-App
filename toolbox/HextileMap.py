@@ -17,7 +17,7 @@ class HextileMap():
         self.tileTypes = tile_types_ref
         self.settings = settings_ref
         self.seed = settings_ref.getSeedRef()
-        self.saved_maps = saved_maps_ref()
+        self.saved_maps = saved_maps_ref
         self.tile_list = []
         self.tokens_on_map = []
 

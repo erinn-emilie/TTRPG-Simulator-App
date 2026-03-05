@@ -7,7 +7,6 @@ class SavedMaps():
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.all_saved_maps = json.load(file)
-            self.__setup()
         except FileNotFoundError:
             print("Couldn't find JSON file with maps!")
         except json.JSONDecodeError:
