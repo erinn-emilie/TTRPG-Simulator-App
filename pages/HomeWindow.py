@@ -138,6 +138,7 @@ class HomeWindow(QMainWindow):
 
         self.load_map_btn = QPushButton("Load Map", self)
         self.map_settings_toolbar.addWidget(self.load_map_btn)
+        self.load_map_btn.clicked.connect(self.__load_saved_map)
 
 
         self.selected_tiles = []
@@ -423,6 +424,16 @@ class HomeWindow(QMainWindow):
         self.hextile_map_obj.generateMap()
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
+
+    def __load_saved_map(self):
+        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name to save the map under!")
+        if ok and map_name:
+            self.map_layout.removeWidget(self.map_widget)
+            self.map_widget = QWidget()
+            self.map_widget.setMinimumSize(3000,3000)
+            self.hextile_map_obj.loadSavedMap(map_name)
+            self.__layout_tiles()
+            self.map_layout.addWidget(self.map_widget)
 
 
     def __layout_tiles(self):
