@@ -3,7 +3,8 @@ from Enums.TokenTypes import TokenTypes
 import copy
 
 class TokenRecord():
-    def __init__(self, token_dict:dict, token_type:TokenTypes, record_key:int, position=(0,0)):
+    def __init__(self, logger_ref, token_dict:dict, token_type:TokenTypes, record_key:int, position=(0,0)):
+        self.logger_ref = logger_ref
         self.token_dict = copy.deepcopy(token_dict)
         self.position = position
         self.token_dict["x_position"] = self.position[0]
@@ -66,31 +67,54 @@ class TokenRecord():
     def get_default_status(self):
         return self.default
 
+
+    def __log_position_change(self, new_pos:tuple, old_pos:tuple):
+        if(self.logger_ref.get_writable_status()):
+            change_line = self.name + " moved from " + "(" + str(old_pos[0]) + ", " + str(old_pos[1]) + ") to (" + str(new_pos[0]) + ", " + str(new_pos[1]) + ")"
+            self.logger_ref.add_line(change_line)
+
     def set_position(self, new_pos:tuple):
+        self.__log_position_change(new_pos, self.position)
         self.position = new_pos
         self.token_dict["x_position"] = new_pos[0]
         self.token_dict["y_position"] = new_pos[1]
 
 
+    def __log_value_changes(self, old_value, new_value, value_key):
+        if(self.logger_ref.get_writable_status()):
+            change_line = self.name + "'s " + value_key + " value changes from " + old_value + " to " + new_value
+            self.logger_ref.add_line(change_line)
+
+    def __log_key_changes(self, old_key, new_key):
+        if(self.logger_ref.get_writable_status()):
+            change_line = "The name of " + old_key + " for " + self.name + " changed to " + new_key
+            self.logger_ref.add_line(change_line)
+
+
     def change_small_field_values(self, token_key, value_key, new_value):
         self.default = False
         if(value_key == "name"):
+            self.__log_value_changes(self.token_dict["name"], new_value, value_key)
             self.token_dict["name"] = new_value
         else:
+            self.__log_value_changes(self.token_dict["small_fields"][value_key], new_value, value_key)
             self.token_dict["small_fields"][value_key] = new_value
 
     def change_small_field_keys(self, token_key, old_key, new_key):
         self.default = False
+        self.__log_value_changes(old_key, new_key)
         self.token_dict["small_fields"][new_key] = self.token_dict["small_fields"].pop(old_key)
 
 
     def change_lg_field_values(self, token_key, value_key, new_value):
         self.default = False
+        self.__log_key_changes(self.token_dict["large_fields"][value_key], new_value, value_key)
         plain_txt = new_value.toPlainText()
         self.token_dict["large_fields"][value_key] = plain_txt
 
 
     def change_lg_field_keys(self, token_key, old_key, new_key):
         self.default = False
+        self.__log_value_changes(old_key, new_key)
         self.token_dict["large_fields"][new_key] = self.token_dict["large_fields"].pop(old_key)
         

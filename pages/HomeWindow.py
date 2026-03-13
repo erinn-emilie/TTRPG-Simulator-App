@@ -22,6 +22,7 @@ from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
 from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
+from widgets.LogWidget import LogWidget
 
 import math
 
@@ -139,6 +140,10 @@ class HomeWindow(QMainWindow):
         self.load_map_btn = QPushButton("Load Map", self)
         self.map_settings_toolbar.addWidget(self.load_map_btn)
         self.load_map_btn.clicked.connect(self.__load_saved_map)
+
+        self.log_widget_btn = QPushButton("Log Widget", self)
+        self.map_settings_toolbar.addWidget(self.log_widget_btn)
+        self.log_widget_btn.clicked.connect(self.__open_log_widget)
 
 
         self.selected_tiles = []
@@ -397,6 +402,12 @@ class HomeWindow(QMainWindow):
 
     def close_custom_nature_window(self):
         self.customNatureWindow = None
+
+
+    def __open_log_widget(self):
+        self.log_widget = LogWidget(self.toolbox)
+        self.log_widget.show()
+
 
 
 

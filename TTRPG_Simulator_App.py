@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt, QPoint, QPointF
-from PyQt6.QtGui import QAction, QPixmap, QMouseEvent, QPainter, QPen, QBrush
+from PyQt6.QtGui import QAction, QPixmap, QMouseEvent, QPainter, QPen, QBrush, QGuiApplication
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -131,8 +131,14 @@ class GenericContainerWidget(QWidget):
 if __name__ == "__main__":
     app = QApplication([])
 
+    primary_screen = QGuiApplication.primaryScreen() #
+    screen_geometry = primary_screen.geometry() #
+    screen_width = screen_geometry.width()
+    screen_height = screen_geometry.height()
+
+
     #Toolbox holds all the tools necessary for the application to function
-    toolbox = Toolbox()
+    toolbox = Toolbox(screen_width, screen_height)
 
     #The window is a custom class derived from QWindow that is passed the toolbox
     window = HomeWindow(toolbox)

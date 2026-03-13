@@ -39,33 +39,10 @@ class PaintWidget(QWidget):
         width = self.width()
         height = self.height()
         tile_size = self.settings_ref.getTileSize()
-        for x in range(0, width, math.ceil(tile_size)):
-            self.rows += 1
-        for y in range(0, height, math.ceil(tile_size)):
-            self.cols += 1
-
-    def paintEvent(self, event):
-        super().paintEvent(event)
-        painter = QPainter(self)
-        pen = QPen(Qt.GlobalColor.black, 1)
-        painter.setPen(pen)
-
-        width = self.width()
-        height = self.height()
-
-        tile_size = self.settings_ref.getTileSize()
-
-        self.rows = 0
-        self.cols = 0
-
-        for x in range(0, width, math.ceil(tile_size)):
-            #painter.drawLine(x, 0, x, height)
-            self.rows += 1
-        for y in range(0, height, math.ceil(tile_size)):
-            #painter.drawLine(0, y, width, y)
-            self.cols += 1
-
-        self.total_boxes = self.rows * self.cols
+        screen_width = self.toolbox.get_screen_width()
+        screen_height = self.toolbox.get_screen_height()
+        self.rows = math.floor(screen_height / sqrt_tile_size)
+        self.cols = math.floor(screen_width / sqrt_tile_size)
 
     def get_rows(self):
         return self.rows
@@ -140,9 +117,15 @@ class GridWindow(QMainWindow):
         self.toolbox = toolbox
         self.settings_ref = self.toolbox.get_settings_ref()
         self.seed_ref = self.settings_ref.getSeedRef()
+        self.map_ref = self.toolbox.get_hextile_map_ref()
         self.all_labels = []
         self.label_being_dragged = None
         self.setStyleSheet("background-color:white;");
+
+
+        sqrt_tile_size = math.floor(math.sqrt(self.settings_ref.getTileSize()))
+        self.rows = sqrt_tile_size
+        self.cols = sqrt_tile_size
 
 
         self.title = "Grid Window"
@@ -165,61 +148,30 @@ class GridWindow(QMainWindow):
         self.__populate_token_bar()
 
 
-        self.main_widget = PaintWidget(self.toolbox)
+        self.main_widget = QWidget()
         self.token_grid = QGridLayout()
         self.main_widget.setLayout(self.token_grid)
 
-        self.__position_tokens()
+        self.map_ref.positionTokensOnTile()
         self.__add_tokens_to_layout()
         self.setCentralWidget(self.main_widget)
 
-    '''def resizeEvent(self, event):
-        super().resizeEvent(event)
-        self.__add_tokens_to_layout()'''
-
-
-    def __position_tokens(self):
-        rows = self.main_widget.get_rows()
-        cols = self.main_widget.get_cols()
-
-        all_tokens = self.record.get_all_tokens()
-        for token in all_tokens:
-            x = self.seed_ref.getOtherRandInt(0, cols)
-            y = self.seed_ref.getOtherRandInt(0, rows)
-
-            while(not self.record.check_position((x, y))):
-                x = self.seed_ref.getOtherRandInt(0, cols)
-                y = self.seed_ref.getOtherRandInt(0, rows)
-
-            token.set_position((x,y))
 
     def __add_tokens_to_layout(self):
-        rows = self.main_widget.get_rows()
-        cols = self.main_widget.get_cols()
-
-        width = self.width()
-        height = self.height()
-
         all_tokens = self.record.get_all_tokens()
 
-
-
-        # 200 px x 200 px
-        # 16 total boxes
-        # 4 boxes in each row, 4 rows (sqrt)
-        # width of each box is 200 / 4
-        # height of each box is 200 / 4
-
-        for i in range(0, cols+1):
-            for j in range(0, rows+1):
-                self.token_grid.addWidget(TokenLabel(self.toolbox, None, parent=self), i, j)
+        for i in range(0, self.cols):
+            for j in range(0, self.rows):
+                label = TokenLabel(self.toolbox, None, parent=self)
+                label.setStyleSheet("QLabel { border: 1px solid black; background-color: white; padding: 5px; }")
+                self.token_grid.addWidget(label, i, j)
 
         for token in all_tokens:
             x_pos = token.get_x_position()
             y_pos = token.get_y_position()
             label = TokenLabel(self.toolbox, token, parent=self)
+            label.setStyleSheet("QLabel { border: 1px solid blue; background-color: white; padding: 5px; }")
             label.setScaledContents(True)
-            label.resize(math.ceil(width/cols), math.ceil(height/rows))
             pixmap = QPixmap(token.get_map_asset())
             label.setPixmap(pixmap)
             label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -231,21 +183,6 @@ class GridWindow(QMainWindow):
                     widget.deleteLater()
             self.token_grid.addWidget(label, x_pos, y_pos)
             self.all_labels.append(label)
-
-    '''def __position_tokens(self):
-        all_tokens = self.record.get_all_tokens()
-        start_width = math.ceil(self.width()/2)
-        end_width = math.ceil(self.width())
-        start_height = 0
-        end_height = math.ceil(self.height())
-        for token in all_tokens:
-            x = self.seed_ref.getOtherRandInt(start_width, end_width)
-            y = self.seed_ref.getOtherRandInt(start_height, end_height)
-
-            while(not self.record.check_position((x, y))):
-                x = self.seed_ref.getOtherRandInt(start_width, end_width)
-                y = self.seed_ref.getOtherRandInt(start_height, end_height)
-            token.set_position((x, y))'''
 
 
 
@@ -265,24 +202,6 @@ class GridWindow(QMainWindow):
             layout.addWidget(open_btn)
             self.token_bar_layout.addLayout(layout)
             count += 1
-
-
-    '''def __paint_tokens_on_window(self):
-        all_tokens = self.record.get_all_tokens()
-        tile_size = math.ceil(self.settings_ref.getTileSize())
-        for token in all_tokens:
-            height_mult = token.get_base_height_multiplier()
-            width_mult = token.get_base_width_multiplier()
-            x_pos = token.get_x_position()
-            y_pos = token.get_y_position()
-            label = TokenLabel(self.toolbox, token, parent=self)
-            label.resize((tile_size*width_mult), (tile_size*height_mult))
-            label.setScaledContents(True)
-            pixmap = QPixmap(token.get_map_asset())
-            label.setPixmap(pixmap)
-            label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-            label.move(x_pos, y_pos)
-            self.all_labels.append(label)'''
 
     def __open_token_dropdown(self, ref, open_btn, count):
         tokens = ref.get_tokens_list()
@@ -321,7 +240,8 @@ class GridWindow(QMainWindow):
         open_btn.clicked.connect(partial(self.__open_token_dropdown, ref, open_btn, count))
 
 
-    def __add_token_to_window(self, token):
+    # Needs changed
+    """def __add_token_to_window(self, token):
         token_record = TokenRecord(token, TokenTypes.PLAYER_CHARACTERS, token["key"], position=(600,400))
         self.hexNode.getTileRecord().add_player_character(token)
         tile_size = math.ceil(self.settings_ref.getTileSize())
@@ -337,10 +257,10 @@ class GridWindow(QMainWindow):
         label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         label.move(600, 400)
         label.show()
-        self.all_labels.append(label)
+        self.all_labels.append(label)"""
 
 
-    def start_dragging_child(self, label:TokenLabel):
+    """def start_dragging_child(self, label:TokenLabel):
         self.label_being_dragged = label
 
     def end_dragging_child(self, global_position):
@@ -348,5 +268,5 @@ class GridWindow(QMainWindow):
         self.label_being_dragged.move(local_point.x(), local_point.y())
         token_record = self.label_being_dragged.get_token_record()
         token_record.set_position((local_point.x(), local_point.y()))
-        self.label_being_dragged = None
+        self.label_being_dragged = None"""
         

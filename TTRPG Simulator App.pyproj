@@ -24,8 +24,10 @@
   <ItemGroup>
     <Compile Include="enums\MapLoadLocations.py" />
     <Compile Include="enums\SettlementTypes.py" />
+    <Compile Include="enums\TileSizeUnits.py" />
     <Compile Include="enums\TokenTypes.py" />
     <Compile Include="pages\GridWindow.py" />
+    <Compile Include="toolbox\Logger.py" />
     <Compile Include="toolbox\SavedMaps.py" />
     <Compile Include="TokenRecord.py" />
     <Compile Include="toolbox\HextileMap.py" />
@@ -36,6 +38,8 @@
     <Compile Include="pages\HomeWindow.py" />
     <Compile Include="toolbox\Seed.py" />
     <Compile Include="toolbox\Settings.py" />
+    <Compile Include="widgets\diceroll.py" />
+    <Compile Include="widgets\LogWidget.py" />
     <Compile Include="widgets\SettingsMenu.py" />
     <Compile Include="TileRecord.py" />
     <Compile Include="toolbox\TileTypes.py" />
@@ -56,10 +60,12 @@
     <Content Include="jsonfiles\SavedMaps.json" />
     <Content Include="jsonfiles\Structures.json" />
     <Content Include="jsonfiles\TileTypes.json" />
+    <Content Include="logfiles\TemporaryLog.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="enums\" />
     <Folder Include="jsonfiles\" />
+    <Folder Include="logfiles\" />
     <Folder Include="toolbox\" />
     <Folder Include="widgets\" />
     <Folder Include="pages\" />

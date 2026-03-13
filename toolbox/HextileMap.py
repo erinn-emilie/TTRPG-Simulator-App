@@ -13,12 +13,13 @@ from Enums.MapLoadLocations import MapLoadLocations
 from TokenRecord import TokenRecord
 
 class HextileMap():
-    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
+    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, screen_width, screen_height, logger_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
         self.JSON_SAVE_FILE = "jsonfiles/SavedMaps.json"
         self.local_map = {}
         self.tileTypes = tile_types_ref
         self.settings = settings_ref
         self.seed = settings_ref.getSeedRef()
+        self.logger_ref = logger_ref
         self.saved_maps = saved_maps_ref
         self.tile_list = []
         self.tokens_on_map = []
@@ -38,6 +39,9 @@ class HextileMap():
         self.current_map = {}
         self.load_location = load_location
         self.saved_map_name = saved_map_name
+
+        self.screen_width = screen_width
+        self.screen_height = screen_height
 
         self.generateMap()
 
@@ -91,10 +95,10 @@ class HextileMap():
                         self.__populateTilesRandomSettings()
                     case TileGenerationTypes.WEIGHTED:
                         self.__populateMapGenericSettings()
-                
                         self.__populateTilesRandomSettings()
             case MapLoadLocations.LOCAL:
                 self.loadSavedMap(self.saved_map_name)
+        self.logger_ref.set_writable_status(True)
 
 
 
@@ -419,7 +423,7 @@ class HextileMap():
                     continue
 
                 record_key += 1
-                token_record = TokenRecord(rand_token, token_type, record_key)
+                token_record = TokenRecord(self.logger_ref, rand_token, token_type, record_key)
                 self.tokens_on_map.append(token_record)
 
                 match(token_type):
@@ -438,6 +442,35 @@ class HextileMap():
                     case TokenTypes.NATURE:
                         tile_record.add_nature_token(token_record)
 
+    def positionTokensOnTile(self):
+        self.logger_ref.set_writable_status(False)
+        tile_size = self.settings.getTileSize()
+
+        sqrt_tile_size = math.floor(math.sqrt(tile_size))
+
+
+        for tile in self.tile_list:
+            tile_record = tile.getTileRecord()
+            all_tokens = tile_record.get_all_tokens()
+
+            for token in all_tokens:
+                x = self.seed.getOtherRandInt(0, sqrt_tile_size)
+                y = self.seed.getOtherRandInt(0, sqrt_tile_size)
+                iteration = 0
+                while(not tile_record.check_position((x, y))):
+                    x = self.seed.getOtherRandInt(0, sqrt_tile_size)
+                    y = self.seed.getOtherRandInt(0, sqrt_tile_size)
+                    iteration += 1
+                    if iteration == 50:
+                        break
+
+                if iteration == 50:
+                    break
+
+                tile_record.add_position((x,y))
+                token.set_position((x,y))
+
+        self.logger_ref.set_writable_status(True)
 
 
 
@@ -644,7 +677,7 @@ class HextileMap():
                 type_str = token[name]["type"]
                 token_type = self.__findTokenTypeFromStr(token[name]["type"])
                 token_type_ref = self.__findTokenRefFromType(token_type)
-                token_record = TokenRecord(token_type_ref.get_token_by_name(name), token_type, record_key, position=(token[name]["x_position"], token[name]["y_position"]))
+                token_record = TokenRecord(self.logger_ref, token_type_ref.get_token_by_name(name), token_type, record_key, position=(token[name]["x_position"], token[name]["y_position"]))
 
                 self.tokens_on_map.append(token_record)
 
@@ -680,7 +713,7 @@ class HextileMap():
                 for name in token:
                     token_type = self.__findTokenTypeFromStr(token[name]["type"])
                     token_type_ref = self.__findTokenRefFromType(token_type)
-                    token_record = TokenRecord(token_type_ref.get_token_by_name(name), token_type, record_key, position=(token[name]["x_position"], token[name]["y_position"]))
+                    token_record = TokenRecord(self.logger_ref, token_type_ref.get_token_by_name(name), token_type, record_key, position=(token[name]["x_position"], token[name]["y_position"]))
 
                     self.tokens_on_map.append(token_record)
 
