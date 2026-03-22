@@ -117,89 +117,6 @@ class GridWindow(QMainWindow):
     def dragEnterEvent(self, event):
         event.accept()
 
-    '''def dropEvent(self, event):
-        pos = self.mapToGlobal(event.position())
-        widget = event.source()
-
-        org_row = widget.get_row()
-        org_col = widget.get_col()
-
-        org_pos = widget.mapToGlobal(widget.pos())
-        
-        org_x = org_pos.x()
-        org_y = org_pos.y()
-
-        new_x = pos.x()
-        new_y = pos.y()
-
-        new_row = org_row
-        new_col = org_col
-
-
-        # XLOWER --------- XGREATER
-        # COL 0 ---------- COLN
-
-        #YLOWER  ROW 0
-        #
-        #YGREATER ROWN
-        if(new_x < org_x):
-            for i in range(org_col, 0, -1):
-                w = self.token_grid.itemAtPosition(org_row, i).widget()
-                cur_x = w.mapToGlobal(w.pos()).x()
-                if(cur_x < new_x):
-                    new_col = i
-                    break
-        else:
-            for j in range(org_col, self.cols):
-                w = self.token_grid.itemAtPosition(org_row, j).widget()
-                cur_x = w.mapToGlobal(w.pos()).x()
-                if(cur_x > new_x):
-                    new_col = j
-                    break
-
-        if(new_y < org_y):
-            for k in range(org_row, 0, -1):
-                w = self.token_grid.itemAtPosition(k, org_col).widget()
-                cur_y = w.mapToGlobal(w.pos()).y()
-                if(cur_y < new_y):
-                    new_row = k
-                    break
-        else:
-            for l in range(org_row, self.rows+1):
-                w = self.token_grid.itemAtPosition(l, org_col).widget()
-                cur_y = w.mapToGlobal(w.pos()).y()
-                if(cur_y > new_y):
-                    new_row = l
-                    break
-
-
-
-        print("Old Row " + str(org_row))
-        print("Old Col " + str(org_col))
-
-        print("New Row " + str(new_row))
-        print("New Col " + str(new_col))
-
-
-        print("Old X " + str(org_x))
-        print("Old Y " + str(org_y))
-
-        print("New X " + str(new_x))
-        print("New Y " + str(new_y))
-
-        print("\n")
-        
-
-        pixmap = widget.pixmap()
-        widget.clear()
-
-
-        new_label = self.token_grid.itemAtPosition(new_row, new_col)
-        new_label.widget().setPixmap(pixmap)
-
-
-        event.accept()'''
-
     def dropEvent(self, event):
         widget = event.source()
         token_record = widget.get_token_record()
@@ -297,8 +214,8 @@ class GridWindow(QMainWindow):
             hlayout.addWidget(widget)
             hlayout.addWidget(img)
             layout.addLayout(hlayout)
-        count += 1
-        self.token_bar_layout.insertLayout(count, layout)
+        #count += 1
+        self.token_bar_layout.insertLayout(count+1, layout)
         open_btn.setText("^")
         open_btn.clicked.disconnect()
         open_btn.clicked.connect(partial(self.__close_token_dropdown, open_btn, layout, ref, count))
@@ -312,8 +229,8 @@ class GridWindow(QMainWindow):
                 widget = child_item.widget()
                 if not widget is None:
                     widget.deleteLater()
-            count -= 1
             del item
+        layout.deleteLater()
         open_btn.setText("\u2304")
         open_btn.clicked.disconnect()
         open_btn.clicked.connect(partial(self.__open_token_dropdown, ref, open_btn, count))
@@ -327,9 +244,13 @@ class GridWindow(QMainWindow):
 
         pixmap = QPixmap(token_record.get_map_asset())
 
-        target_item = self.token_grid.itemAtPosition(0, 0)
-        if target_item and target_item.widget():
-            target_item.widget().setPixmap(pixmap)
+        label = self.token_grid.itemAtPosition(0, 0).widget()
+        label.setStyleSheet("QLabel { border: 1px solid blue; background-color: white; padding: 5px; }")
+        label.setScaledContents(True)
+        label.set_token_record(token)
+        label.setPixmap(pixmap)
+        label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+
 
 
     """def start_dragging_child(self, label:TokenLabel):
