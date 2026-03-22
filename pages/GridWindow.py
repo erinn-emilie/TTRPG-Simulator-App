@@ -1,5 +1,5 @@
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPainter, QPen, QPixmap, QColor, QIcon
+from PyQt6.QtCore import Qt, QMimeData
+from PyQt6.QtGui import QPainter, QPen, QPixmap, QColor, QIcon, QDrag
 from PyQt6.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
@@ -25,96 +25,52 @@ from toolbox.Toolbox import Toolbox
 from TokenRecord import TokenRecord
 
 
-class PaintWidget(QWidget):
-    def __init__(self, toolbox):
-        super().__init__()
-        self.toolbox = toolbox
-        self.settings_ref = self.toolbox.get_settings_ref()
-        self.rows = 0
-        self.cols = 0
-        self.total_boxes = 0
-        self.__setup()
-
-    def __setup(self):
-        width = self.width()
-        height = self.height()
-        tile_size = self.settings_ref.getTileSize()
-        screen_width = self.toolbox.get_screen_width()
-        screen_height = self.toolbox.get_screen_height()
-        self.rows = math.floor(screen_height / sqrt_tile_size)
-        self.cols = math.floor(screen_width / sqrt_tile_size)
-
-    def get_rows(self):
-        return self.rows
-
-    def get_cols(self):
-        return self.cols
-
-    def get_total_boxes(self):
-        return self.total_boxes
-
 class TokenLabel(QLabel):
-    def __init__(self, toolbox, token_record:TokenRecord, parent=None):
+    def __init__(self, toolbox, token_record=None, row=-1, col=-1, parent=None, grid_window=None):
         super().__init__(parent=parent)
         self.token_record = token_record
+        self.grid_window = grid_window
+        self.row = row
+        self.col = col
         self.toolbox = toolbox
-        self.dragging = False
 
 
     def get_token_record(self) -> TokenRecord:
         return self.token_record
 
-    def change_token_record(self, token_record:TokenRecord):
+    def set_token_record(self, token_record:TokenRecord):
         self.token_record = token_record
 
+    def get_row(self) -> int:
+        return self.row
 
-    def mousePressEvent(self, event):
-        if(event.button() == Qt.MouseButton.LeftButton):
-            self.dragging = True
-            self.parent().start_dragging_child(self)
-        if(event.button() == Qt.MouseButton.RightButton):
-            ref = self.__find_token_ref(self.token_record.get_token_type())
-            self.scroll = QScrollArea()
-            self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-            self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-            self.scroll.setWidgetResizable(True)
-            widget = TokenRecordContainerWidget(self.token_record, self.toolbox, ref)
-            self.scroll.setWidget(widget)
-            self.scroll.show()
+    def set_row(self, new_row:int):
+        self.row = new_row
 
-        return super().mousePressEvent(event)
+    def get_col(self) -> int:
+        return self.col
 
-    def mouseReleaseEvent(self, event):
-        if(self.dragging):
-            self.dragging = False
-            global_position = self.mapToGlobal(event.position().toPoint())
-            print(global_position)
-            self.parent().end_dragging_child(global_position)
-        return super().mouseReleaseEvent(event)
+    def set_col(self, new_col:int):
+        self.col = new_col
 
-    def __find_token_ref(self, token_type):
-        match(token_type):
-            case TokenTypes.PLAYER_CHARACTERS:
-                return self.toolbox.get_player_characters_ref()
-            case TokenTypes.NON_PLAYER_CHARACTERS:
-                return self.toolbox.get_nonplayer_characters_ref()
-            case TokenTypes.ANIMALS:
-                return self.toolbox.get_animals_ref()
-            case TokenTypes.MONSTERS:
-                return self.toolbox.get_monsters_ref()
-            case TokenTypes.BUILDINGS:
-                return self.toolbox.get_buildings_ref()
-            case TokenTypes.STRUCTURES:
-                return self.toolbox.get_structures_ref()
-            case TokenTypes.NATURE:
-                return self.toolbox.get_nature_ref()
+    def mouseMoveEvent(self, event):
+        if(event.buttons() == Qt.MouseButton.LeftButton):
+            drag = QDrag(self)
+            mime = QMimeData()
+            drag.setMimeData(mime)
+            drag.exec(Qt.DropAction.MoveAction)
+
+
+
 
 class GridWindow(QMainWindow):
     def __init__(self, hexNode:HextileNode, toolbox:Toolbox):
         super().__init__()
+        self.setAcceptDrops(True)
         self.hexNode = hexNode
         self.record = self.hexNode.getTileRecord()
         self.toolbox = toolbox
+        self.logger_ref = self.toolbox.get_logger_ref()
         self.settings_ref = self.toolbox.get_settings_ref()
         self.seed_ref = self.settings_ref.getSeedRef()
         self.map_ref = self.toolbox.get_hextile_map_ref()
@@ -126,10 +82,12 @@ class GridWindow(QMainWindow):
         sqrt_tile_size = math.floor(math.sqrt(self.settings_ref.getTileSize()))
         self.rows = sqrt_tile_size
         self.cols = sqrt_tile_size
-
+        
 
         self.title = "Grid Window"
         self.setWindowTitle(self.title)
+
+
 
         self.token_bar = QDockWidget("TokenBar", self)
         self.token_bar.setDockLocation(Qt.DockWidgetArea.LeftDockWidgetArea)
@@ -156,32 +114,153 @@ class GridWindow(QMainWindow):
         self.__add_tokens_to_layout()
         self.setCentralWidget(self.main_widget)
 
+    def dragEnterEvent(self, event):
+        event.accept()
+
+    '''def dropEvent(self, event):
+        pos = self.mapToGlobal(event.position())
+        widget = event.source()
+
+        org_row = widget.get_row()
+        org_col = widget.get_col()
+
+        org_pos = widget.mapToGlobal(widget.pos())
+        
+        org_x = org_pos.x()
+        org_y = org_pos.y()
+
+        new_x = pos.x()
+        new_y = pos.y()
+
+        new_row = org_row
+        new_col = org_col
+
+
+        # XLOWER --------- XGREATER
+        # COL 0 ---------- COLN
+
+        #YLOWER  ROW 0
+        #
+        #YGREATER ROWN
+        if(new_x < org_x):
+            for i in range(org_col, 0, -1):
+                w = self.token_grid.itemAtPosition(org_row, i).widget()
+                cur_x = w.mapToGlobal(w.pos()).x()
+                if(cur_x < new_x):
+                    new_col = i
+                    break
+        else:
+            for j in range(org_col, self.cols):
+                w = self.token_grid.itemAtPosition(org_row, j).widget()
+                cur_x = w.mapToGlobal(w.pos()).x()
+                if(cur_x > new_x):
+                    new_col = j
+                    break
+
+        if(new_y < org_y):
+            for k in range(org_row, 0, -1):
+                w = self.token_grid.itemAtPosition(k, org_col).widget()
+                cur_y = w.mapToGlobal(w.pos()).y()
+                if(cur_y < new_y):
+                    new_row = k
+                    break
+        else:
+            for l in range(org_row, self.rows+1):
+                w = self.token_grid.itemAtPosition(l, org_col).widget()
+                cur_y = w.mapToGlobal(w.pos()).y()
+                if(cur_y > new_y):
+                    new_row = l
+                    break
+
+
+
+        print("Old Row " + str(org_row))
+        print("Old Col " + str(org_col))
+
+        print("New Row " + str(new_row))
+        print("New Col " + str(new_col))
+
+
+        print("Old X " + str(org_x))
+        print("Old Y " + str(org_y))
+
+        print("New X " + str(new_x))
+        print("New Y " + str(new_y))
+
+        print("\n")
+        
+
+        pixmap = widget.pixmap()
+        widget.clear()
+
+
+        new_label = self.token_grid.itemAtPosition(new_row, new_col)
+        new_label.widget().setPixmap(pixmap)
+
+
+        event.accept()'''
+
+    def dropEvent(self, event):
+        widget = event.source()
+        token_record = widget.get_token_record()
+        pixmap = widget.pixmap()
+        widget.clear()
+
+
+        grid_widget = self.token_grid.parentWidget()
+        drop_pos = grid_widget.mapFromGlobal(event.position().toPoint())
+
+        closest_row = widget.get_row()
+        closest_col = widget.get_col()
+        min_dist = float('inf')
+
+        for row in range(self.rows):
+            for col in range(self.cols):
+                item = self.token_grid.itemAtPosition(row, col)
+                if not item or not item.widget():
+                    continue
+
+                w = item.widget()
+                w_pos = w.pos()
+                w_center_x = w_pos.x() + w.width() / 2
+                w_center_y = w_pos.y() + w.height() / 2
+
+
+                dist = ((drop_pos.x() - w_center_x) ** 2 + (drop_pos.y() - w_center_y) ** 2) ** 0.5
+                if dist < min_dist:
+                    min_dist = dist
+                    closest_row = row
+                    closest_col = col
+
+        target_item = self.token_grid.itemAtPosition(closest_row, closest_col)
+        if target_item and target_item.widget():
+            target_item.widget().setPixmap(pixmap)
+            target_item.widget().set_token_record(token_record)
+            
+
+
+        event.accept()
 
     def __add_tokens_to_layout(self):
         all_tokens = self.record.get_all_tokens()
 
-        for i in range(0, self.cols):
-            for j in range(0, self.rows):
-                label = TokenLabel(self.toolbox, None, parent=self)
+        for i in range(0, self.cols+1):
+            for j in range(0, self.rows+1):
+                label = TokenLabel(self.toolbox, parent=self, row=i, col=j, grid_window=self)
                 label.setStyleSheet("QLabel { border: 1px solid black; background-color: white; padding: 5px; }")
+                label.setScaledContents(True)
                 self.token_grid.addWidget(label, i, j)
 
         for token in all_tokens:
             x_pos = token.get_x_position()
             y_pos = token.get_y_position()
-            label = TokenLabel(self.toolbox, token, parent=self)
+            label = self.token_grid.itemAtPosition(x_pos, y_pos).widget()#TokenLabel(self.toolbox, token_record=token, row=x_pos, col=y_pos, parent=self, grid_window=self)
             label.setStyleSheet("QLabel { border: 1px solid blue; background-color: white; padding: 5px; }")
             label.setScaledContents(True)
             pixmap = QPixmap(token.get_map_asset())
+            label.set_token_record(token)
             label.setPixmap(pixmap)
             label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-            old_widget = self.token_grid.itemAtPosition(x_pos, y_pos)
-            if old_widget:
-                widget = old_widget.widget()
-                if widget:
-                    self.token_grid.removeWidget(widget)
-                    widget.deleteLater()
-            self.token_grid.addWidget(label, x_pos, y_pos)
             self.all_labels.append(label)
 
 
@@ -241,23 +320,16 @@ class GridWindow(QMainWindow):
 
 
     # Needs changed
-    """def __add_token_to_window(self, token):
-        token_record = TokenRecord(token, TokenTypes.PLAYER_CHARACTERS, token["key"], position=(600,400))
-        self.hexNode.getTileRecord().add_player_character(token)
-        tile_size = math.ceil(self.settings_ref.getTileSize())
+#    def __init__(self, logger_ref, token_dict:dict, token_type:TokenTypes, record_key:int, position=(0,0)):
+    def __add_token_to_window(self, token):
+        token_record = TokenRecord(self.logger_ref, token, TokenTypes.PLAYER_CHARACTERS, token["key"], position=(600,400))
+        self.hexNode.getTileRecord().add_player_character(token_record)
 
-
-        height_mult = token_record.get_base_height_multiplier()
-        width_mult = token_record.get_base_width_multiplier()
-        label = TokenLabel(self.toolbox, token_record, parent=self)
-        label.resize((tile_size), (tile_size))
-        label.setScaledContents(True)
         pixmap = QPixmap(token_record.get_map_asset())
-        label.setPixmap(pixmap)
-        label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        label.move(600, 400)
-        label.show()
-        self.all_labels.append(label)"""
+
+        target_item = self.token_grid.itemAtPosition(0, 0)
+        if target_item and target_item.widget():
+            target_item.widget().setPixmap(pixmap)
 
 
     """def start_dragging_child(self, label:TokenLabel):
