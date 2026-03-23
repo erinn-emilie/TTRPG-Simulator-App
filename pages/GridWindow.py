@@ -1,4 +1,4 @@
-from PyQt6.QtCore import Qt, QMimeData
+from PyQt6.QtCore import Qt, QMimeData, QLineF, QPoint
 from PyQt6.QtGui import QPainter, QPen, QPixmap, QColor, QIcon, QDrag
 from PyQt6.QtWidgets import (
     QMainWindow,
@@ -9,7 +9,9 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QDockWidget,
     QPushButton,
-    QGridLayout
+    QGridLayout,  
+    QToolBar,
+    QComboBox
 )
 
 from Enums.TokenTypes import TokenTypes
@@ -24,256 +26,197 @@ from HextileNode import HextileNode
 from toolbox.Toolbox import Toolbox
 from TokenRecord import TokenRecord
 
+class QMapWidget(QWidget):
+    def __init__(self, screen_width, screen_height, tile_size, background_img_path):
+        super().__init__()
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.tile_size = tile_size
+        self.background_img_path = background_img_path
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+
+        pixmap = QPixmap(self.background_img_path)
+
+        pen = QPen(QColor(0, 0, 0), 1)
+        painter.setPen(pen)
+        painter.drawPixmap(self.rect(), pixmap)
+
+        left = 0
+        right = self.screen_width
+        top = 0
+        bottom = self.screen_height
+
+        lines = []
+
+        for x in range(0, self.screen_width, self.tile_size):
+            lines.append(QLineF(x, top, x, bottom))
+
+        for y in range(0, self.screen_height, self.tile_size):
+            lines.append(QLineF(left, y, right, y))
+
+        painter.drawLines(lines)
+
 
 class TokenLabel(QLabel):
-    def __init__(self, toolbox, token_record=None, row=-1, col=-1, parent=None, grid_window=None):
+    def __init__(self, toolbox:Toolbox, token_record:TokenRecord, grid_window, parent=None):
         super().__init__(parent=parent)
+        self.toolbox = toolbox
         self.token_record = token_record
         self.grid_window = grid_window
-        self.row = row
-        self.col = col
-        self.toolbox = toolbox
-
-
+        self.dragging = False
+        
     def get_token_record(self) -> TokenRecord:
         return self.token_record
 
-    def set_token_record(self, token_record:TokenRecord):
-        self.token_record = token_record
-
-    def get_row(self) -> int:
-        return self.row
-
-    def set_row(self, new_row:int):
-        self.row = new_row
-
-    def get_col(self) -> int:
-        return self.col
-
-    def set_col(self, new_col:int):
-        self.col = new_col
-
-    def mouseMoveEvent(self, event):
-        if(event.buttons() == Qt.MouseButton.LeftButton):
-            drag = QDrag(self)
-            mime = QMimeData()
-            drag.setMimeData(mime)
-            drag.exec(Qt.DropAction.MoveAction)
-
     def mousePressEvent(self, event):
-        if(event.buttons() == Qt.MouseButton.RightButton):
-            self.token_window = TokenRecordContainerWidget(self.token_record, self.toolbox)
-            self.scroll = QScrollArea()
-            self.scroll.setWidget(self.token_window)
-            self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-            self.scroll.setWidgetResizable(True)
-            self.scroll.show()
+        if(event.button() == Qt.MouseButton.LeftButton):
+            self.dragging = True
+        event.accept()
 
-
-
+    def mouseReleaseEvent(self, event):
+        if(event.button() == Qt.MouseButton.LeftButton):
+            if(self.dragging):
+                self.dragging = False
+                global_pos = self.mapToGlobal(event.position())
+                self.grid_window.move_token_label(self, global_pos)
+        event.accept()
 
 class GridWindow(QMainWindow):
-    def __init__(self, hexNode:HextileNode, toolbox:Toolbox):
+    def __init__(self, hex_node:HextileNode, toolbox:Toolbox):
         super().__init__()
-        self.setAcceptDrops(True)
-        self.hexNode = hexNode
-        self.record = self.hexNode.getTileRecord()
         self.toolbox = toolbox
+        self.token_labels = []
         self.logger_ref = self.toolbox.get_logger_ref()
         self.settings_ref = self.toolbox.get_settings_ref()
-        self.seed_ref = self.settings_ref.getSeedRef()
-        self.map_ref = self.toolbox.get_hextile_map_ref()
-        self.all_labels = []
-        self.label_being_dragged = None
-        self.setStyleSheet("background-color:white;");
+        self.tile_size = self.settings_ref.getTileSize()
+        self.hex_node = hex_node
+        self.tile_record = self.hex_node.getTileRecord()
+        self.tile_type = self.tile_record.get_tile_type()
 
+        self.tile_types_ref = self.toolbox.get_tile_types_ref() 
+        self.background_img_path = self.tile_types_ref.get_default_tile_background_by_name(self.tile_type)
 
-        tile_size = int(self.settings_ref.getTileSize())
-        self.rows = tile_size
-        self.cols = tile_size
-        
+        self.screen_width = self.toolbox.get_screen_width()
+        self.screen_height = self.toolbox.get_screen_height()
 
-        self.title = "Grid Window"
-        self.setWindowTitle(self.title)
+        self.middle_x = 0
+        self.middle_y = 0
 
-
-
-        self.token_bar = QDockWidget("TokenBar", self)
-        self.token_bar.setDockLocation(Qt.DockWidgetArea.LeftDockWidgetArea)
-        self.token_bar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
-        self.token_bar.setMinimumHeight(500)
-        self.token_bar.setMaximumWidth(200)
-        self.token_bar.setStyleSheet("background-color:white;");
-
-
-        self.token_bar_container = QWidget()
-        self.token_bar_layout = QVBoxLayout(self.token_bar_container)
-
-
-        self.token_bar.setWidget(self.token_bar_container)
-
-        self.__populate_token_bar()
+        self.snap_positions = []
 
 
         self.main_widget = QWidget()
-        self.token_grid = QGridLayout()
-        self.main_widget.setLayout(self.token_grid)
+        
+        self.toolbar = QToolBar()
+        self.__compute_snap_positions()
+        self.__setup_token_dropdowns()
 
-        #self.scroll = QScrollArea()
-        #self.scroll.setWidget(self.main_widget)
 
-        self.map_ref.positionTokensOnTile()
-        self.__add_tokens_to_layout()
+        self.map_widget = QMapWidget(self.screen_width, self.screen_height, self.tile_size, self.background_img_path)
+
+        self.main_layout = QVBoxLayout()
+        self.main_layout.addWidget(self.toolbar)
+        self.main_layout.addWidget(self.map_widget)
+
+
+        self.main_widget.setLayout(self.main_layout)
+
         self.setCentralWidget(self.main_widget)
 
-    def dragEnterEvent(self, event):
-        event.accept()
 
-    def dropEvent(self, event):
-        widget = event.source()
-        token_record = widget.get_token_record()
-        if not token_record is None:
-            pixmap = widget.pixmap()
-            widget.clear()
+    def move_token_label(self, label, global_pos):
+        local_pos = self.mapFromGlobal(global_pos)
+        local_x = local_pos.x()
+        local_y = local_pos.y()
 
+        new_x = -1
+        new_y = -1
 
-            grid_widget = self.token_grid.parentWidget()
-            drop_pos = grid_widget.mapFromGlobal(event.position().toPoint())
+        min_dist = 100000
+        for pos in self.snap_positions:
+            x = pos[0]
+            y = pos[1]
 
-            closest_row = widget.get_row()
-            closest_col = widget.get_col()
-            min_dist = float('inf')
+            dist = (((local_x - x) ** 2) + ((local_y - y) ** 2)) ** 0.5
 
-            for row in range(self.rows):
-                for col in range(self.cols):
-                    item = self.token_grid.itemAtPosition(row, col)
-                    if not item or not item.widget():
-                        continue
+            if(dist < min_dist):
+                min_dist = dist
+                new_x = x
+                new_y = y
 
-                    w = item.widget()
-                    w_pos = w.pos()
-                    w_center_x = w_pos.x() + w.width() / 2
-                    w_center_y = w_pos.y() + w.height() / 2
-
-
-                    dist = ((drop_pos.x() - w_center_x) ** 2 + (drop_pos.y() - w_center_y) ** 2) ** 0.5
-                    if dist < min_dist:
-                        min_dist = dist
-                        closest_row = row
-                        closest_col = col
-
-            target_item = self.token_grid.itemAtPosition(closest_row, closest_col)
-            if target_item and target_item.widget():
-                target_item.widget().setPixmap(pixmap)
-                token_record.set_position((closest_row, closest_col))
-                target_item.widget().set_token_record(token_record)
-            
+        if(new_x > -1 and new_y > -1):
+            token_record = label.get_token_record()
+            old_pos = token_record.get_position()
+            new_pos = (new_x, new_y)
+            token_record.set_position(new_pos)
+            if(not self.tile_record.check_position_filled(new_pos)):
+                self.tile_record.remove_empty_position(new_pos)
+                self.tile_record.add_empty_position(old_pos)
+                point = QPoint(new_x, new_y)
+                label.move(point)
 
 
-        event.accept()
+    def __compute_snap_positions(self):
+        rows = int(self.screen_height / self.tile_size)
+        cols = int(self.screen_width / self.tile_size)
+        middle_row = int(rows/2)
+        middle_col = int(cols/2)
+        x_count = 0
+        y_count = 0
 
-    def __add_tokens_to_layout(self):
-        all_tokens = self.record.get_all_tokens()
+        for x in range(0, self.screen_width, self.tile_size):
+            x_count += 1
+            y_count = 0
+            for y in range(0, self.screen_height, self.tile_size):
+                y_count += 1
+                self.snap_positions.append((x, y))
 
-        for i in range(0, self.cols+1):
-            for j in range(0, self.rows+1):
-                label = TokenLabel(self.toolbox, parent=self, row=i, col=j, grid_window=self)
-                label.setStyleSheet("QLabel { border: 1px solid black; background-color: white; padding: 5px; }")
-                label.setScaledContents(True)
-                self.token_grid.addWidget(label, i, j)
-
-        for token in all_tokens:
-            x_pos = token.get_x_position()
-            y_pos = token.get_y_position()
-            label = self.token_grid.itemAtPosition(x_pos, y_pos).widget()#TokenLabel(self.toolbox, token_record=token, row=x_pos, col=y_pos, parent=self, grid_window=self)
-            label.setStyleSheet("QLabel { border: 1px solid blue; background-color: white; padding: 5px; }")
-            label.setScaledContents(True)
-            pixmap = QPixmap(token.get_map_asset())
-            label.set_token_record(token)
-            label.setPixmap(pixmap)
-            label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-            self.all_labels.append(label)
+                if(x_count == middle_col and y_count == middle_row):
+                    self.middle_x = x
+                    self.middle_y = y
+        self.tile_record.fill_empty_positions(self.snap_positions)
 
 
-
-    def __populate_token_bar(self):
+    def __setup_token_dropdowns(self):
         token_refs_list = self.toolbox.get_list_of_token_refs()
-        self.open_btns = []
-        count = 0
         for ref in token_refs_list:
-            layout = QHBoxLayout()
             title = ref.get_title_str()
-            label = QLabel(title)
-            open_btn = QPushButton("\u2304")
-            open_btn.setMaximumWidth(20)
-            open_btn.clicked.connect(partial(self.__open_token_dropdown, ref, open_btn,count))
-            self.open_btns.append(open_btn)
-            layout.addWidget(label)
-            layout.addWidget(open_btn)
-            self.token_bar_layout.addLayout(layout)
-            count += 1
-
-    def __open_token_dropdown(self, ref, open_btn, count):
-        tokens = ref.get_tokens_list()
-        layout = QVBoxLayout()
-        for token in tokens:
-            hlayout = QHBoxLayout()
-            name = token["name"]
-            widget = QLabel(name)
-            img = QPushButton()
-            pixmap = QPixmap(token["set_map_asset"])
-            btn_icon = QIcon(pixmap)
-            img.setIcon(btn_icon)
-            img.clicked.connect(partial(self.__add_token_to_window, token))
-            hlayout.addWidget(widget)
-            hlayout.addWidget(img)
-            layout.addLayout(hlayout)
-        #count += 1
-        self.token_bar_layout.insertLayout(count+1, layout)
-        open_btn.setText("^")
-        open_btn.clicked.disconnect()
-        open_btn.clicked.connect(partial(self.__close_token_dropdown, open_btn, layout, ref, count))
-
-    def __close_token_dropdown(self, open_btn, layout, ref, count):
-        while layout.count():
-            item = layout.takeAt(0)
-            child_layout = item.layout()
-            while child_layout.count():
-                child_item = child_layout.takeAt(0)
-                widget = child_item.widget()
-                if not widget is None:
-                    widget.deleteLater()
-            del item
-        layout.deleteLater()
-        open_btn.setText("\u2304")
-        open_btn.clicked.disconnect()
-        open_btn.clicked.connect(partial(self.__open_token_dropdown, ref, open_btn, count))
+            title_str = "Choose a " + title
+            icon_str = ref.get_asset_str()
+            icon = QIcon(icon_str)
+            combo = QComboBox()
+            token_type = ref.get_token_type()
+            combo.currentTextChanged.connect(partial(self.__token_selected, token_ref=ref, combo=combo, token_type=token_type))
+            combo.addItem(icon, title_str)
+            for token in ref.get_tokens_list():
+                name = token["name"]
+                asset_str = token["set_map_asset"]
+                icon = QIcon(asset_str)
+                combo.addItem(icon, name)
+            self.toolbar.addWidget(combo)
 
 
-    # Needs changed
-#    def __init__(self, logger_ref, token_dict:dict, token_type:TokenTypes, record_key:int, position=(0,0)):
-    def __add_token_to_window(self, token):
-        token_record = TokenRecord(self.logger_ref, token, TokenTypes.PLAYER_CHARACTERS, token["key"], position=(600,400))
-        self.hexNode.getTileRecord().add_player_character(token_record)
-
-        pixmap = QPixmap(token_record.get_map_asset())
-
-        label = self.token_grid.itemAtPosition(0, 0).widget()
-        label.setStyleSheet("QLabel { border: 1px solid blue; background-color: white; padding: 5px; }")
-        label.setScaledContents(True)
-        label.set_token_record(token_record)
-        label.setPixmap(pixmap)
-        label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    def __token_selected(self, text, token_ref=None, combo=None, token_type=None):
+        if(not "Choose a" in text):
+            token = token_ref.get_token_by_name(text)
+            token_record = TokenRecord(self.logger_ref, token, token_type, position=(self.middle_x, self.middle_y))
+            self.tile_record.add_token_record(token_record)
+            token_label = TokenLabel(self.toolbox, token_record, self, parent=self.map_widget)
+            asset_path = token_record.get_map_asset()
+            pixmap = QPixmap(asset_path)
+            pixmap = pixmap.scaled(self.tile_size, self.tile_size)
 
 
 
-    """def start_dragging_child(self, label:TokenLabel):
-        self.label_being_dragged = label
+            token_label.setPixmap(pixmap)
+            token_label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
-    def end_dragging_child(self, global_position):
-        local_point = self.mapFromGlobal(global_position)
-        self.label_being_dragged.move(local_point.x(), local_point.y())
-        token_record = self.label_being_dragged.get_token_record()
-        token_record.set_position((local_point.x(), local_point.y()))
-        self.label_being_dragged = None"""
-        
+            token_label.move(self.middle_x, self.middle_y)
+
+            token_label.show()
+            self.token_labels.append(token_label)
+            combo.setCurrentIndex(0)
+
+

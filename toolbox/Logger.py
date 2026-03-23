@@ -1,4 +1,5 @@
 import copy
+from datetime import datetime as dt
 
 class Logger():
     def __init__(self, log_file_path = "logfiles/TemporaryLog.txt", writable=False):
@@ -50,8 +51,12 @@ class Logger():
         return self.log_contents[len(self.log_contents) - 1]
 
     def add_line(self, line:str):
-        self.log_contents.append(line)
-        self.current_session_contents.append(line)
+        now = dt.now()
+        cur_time_str = now.strftime("%Y-%m-%d %H:%M:%S")
+        full_line = line + "  " + cur_time_str
+
+        self.log_contents.append(full_line)
+        self.current_session_contents.append(full_line)
 
     def change_save_path(self, path:str):
         self.save_path = path

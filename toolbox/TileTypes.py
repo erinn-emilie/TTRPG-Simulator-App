@@ -85,6 +85,12 @@ class TileTypes():
         except KeyError:
             return ""
 
+    def get_default_tile_background_by_name(self, tileName:str) -> str:
+        try:
+            return self.tiles_dict[tileName]["default_background"]
+        except KeyError:
+            return ""
+
     def add_new_tile(self, tile_name:str, tile_default_asset:str):
         self.__create_hexagonal_image_mask(tile_default_asset)
         formatted_tile_name = tile_name.upper()
@@ -99,6 +105,7 @@ class TileTypes():
                 "key": highest_key+1,
                 "name": tile_name,
                 "tile_weights": {},
+                "default_background": "",
                 "default_asset": tile_default_asset,
                 "user_assets": {
                     "slot1": "",

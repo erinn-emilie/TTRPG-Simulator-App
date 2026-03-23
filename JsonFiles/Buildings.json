@@ -4,15 +4,15 @@
     "name": "",
     "duplicatable": false,
     "small_fields": {
-      "type": "Tavern",
-      "hours": "24/7",
-      "public?": "Yes",
-      "primary material": "Stone",
-      "name": "Billy Bob's Tavern"
+      "type": "",
+      "hours": "",
+      "public?": "",
+      "primary material": "",
+      "name": "Default"
     },
     "large_fields": {
-      "biography": "Beloved by the whole town.",
-      "notes": "Used to be named William Robert's Tavern."
+      "biography": "",
+      "notes": ""
     },
     "spawn_all": true,
     "spawnable_tiles": [],
@@ -23,7 +23,7 @@
     "base_height_multiplier": 1,
     "base_width_multiplier":  1
   },
-  "BILLY BOB'S TAVERN'": {
+  "BILLY BOB'S TAVERN": {
     "key": 0,
     "name": "Billy Bob's Tavern",
     "duplicatable": false,
