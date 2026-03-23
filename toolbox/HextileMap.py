@@ -363,6 +363,7 @@ class HextileMap():
         min_tokens_per_tile = int(math.ceil(tile_size/8))
         max_tokens_per_tile = int(tile_size)
         record_key = 0
+        self.tokens_on_map.clear()
         for tile in self.tile_list:
             total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
             tile_record = tile.getTileRecord()
