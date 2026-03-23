@@ -64,7 +64,7 @@ class SettingsMenu(QMainWindow):
         self.tile_gen_type_dropdown.setMaximumSize(100,100)
 
         self.old_tile_size = self.settings_ref.getTileSize()
-        self.new_tile_size = -1
+        self.new_tile_size = self.settings_ref.getTileSize()
         self.tile_size_input = QLineEdit(str(self.old_tile_size))
         self.tile_size_input.textEdited.connect(self.__change_tile_size)
 
