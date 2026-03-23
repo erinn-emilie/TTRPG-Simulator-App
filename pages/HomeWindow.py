@@ -23,6 +23,8 @@ from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
 
+from TTRPG_Login_Window import Window #line naomi added to connect login and homepage
+
 import math
 
 
@@ -173,6 +175,8 @@ class HomeWindow(QMainWindow):
         self.customStructuresWindow = None
         self.customNatureWindow = None
 
+        self.login_window = None #Naomi line
+
         self.customTilesButton = QPushButton("Custom Tiles", self.navbar)
         self.customPlayerButton = QPushButton("Custom Player Characters", self.navbar)
         self.customNonPlayerButton = QPushButton("Custom Non-Player Characters", self.navbar)
@@ -182,6 +186,10 @@ class HomeWindow(QMainWindow):
         self.customStructuresButton = QPushButton("Custom Structures", self.navbar)
         self.customNatureButton = QPushButton("Custom Nature", self.navbar)
 
+        #Naomi login button section
+        self.login_btn = QPushButton("Login / Register", self)
+        self.login_btn.clicked.connect(self.__open_login_window)
+        self.map_settings_toolbar.addWidget(self.login_btn)
 
         self.navbarLayout.addWidget(self.customTilesButton)
         self.navbarLayout.addWidget(self.customPlayerButton)
@@ -299,8 +307,11 @@ class HomeWindow(QMainWindow):
 
             print(total_rings)
 
-
-        
+    #Naomi login window-opening method
+    def __open_login_window(self):
+        if self.login_window is None:
+            self.login_window = Window()
+        self.login_window.show()   
 
 
     def __show_custom_tiles_window(self):

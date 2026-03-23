@@ -1,7 +1,9 @@
+
 {
     "DEFAULT": {
         "key": -1,
         "name": "",
+        "duplicatable": false,
         "small_fields": {
             "health": 0,
             "strength": 0,
@@ -15,37 +17,19 @@
             "biography": "",
             "notes": ""
         },
+        "spawn_all": true,
+        "spawnable_tiles": [],
         "large_assets": [],
         "set_map_asset": "",
-        "old_map_assets": []
-    },
-    "ERINN": {
-        "key": 0,
-        "name": "Erinn Keohane",
-        "small_fields": {
-            "health": "0",
-            "strength": "20",
-            "dexterity": "5",
-            "constitution": "12",
-            "intelligence": "12",
-            "wisdom": "9",
-            "really cool field": "yippee"
-        },
-        "large_fields": {
-            "biography": "This is my biography.\n Hello!\nHmmmm I wonder how well this works\nI wonder what happens if I put \\t and then this text\nHow about if i edit it agian\nwill the scroll bar stay this time",
-            "New Notes1": ""
-        },
-        "large_assets": [
-            "assets\\green_man.png",
-            "assets\\red_guy.png",
-            "assets\\DevianArt MTG Swamp Redesign.png"
-        ],
-        "set_map_asset": "assets/smallasset.png",
-        "old_map_assets": []
+        "old_map_assets": [],
+        "excluded_tiles": {},
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     },
     "CALEB": {
         "key": 1,
         "name": "Caleb Wickline",
+        "duplicatable": false,
         "small_fields": {
             "health": "15",
             "strength": "20",
@@ -59,11 +43,48 @@
             "biography": "This is my biography.\n Hello!\n",
             "notes": "This is my notes.\n yippeee\n"
         },
+        "spawn_all": true,
+        "spawnable_tiles": [],
         "large_assets": [
             "assets/bigpic1",
             "assets/bigpic2"
         ],
+        "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\ACM Logo.png",
+        "old_map_assets": [
+            "assets/smallasset.png"
+        ],
+        "excluded_tiles": {},
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
+    },
+    "MR GUY": {
+        "key": 0,
+        "name": "Mr Guy",
+        "duplicatable": false,
+        "small_fields": {
+            "health": "12",
+            "strength": "20",
+            "dexterity": "5",
+            "constitution": "12",
+            "intelligence": "12",
+            "wisdom": "9",
+            "charisma": "13"
+        },
+        "large_fields": {
+            "biography": "This is my biography.",
+            "New Notes": ""
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [
+            "assets\\green_man.png",
+            "assets\\red_guy.png",
+            "assets\\DevianArt MTG Swamp Redesign.png"
+        ],
         "set_map_asset": "assets/smallasset.png",
-        "old_map_assets": []
+        "old_map_assets": [],
+        "excluded_tiles": {},
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     }
 }
