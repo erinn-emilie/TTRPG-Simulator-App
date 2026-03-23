@@ -22,6 +22,7 @@ from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
 from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
+from widgets.LogWidget import LogWidget
 
 from TTRPG_Login_Window import Window #line naomi added to connect login and homepage
 
@@ -115,7 +116,7 @@ class HomeWindow(QMainWindow):
         self.map_settings_toolbar = QToolBar()
         # !!!
         # Looks terrible fix lol
-        self.map_settings_toolbar.setStyleSheet("background-color: lightblue")
+        self.map_settings_toolbar.setStyleSheet("background-color: pink")
         self.map_settings_toolbar.setMinimumHeight(100)
 
         # !!!
@@ -138,18 +139,26 @@ class HomeWindow(QMainWindow):
         self.save_map_btn.clicked.connect(self.__save_map)
         self.map_settings_toolbar.addWidget(self.save_map_btn)
 
+        self.load_map_btn = QPushButton("Load Map", self)
+        self.map_settings_toolbar.addWidget(self.load_map_btn)
+        self.load_map_btn.clicked.connect(self.__load_saved_map)
+
+        self.log_widget_btn = QPushButton("Log Widget", self)
+        self.map_settings_toolbar.addWidget(self.log_widget_btn)
+        self.log_widget_btn.clicked.connect(self.__open_log_widget)
+
 
         self.selected_tiles = []
         self.setMouseTracking(True)
-        self.box_select_btn = QPushButton("Box Select Tiles", self)
+        '''self.box_select_btn = QPushButton("Box Select Tiles", self)
         self.box_select_btn.clicked.connect(self.__toggle_box_select)
-        self.map_settings_toolbar.addWidget(self.box_select_btn)
+        self.map_settings_toolbar.addWidget(self.box_select_btn)'''
 
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.map_settings_toolbar)
 
-        self.ring_select_btn = QPushButton("Ring Select Tiles", self)
+        '''self.ring_select_btn = QPushButton("Ring Select Tiles", self)
         self.ring_select_btn.clicked.connect(self.__toggle_ring_select)
-        self.map_settings_toolbar.addWidget(self.ring_select_btn)
+        self.map_settings_toolbar.addWidget(self.ring_select_btn)'''
 
         self.scroll = QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
@@ -157,7 +166,7 @@ class HomeWindow(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self.main_widget)
 
-        self.navbar = QDockWidget("Navigation", self)
+        self.navbar = QDockWidget("Custom Tokens", self)
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
         self.navbar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.navbar.setMinimumHeight(500)
@@ -175,8 +184,10 @@ class HomeWindow(QMainWindow):
         self.customStructuresWindow = None
         self.customNatureWindow = None
 
-        self.login_window = None #Naomi line
-
+        
+        
+        
+        
         self.customTilesButton = QPushButton("Custom Tiles", self.navbar)
         self.customPlayerButton = QPushButton("Custom Player Characters", self.navbar)
         self.customNonPlayerButton = QPushButton("Custom Non-Player Characters", self.navbar)
@@ -210,9 +221,10 @@ class HomeWindow(QMainWindow):
         self.customStructuresButton.clicked.connect(self.__show_custom_structures_window)
         self.customNatureButton.clicked.connect(self.__show_custom_nature_window)
 
+        
+        self.navbarContainer.setStyleSheet(self.navbarContainerStyleSheet)
         self.navbar.setWidget(self.navbarContainer)
 
-        self.main_widget.setStyleSheet("background-color: pink")
         self.setCentralWidget(self.scroll)
             
 
@@ -379,6 +391,12 @@ class HomeWindow(QMainWindow):
         self.customNatureWindow = None
 
 
+    def __open_log_widget(self):
+        self.log_widget = LogWidget(self.toolbox)
+        self.log_widget.show()
+
+
+
 
     # creates a window of the custom class Settings Menu.
     # !!!
@@ -405,6 +423,16 @@ class HomeWindow(QMainWindow):
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
 
+    def __load_saved_map(self):
+        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name to save the map under!")
+        if ok and map_name:
+            self.map_layout.removeWidget(self.map_widget)
+            self.map_widget = QWidget()
+            self.map_widget.setMinimumSize(3000,3000)
+            self.hextile_map_obj.loadSavedMap(map_name)
+            self.__layout_tiles()
+            self.map_layout.addWidget(self.map_widget)
+
 
     def __layout_tiles(self):
         centerNode = self.hextile_map_obj.getCenterNode()
@@ -417,8 +445,11 @@ class HomeWindow(QMainWindow):
         # This works for now but the placement of the tiles desperately (cant spell)
         # needs to be more dynamic as i have no idea how it would look on another screen
         # size with this configuration and also its just kinda shit practice
-        pivX = 1200    
-        pivY = 1200
+
+        #1200, 100, 200, 175, 210
+        #840, 70, 140, 122, 210
+        pivX = 840    
+        pivY = 840
 
 
         newLabel = self.__create_label(pivotNode)
@@ -426,7 +457,7 @@ class HomeWindow(QMainWindow):
         self.tile_labels_list.append(newLabel)
         pivotNode.setPlacedStatus(True)
         posVecXOffset = 0
-        posVecYOffset = 100
+        posVecYOffset = 70
         pivotNode.setPositionVector((pivX + posVecXOffset, pivY + posVecYOffset))
 
 
@@ -442,78 +473,78 @@ class HomeWindow(QMainWindow):
 
             if(north != None and not north.getPlacedStatus()):
                 newLabel = self.__create_label(north)
-                newLabel.move(pivX, pivY-200)
+                newLabel.move(pivX, pivY-140)
                 self.tile_labels_list.append(newLabel)
                 north.setPlacedStatus(True)
-                north.setPositionVector((pivX + posVecXOffset, pivY-200 + posVecYOffset))
+                north.setPositionVector((pivX + posVecXOffset, pivY-140 + posVecYOffset))
             if(south != None and not south.getPlacedStatus()):
                 newLabel = self.__create_label(south)
-                newLabel.move(pivX, pivY+200)
+                newLabel.move(pivX, pivY+140)
                 self.tile_labels_list.append(newLabel)
                 south.setPlacedStatus(True)
-                south.setPositionVector((pivX + posVecXOffset, pivY+200 + posVecYOffset))
+                south.setPositionVector((pivX + posVecXOffset, pivY+140 + posVecYOffset))
             if(northeast != None and not northeast.getPlacedStatus()):
                 newLabel = self.__create_label(northeast)
-                newLabel.move(pivX+175, pivY-100)
+                newLabel.move(pivX+122, pivY-70)
                 self.tile_labels_list.append(newLabel)
-                northeast.setPositionVector((pivX+200 + posVecXOffset, pivY-100 + posVecYOffset))
+                northeast.setPositionVector((pivX+140 + posVecXOffset, pivY-70 + posVecYOffset))
                 northeast.setPlacedStatus(True)
             if(northwest != None and not northwest.getPlacedStatus()):
                 newLabel = self.__create_label(northwest)
-                newLabel.move(pivX-175, pivY-100)
+                newLabel.move(pivX-122, pivY-70)
                 self.tile_labels_list.append(newLabel)
                 northwest.setPlacedStatus(True)
-                northwest.setPositionVector((pivX-200 + posVecXOffset, pivY-100 + posVecYOffset))
+                northwest.setPositionVector((pivX-140 + posVecXOffset, pivY-70 + posVecYOffset))
             if(southeast != None and not southeast.getPlacedStatus()):
                 newLabel = self.__create_label(southeast)
-                newLabel.move(pivX+175, pivY+100)
+                newLabel.move(pivX+122, pivY+70)
                 self.tile_labels_list.append(newLabel)
                 southeast.setPlacedStatus(True)
-                southeast.setPositionVector((pivX+200+ posVecXOffset, pivY+100+posVecYOffset))
+                southeast.setPositionVector((pivX+140+ posVecXOffset, pivY+70+posVecYOffset))
             if(southwest != None and not southwest.getPlacedStatus()):
                 newLabel = self.__create_label(southwest)
-                newLabel.move(pivX-175, pivY+100)
+                newLabel.move(pivX-122, pivY+70)
                 self.tile_labels_list.append(newLabel)
                 southwest.setPlacedStatus(True)
-                southwest.setPositionVector((pivX-200+posVecXOffset, pivY+100+posVecYOffset))
+                southwest.setPositionVector((pivX-140+posVecXOffset, pivY+70+posVecYOffset))
 
 
             if(curTileNum == numTilesInRing):
                 if(curRingNumber == 0):
                     pivotNode = pivotNode.getNorthNode()
-                    pivY = pivY - 200
+                    pivY = pivY - 140
                 elif(curRingNumber != self.hextile_map_obj.getMapSize().value):
                     pivotNode = pivotNode.getNorthEastNode().getNorthNode()
-                    pivX = pivX + 175
-                    pivY = pivY - 300
+                    pivX = pivX + 122
+                    pivY = pivY - 210
                 curRingNumber += 1
                 numTilesInRing = curRingNumber * 6
                 curTileNum = 0
             else:
                 nextNode = pivotNode.getSouthEastNode()
-                posX = pivX + 175
-                posY = pivY + 100
+                posX = pivX + 122
+                posY = pivY + 70
                 
                 if(nextNode == None or nextNode.getPositionIdx() != curRingNumber or curTileNum > numTilesInRing/2):
                     nextNode = pivotNode.getSouthNode()
                     posX = pivX
-                    posY = pivY + 200
+                    posY = pivY + 140
                     if(nextNode == None or nextNode.getPositionIdx() != curRingNumber or curTileNum > numTilesInRing/2):
                         nextNode = pivotNode.getSouthWestNode()
-                        posX = pivX - 175
-                        posY = pivY + 100
+                        posX = pivX - 122
+                        posY = pivY + 70
                         if(nextNode == None or nextNode.getPositionIdx() != curRingNumber or curTileNum > numTilesInRing/2):
                             nextNode = pivotNode.getNorthWestNode()
-                            posX = pivX - 175
-                            posY = pivY - 100
+                            posX = pivX - 122
+                            posY = pivY - 70
                             if(nextNode == None or nextNode.getPositionIdx() != curRingNumber):
                                 nextNode = pivotNode.getNorthNode()
                                 posX = pivX
-                                posY = pivY - 200
+                                posY = pivY - 140
                                 if(nextNode == None or nextNode.getPositionIdx() != curRingNumber):
                                     nextNode = pivotNode.getNorthEastNode()
-                                    posX = pivX + 175
-                                    posY = pivY - 100
+                                    posX = pivX + 122
+                                    posY = pivY - 70
                 pivX = posX
                 pivY = posY
                 pivotNode = nextNode
@@ -529,7 +560,7 @@ class HomeWindow(QMainWindow):
         label.setPixmap(pixmap)
         label.setContentsMargins(0,0,0,0)
         label.setScaledContents(True)
-        label.setFixedSize(225,225)
+        label.setFixedSize(157,157)
         label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         label.installEventFilter(self)        
         return label
