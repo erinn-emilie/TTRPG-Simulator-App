@@ -60,6 +60,15 @@ class TokenLabel(QLabel):
             drag.setMimeData(mime)
             drag.exec(Qt.DropAction.MoveAction)
 
+    def mousePressEvent(self, event):
+        if(event.buttons() == Qt.MouseButton.RightButton):
+            self.token_window = TokenRecordContainerWidget(self.token_record, self.toolbox)
+            self.scroll = QScrollArea()
+            self.scroll.setWidget(self.token_window)
+            self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            self.scroll.setWidgetResizable(True)
+            self.scroll.show()
+
 
 
 
@@ -79,9 +88,9 @@ class GridWindow(QMainWindow):
         self.setStyleSheet("background-color:white;");
 
 
-        sqrt_tile_size = math.floor(math.sqrt(self.settings_ref.getTileSize()))
-        self.rows = sqrt_tile_size
-        self.cols = sqrt_tile_size
+        tile_size = int(self.settings_ref.getTileSize())
+        self.rows = tile_size
+        self.cols = tile_size
         
 
         self.title = "Grid Window"
@@ -109,6 +118,9 @@ class GridWindow(QMainWindow):
         self.main_widget = QWidget()
         self.token_grid = QGridLayout()
         self.main_widget.setLayout(self.token_grid)
+
+        #self.scroll = QScrollArea()
+        #self.scroll.setWidget(self.main_widget)
 
         self.map_ref.positionTokensOnTile()
         self.__add_tokens_to_layout()

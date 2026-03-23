@@ -54,7 +54,10 @@ class Logger():
         self.current_session_contents.append(line)
 
     def change_save_path(self, path:str):
-        self.save_path(path)
+        self.save_path = path
+
+    def save_log(self):
+        self.__rewrite_log_file()
 
     def open_new_log(self, new_file_path, save_old_log=True):
         if(save_old_log):

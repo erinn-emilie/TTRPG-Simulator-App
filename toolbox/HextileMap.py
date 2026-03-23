@@ -360,9 +360,8 @@ class HextileMap():
 
     def __populateTilesRandomSettings(self):
         tile_size = self.settings.getTileSize()
-        min_tokens_per_tile = 0
-        max_tokens_per_tile = math.ceil(tile_size/2)
-        rows_cols = math.ceil(tile_size/4)
+        min_tokens_per_tile = int(math.ceil(tile_size/8))
+        max_tokens_per_tile = int(tile_size)
         record_key = 0
         for tile in self.tile_list:
             total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
@@ -444,9 +443,9 @@ class HextileMap():
 
     def positionTokensOnTile(self):
         self.logger_ref.set_writable_status(False)
-        tile_size = self.settings.getTileSize()
+        tile_size = int(self.settings.getTileSize())
 
-        sqrt_tile_size = math.floor(math.sqrt(tile_size))
+        #sqrt_tile_size = math.floor(math.sqrt(tile_size))
 
 
         for tile in self.tile_list:
@@ -454,12 +453,12 @@ class HextileMap():
             all_tokens = tile_record.get_all_tokens()
 
             for token in all_tokens:
-                x = self.seed.getOtherRandInt(0, sqrt_tile_size)
-                y = self.seed.getOtherRandInt(0, sqrt_tile_size)
+                x = self.seed.getOtherRandInt(0, tile_size)
+                y = self.seed.getOtherRandInt(0, tile_size)
                 iteration = 0
                 while(not tile_record.check_position((x, y))):
-                    x = self.seed.getOtherRandInt(0, sqrt_tile_size)
-                    y = self.seed.getOtherRandInt(0, sqrt_tile_size)
+                    x = self.seed.getOtherRandInt(0, tile_size)
+                    y = self.seed.getOtherRandInt(0, tile_size)
                     iteration += 1
                     if iteration == 50:
                         break
@@ -648,6 +647,9 @@ class HextileMap():
                 cur_record = cur_node.getTileRecord()
 
         final_dict = {map_name: all_tiles_dict}
+
+        self.logger_ref.change_save_path("logfiles/" + map_name + ".txt")
+        self.logger_ref.save_log()
         with open(self.JSON_SAVE_FILE, 'w') as file: 
             json.dump(final_dict, file, indent=4)
 

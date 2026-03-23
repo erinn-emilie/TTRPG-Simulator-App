@@ -545,11 +545,10 @@ class TileContainerWidget(QWidget):
 
 
 class TokenRecordContainerWidget(QWidget):
-    def __init__(self, token_record, toolbox:Toolbox, token_class_ref):
+    def __init__(self, token_record, toolbox:Toolbox):
         super().__init__()
         self.toolbox = toolbox
         self.token_record = token_record
-        self.token_class_ref = token_class_ref
         self.setStyleSheet("""
             background-color: pink;
         """)
