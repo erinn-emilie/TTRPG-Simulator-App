@@ -160,6 +160,7 @@ class HextileMap():
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
+        self.tile_list.clear()
         self.tile_list.append(curNode)
         while(curRingNumber < size):
             curTileNum += 1
@@ -359,6 +360,7 @@ class HextileMap():
 
 
     def __populateTilesRandomSettings(self):
+        self.logger_ref.set_writable_status(False)
         tile_size = self.settings.getTileSize()
         min_tokens_per_tile = int(math.ceil(tile_size/8))
         max_tokens_per_tile = int(tile_size)
@@ -441,6 +443,7 @@ class HextileMap():
                         tile_record.add_structure_token(token_record)
                     case TokenTypes.NATURE:
                         tile_record.add_nature_token(token_record)
+        self.logger_ref.set_writable_status(True)
 
     def positionTokensOnTile(self):
         self.logger_ref.set_writable_status(False)

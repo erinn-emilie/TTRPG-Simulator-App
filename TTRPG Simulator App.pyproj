@@ -38,7 +38,7 @@
     <Compile Include="pages\HomeWindow.py" />
     <Compile Include="toolbox\Seed.py" />
     <Compile Include="toolbox\Settings.py" />
-    <Compile Include="widgets\diceroll.py" />
+    <Compile Include="widgets\DiceRoller.py" />
     <Compile Include="widgets\LogWidget.py" />
     <Compile Include="widgets\SettingsMenu.py" />
     <Compile Include="TileRecord.py" />

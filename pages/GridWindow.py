@@ -132,39 +132,41 @@ class GridWindow(QMainWindow):
     def dropEvent(self, event):
         widget = event.source()
         token_record = widget.get_token_record()
-        pixmap = widget.pixmap()
-        widget.clear()
+        if not token_record is None:
+            pixmap = widget.pixmap()
+            widget.clear()
 
 
-        grid_widget = self.token_grid.parentWidget()
-        drop_pos = grid_widget.mapFromGlobal(event.position().toPoint())
+            grid_widget = self.token_grid.parentWidget()
+            drop_pos = grid_widget.mapFromGlobal(event.position().toPoint())
 
-        closest_row = widget.get_row()
-        closest_col = widget.get_col()
-        min_dist = float('inf')
+            closest_row = widget.get_row()
+            closest_col = widget.get_col()
+            min_dist = float('inf')
 
-        for row in range(self.rows):
-            for col in range(self.cols):
-                item = self.token_grid.itemAtPosition(row, col)
-                if not item or not item.widget():
-                    continue
+            for row in range(self.rows):
+                for col in range(self.cols):
+                    item = self.token_grid.itemAtPosition(row, col)
+                    if not item or not item.widget():
+                        continue
 
-                w = item.widget()
-                w_pos = w.pos()
-                w_center_x = w_pos.x() + w.width() / 2
-                w_center_y = w_pos.y() + w.height() / 2
+                    w = item.widget()
+                    w_pos = w.pos()
+                    w_center_x = w_pos.x() + w.width() / 2
+                    w_center_y = w_pos.y() + w.height() / 2
 
 
-                dist = ((drop_pos.x() - w_center_x) ** 2 + (drop_pos.y() - w_center_y) ** 2) ** 0.5
-                if dist < min_dist:
-                    min_dist = dist
-                    closest_row = row
-                    closest_col = col
+                    dist = ((drop_pos.x() - w_center_x) ** 2 + (drop_pos.y() - w_center_y) ** 2) ** 0.5
+                    if dist < min_dist:
+                        min_dist = dist
+                        closest_row = row
+                        closest_col = col
 
-        target_item = self.token_grid.itemAtPosition(closest_row, closest_col)
-        if target_item and target_item.widget():
-            target_item.widget().setPixmap(pixmap)
-            target_item.widget().set_token_record(token_record)
+            target_item = self.token_grid.itemAtPosition(closest_row, closest_col)
+            if target_item and target_item.widget():
+                target_item.widget().setPixmap(pixmap)
+                token_record.set_position((closest_row, closest_col))
+                target_item.widget().set_token_record(token_record)
             
 
 
@@ -259,7 +261,7 @@ class GridWindow(QMainWindow):
         label = self.token_grid.itemAtPosition(0, 0).widget()
         label.setStyleSheet("QLabel { border: 1px solid blue; background-color: white; padding: 5px; }")
         label.setScaledContents(True)
-        label.set_token_record(token)
+        label.set_token_record(token_record)
         label.setPixmap(pixmap)
         label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 

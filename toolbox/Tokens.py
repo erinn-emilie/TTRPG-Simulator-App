@@ -80,6 +80,7 @@ class Tokens():
             if(field != "key" and field != "name"):
                 new_token[field] = default_token[field]
             self.tokens_dict[new_name.upper()] = new_token
+        self.tokens_list.append(new_token)
         self.__update_json_file()
         return self.tokens_dict[new_name.upper()]
 

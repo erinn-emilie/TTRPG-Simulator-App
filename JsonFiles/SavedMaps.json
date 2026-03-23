@@ -3,56 +3,254 @@
         "0": {
             "tokens": [
                 {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
+                    "Gerald": {
+                        "type": "NonPlayer Characters",
+                        "key": 2,
                         "x_position": 10,
-                        "y_position": 1
+                        "y_position": 0
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 7
+                    }
+                },
+                {
+                    "Duck Statue": {
+                        "type": "Structures",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 3
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 8
                     }
                 },
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 8,
-                        "y_position": 7
+                        "x_position": 7,
+                        "y_position": 1
+                    }
+                },
+                {
+                    "Caleb Wickline": {
+                        "type": "Player Characters",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 4
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "HILLS",
+            "type_key": 5
         },
         "1": {
             "tokens": [
                 {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
+                    "Gerald": {
+                        "type": "NonPlayer Characters",
+                        "key": 2,
                         "x_position": 10,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Duck Statue": {
+                        "type": "Structures",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 7,
                         "y_position": 1,
                         "modified": false
                     }
                 },
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "Caleb Wickline": {
+                        "type": "Player Characters",
                         "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
+                        "x_position": 6,
+                        "y_position": 4,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "HILLS",
+            "type_key": 5
         },
         "2": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "3": {
             "tokens": [
                 {
-                    "Billy Bob's Tavern": {
-                        "type": "Buildings",
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Mr Guy": {
+                        "type": "Player Characters",
                         "key": 0,
                         "x_position": 0,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "4": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "5": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "6": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "7": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "8": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "9": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 7,
                         "y_position": 2,
                         "modified": false
                     }
@@ -61,98 +259,8 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Gerald": {
-                        "type": "NonPlayer Characters",
-                        "key": 2,
-                        "x_position": 5,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "Duck Statue": {
-                        "type": "Structures",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "3": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 10,
+                        "x_position": 7,
                         "y_position": 0,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "4": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "5": {
-            "tokens": [
-                {
-                    "Mr Guy": {
-                        "type": "Player Characters",
-                        "key": 0,
-                        "x_position": 9,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 10,
                         "modified": false
                     }
                 }
@@ -160,125 +268,38 @@
             "type_str": "FOREST",
             "type_key": 3
         },
-        "6": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "7": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WASTELAND",
-            "type_key": 9
-        },
-        "8": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "9": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
         "10": {
             "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 3,
-                        "y_position": 10,
+                        "x_position": 0,
+                        "y_position": 5,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "FOREST",
+            "type_key": 3
         },
         "11": {
             "tokens": [
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
-                        "x_position": 5,
-                        "y_position": 3,
+                        "x_position": 4,
+                        "y_position": 2,
                         "modified": false
                     }
                 },
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 8,
-                        "y_position": 5,
+                        "x_position": 9,
+                        "y_position": 1,
                         "modified": false
                     }
                 }
@@ -289,10 +310,10 @@
         "12": {
             "tokens": [
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 4,
+                        "x_position": 0,
                         "y_position": 2,
                         "modified": false
                     }
@@ -301,7 +322,16 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 3,
+                        "x_position": 2,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
                         "y_position": 8,
                         "modified": false
                     }
@@ -310,86 +340,17 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "13": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "14": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "15": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 9,
+                        "x_position": 3,
                         "y_position": 9,
                         "modified": false
                     }
                 },
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "Dedra Meero": {
+                        "type": "Monsters",
                         "key": 1,
-                        "x_position": 7,
+                        "x_position": 1,
                         "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "FOREST",
-            "type_key": 3
-        },
-        "16": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 2,
                         "modified": false
                     }
                 },
@@ -398,81 +359,30 @@
                         "type": "Animals",
                         "key": 1,
                         "x_position": 0,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "17": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "18": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 5,
                         "y_position": 9,
                         "modified": false
                     }
                 },
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
                         "x_position": 5,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "13": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
                         "y_position": 10,
                         "modified": false
                     }
@@ -482,22 +392,132 @@
                         "type": "Monsters",
                         "key": 1,
                         "x_position": 10,
-                        "y_position": 7,
+                        "y_position": 10,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "HILLS",
+            "type_key": 5
         },
-        "19": {
+        "14": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "15": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "16": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "17": {
             "tokens": [
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 0,
-                        "y_position": 4,
+                        "x_position": 5,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "18": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "19": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 5,
                         "modified": false
                     }
                 }
@@ -508,10 +528,28 @@
         "20": {
             "tokens": [
                 {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 3,
+                        "x_position": 4,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
                         "y_position": 4,
                         "modified": false
                     }
@@ -520,8 +558,23 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 7,
+                        "x_position": 0,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "21": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 2,
                         "modified": false
                     }
                 },
@@ -529,8 +582,8 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 9,
+                        "x_position": 0,
+                        "y_position": 4,
                         "modified": false
                     }
                 },
@@ -539,37 +592,22 @@
                         "type": "Monsters",
                         "key": 1,
                         "x_position": 3,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
-        },
-        "21": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 10,
+                        "y_position": 7,
                         "modified": false
                     }
                 },
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 7,
-                        "y_position": 8,
+                        "x_position": 1,
+                        "y_position": 1,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
         "22": {
             "tokens": [
@@ -577,38 +615,26 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 9,
+                        "x_position": 3,
+                        "y_position": 0,
                         "modified": false
                     }
                 },
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 9,
+                        "x_position": 5,
                         "y_position": 1,
                         "modified": false
                     }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "23": {
+            "tokens": [
                 {
                     "Taurus": {
                         "type": "Animals",
@@ -617,22 +643,37 @@
                         "y_position": 3,
                         "modified": false
                     }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 2,
+                        "modified": false
+                    }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "FOREST",
+            "type_key": 3
         },
-        "23": {
+        "24": {
             "tokens": [
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 0,
-                        "y_position": 8,
+                        "x_position": 6,
+                        "y_position": 0,
                         "modified": false
                     }
-                },
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "25": {
+            "tokens": [
                 {
                     "Taurus": {
                         "type": "Animals",
@@ -641,61 +682,13 @@
                         "y_position": 5,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "24": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 1,
-                        "modified": false
-                    }
                 },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "25": {
-            "tokens": [
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 9,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 6,
+                        "x_position": 3,
+                        "y_position": 1,
                         "modified": false
                     }
                 }
@@ -706,35 +699,64 @@
         "26": {
             "tokens": [
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "Dedra Meero": {
+                        "type": "Monsters",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 0,
+                        "x_position": 0,
+                        "y_position": 2,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "FOREST",
+            "type_key": 3
         },
         "27": {
+            "tokens": [],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "28": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "29": {
             "tokens": [
                 {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 3,
-                        "y_position": 10,
+                        "x_position": 7,
+                        "y_position": 3,
                         "modified": false
                     }
                 },
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 7,
-                        "y_position": 9,
+                        "x_position": 8,
+                        "y_position": 6,
                         "modified": false
                     }
                 },
@@ -742,23 +764,23 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 5,
-                        "y_position": 10,
+                        "x_position": 7,
+                        "y_position": 2,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "HILLS",
+            "type_key": 5
         },
-        "28": {
+        "30": {
             "tokens": [
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 7,
-                        "y_position": 5,
+                        "x_position": 10,
+                        "y_position": 6,
                         "modified": false
                     }
                 }
@@ -766,27 +788,216 @@
             "type_str": "WATER",
             "type_key": 10
         },
-        "29": {
+        "31": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "32": {
             "tokens": [
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
+                        "x_position": 9,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "33": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "34": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "35": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "36": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
                         "x_position": 5,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "37": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "38": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
                         "y_position": 0,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "WATER",
-            "type_key": 10
+            "type_str": "HILLS",
+            "type_key": 5
         },
-        "30": {
-            "tokens": [],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "31": {
+        "39": {
             "tokens": [
                 {
                     "Dedra Meero": {
@@ -801,173 +1012,67 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 5,
+                        "x_position": 3,
+                        "y_position": 6,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "WATER",
-            "type_key": 10
+            "type_str": "ICELAND",
+            "type_key": 6
         },
-        "32": {
+        "40": {
             "tokens": [
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "Dedra Meero": {
+                        "type": "Monsters",
                         "key": 1,
-                        "x_position": 4,
+                        "x_position": 5,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "41": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
                         "y_position": 7,
                         "modified": false
                     }
                 },
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WASTELAND",
-            "type_key": 9
-        },
-        "33": {
-            "tokens": [
-                {
                     "A Tree": {
                         "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "34": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
                         "key": 1,
                         "x_position": 6,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 5,
+                        "y_position": 1,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
-        "35": {
+        "42": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "43": {
             "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "36": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 3,
+                        "x_position": 0,
+                        "y_position": 7,
                         "modified": false
                     }
                 },
@@ -976,37 +1081,40 @@
                         "type": "Nature",
                         "key": 1,
                         "x_position": 7,
-                        "y_position": 7,
+                        "y_position": 5,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "FOREST",
+            "type_key": 3
         },
-        "37": {
+        "44": {
             "tokens": [
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 7,
+                        "x_position": 3,
+                        "y_position": 2,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "38": {
-            "tokens": [
+                },
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
                         "x_position": 4,
-                        "y_position": 2,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 1,
                         "modified": false
                     }
                 },
@@ -1014,23 +1122,26 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 3,
+                        "x_position": 8,
+                        "y_position": 7,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "39": {
-            "tokens": [
+                },
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 6,
-                        "y_position": 8,
+                        "x_position": 10,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 1,
                         "modified": false
                     }
                 },
@@ -1039,250 +1150,40 @@
                         "type": "Nature",
                         "key": 1,
                         "x_position": 2,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "40": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 7,
                         "y_position": 0,
                         "modified": false
                     }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "45": {
+            "tokens": [
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
                         "x_position": 0,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "41": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "42": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 9,
+                        "y_position": 1,
                         "modified": false
                     }
                 },
                 {
                     "Taurus": {
                         "type": "Animals",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "43": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
                         "key": 1,
                         "x_position": 1,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "TUNDRA",
-            "type_key": 8
-        },
-        "44": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
                         "y_position": 8,
                         "modified": false
                     }
                 },
                 {
-                    "A Tree": {
-                        "type": "Nature",
+                    "Dedra Meero": {
+                        "type": "Monsters",
                         "key": 1,
-                        "x_position": 5,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "TUNDRA",
-            "type_key": 8
-        },
-        "45": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 2,
+                        "x_position": 8,
+                        "y_position": 3,
                         "modified": false
                     }
                 }
@@ -1291,51 +1192,37 @@
             "type_key": 5
         },
         "46": {
-            "tokens": [],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "47": {
             "tokens": [
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
+                        "x_position": 7,
                         "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 7,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "HILLS",
+            "type_key": 5
         },
-        "48": {
+        "47": {
             "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 6,
-                        "y_position": 5,
+                        "x_position": 9,
+                        "y_position": 8,
                         "modified": false
                     }
                 },
@@ -1349,8 +1236,41 @@
                     }
                 }
             ],
-            "type_str": "HILLS",
-            "type_key": 5
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "48": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
         },
         "49": {
             "tokens": [
@@ -1358,8 +1278,17 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 5,
-                        "y_position": 0,
+                        "x_position": 8,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 9,
                         "modified": false
                     }
                 },
@@ -1367,14 +1296,14 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 5,
+                        "x_position": 4,
+                        "y_position": 8,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "WATER",
-            "type_key": 10
+            "type_str": "ICELAND",
+            "type_key": 6
         },
         "50": {
             "tokens": [
@@ -1382,17 +1311,17 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 7,
+                        "x_position": 8,
+                        "y_position": 10,
                         "modified": false
                     }
                 },
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
-                        "x_position": 2,
-                        "y_position": 7,
+                        "x_position": 9,
+                        "y_position": 10,
                         "modified": false
                     }
                 },
@@ -1401,7 +1330,22 @@
                         "type": "Nature",
                         "key": 1,
                         "x_position": 3,
-                        "y_position": 9,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "51": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 10,
                         "modified": false
                     }
                 }
@@ -1409,38 +1353,23 @@
             "type_str": "HILLS",
             "type_key": 5
         },
-        "51": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
         "52": {
             "tokens": [
                 {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 2,
-                        "y_position": 1,
+                        "x_position": 0,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
                         "modified": false
                     }
                 },
@@ -1448,8 +1377,8 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 6,
+                        "x_position": 5,
+                        "y_position": 2,
                         "modified": false
                     }
                 },
@@ -1457,37 +1386,7 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 3,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "53": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
-        },
-        "54": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 9,
+                        "x_position": 6,
                         "y_position": 10,
                         "modified": false
                     }
@@ -1496,8 +1395,74 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 6,
+                        "x_position": 9,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "53": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
                         "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "54": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 7,
                         "modified": false
                     }
                 }
@@ -1506,9 +1471,37 @@
             "type_key": 10
         },
         "55": {
-            "tokens": [],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
         },
         "56": {
             "tokens": [
@@ -1516,26 +1509,32 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
                         "x_position": 2,
                         "y_position": 1,
                         "modified": false
                     }
-                },
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "57": {
+            "tokens": [
                 {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
+                        "x_position": 6,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
                         "x_position": 0,
-                        "y_position": 7,
+                        "y_position": 9,
                         "modified": false
                     }
                 },
@@ -1543,974 +1542,65 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 0,
-                        "y_position": 10,
+                        "x_position": 8,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 8,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "57": {
-            "tokens": [],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "JUNGLE",
+            "type_key": 7
         },
         "58": {
             "tokens": [
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 1,
+                        "x_position": 3,
+                        "y_position": 0,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "PLAINS",
-            "type_key": 0
+            "type_str": "JUNGLE",
+            "type_key": 7
         },
         "59": {
             "tokens": [
                 {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
                     "Dedra Meero": {
                         "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "60": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "61": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "62": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "63": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
                         "key": 1,
                         "x_position": 9,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "64": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "65": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "66": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "67": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "68": {
-            "tokens": [],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "69": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "70": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "TUNDRA",
-            "type_key": 8
-        },
-        "71": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "JUNGLE",
-            "type_key": 7
-        },
-        "72": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
                         "y_position": 2,
                         "modified": false
                     }
                 },
                 {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "JUNGLE",
-            "type_key": 7
-        },
-        "73": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "FOREST",
-            "type_key": 3
-        },
-        "74": {
-            "tokens": [
-                {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
                         "x_position": 6,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
                         "y_position": 6,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "75": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "76": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 8,
-                        "modified": false
-                    }
                 },
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "77": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "78": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "79": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "80": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
                         "key": 1,
                         "x_position": 1,
                         "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "81": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "82": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "83": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "DESERT",
-            "type_key": 4
-        },
-        "84": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
-        },
-        "85": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "86": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
-        },
-        "87": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "88": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "89": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "90": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "PLAINS",
-            "type_key": 0
-        },
-        "91": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "92": {
-            "tokens": [],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "93": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 10,
                         "modified": false
                     }
                 }
@@ -2518,19 +1608,39 @@
             "type_str": "WASTELAND",
             "type_key": 9
         },
-        "94": {
+        "60": {
             "tokens": [],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
+            "type_str": "FOREST",
+            "type_key": 3
         },
-        "95": {
+        "61": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "62": {
             "tokens": [
                 {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 9,
-                        "y_position": 5,
+                        "x_position": 0,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "63": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 2,
                         "modified": false
                     }
                 },
@@ -2538,7 +1648,283 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
+                        "x_position": 3,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "64": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
                         "x_position": 9,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "65": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "66": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "67": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "68": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "69": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "70": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "71": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "72": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "73": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
                         "y_position": 7,
                         "modified": false
                     }
@@ -2547,23 +1933,8 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 7,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "WATER",
-            "type_key": 10
-        },
-        "96": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 3,
+                        "x_position": 3,
+                        "y_position": 1,
                         "modified": false
                     }
                 }
@@ -2571,13 +1942,140 @@
             "type_str": "HILLS",
             "type_key": 5
         },
-        "97": {
+        "74": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "75": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "76": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "77": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "78": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "79": {
             "tokens": [
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 10,
+                        "x_position": 6,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 5,
                         "y_position": 10,
                         "modified": false
                     }
@@ -2586,8 +2084,8 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 7,
-                        "y_position": 9,
+                        "x_position": 3,
+                        "y_position": 7,
                         "modified": false
                     }
                 }
@@ -2595,8 +2093,136 @@
             "type_str": "HILLS",
             "type_key": 5
         },
-        "98": {
+        "80": {
             "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "81": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "82": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "83": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "84": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "85": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
                 {
                     "Taurus": {
                         "type": "Animals",
@@ -2610,13 +2236,55 @@
             "type_str": "JUNGLE",
             "type_key": 7
         },
-        "99": {
+        "86": {
             "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 4,
+                        "x_position": 10,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "87": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
                         "y_position": 3,
                         "modified": false
                     }
@@ -2625,7 +2293,63 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 3,
+                        "x_position": 5,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "88": {
+            "tokens": [],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "89": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 5,
                         "y_position": 1,
                         "modified": false
                     }
@@ -2634,23 +2358,41 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 10,
+                        "x_position": 2,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
                         "y_position": 9,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "WATER",
-            "type_key": 10
+            "type_str": "JUNGLE",
+            "type_key": 7
         },
-        "100": {
+        "90": {
             "tokens": [
                 {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 8,
-                        "y_position": 6,
+                        "x_position": 7,
+                        "y_position": 1,
                         "modified": false
                     }
                 },
@@ -2658,32 +2400,41 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 9,
-                        "y_position": 8,
+                        "x_position": 0,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 2,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "PLAINS",
-            "type_key": 0
+            "type_str": "HILLS",
+            "type_key": 5
         },
-        "101": {
+        "91": {
             "tokens": [
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 10,
+                        "x_position": 9,
+                        "y_position": 0,
                         "modified": false
                     }
                 },
@@ -2692,22 +2443,49 @@
                         "type": "Monsters",
                         "key": 1,
                         "x_position": 5,
-                        "y_position": 8,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Character": {
+                        "type": "Player Characters",
+                        "key": 3,
+                        "x_position": 5,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Character": {
+                        "type": "Player Characters",
+                        "key": 3,
+                        "x_position": 4,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Player Characters",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 4,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "SWAMP",
-            "type_key": 2
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
-        "102": {
+        "92": {
             "tokens": [
                 {
-                    "A Tree": {
-                        "type": "Nature",
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
-                        "x_position": 9,
-                        "y_position": 10,
+                        "x_position": 7,
+                        "y_position": 6,
                         "modified": false
                     }
                 },
@@ -2715,7 +2493,115 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 8,
+                        "x_position": 4,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "93": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "94": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "95": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
                         "y_position": 6,
                         "modified": false
                     }
@@ -2724,47 +2610,14 @@
             "type_str": "TUNDRA",
             "type_key": 8
         },
-        "103": {
+        "96": {
             "tokens": [
                 {
-                    "Dedra Meero": {
-                        "type": "Monsters",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 5,
+                        "x_position": 0,
                         "y_position": 5,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "104": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 6,
                         "modified": false
                     }
                 }
@@ -2772,218 +2625,76 @@
             "type_str": "JUNGLE",
             "type_key": 7
         },
-        "105": {
+        "97": {
             "tokens": [],
-            "type_str": "JUNGLE",
-            "type_key": 7
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
-        "106": {
+        "98": {
             "tokens": [
                 {
-                    "A Tree": {
-                        "type": "Nature",
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
+                        "x_position": 6,
                         "y_position": 8,
                         "modified": false
                     }
                 },
                 {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 4,
+                        "x_position": 6,
+                        "y_position": 6,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "PLAINS",
-            "type_key": 0
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
-        "107": {
+        "99": {
             "tokens": [],
-            "type_str": "WATER",
-            "type_key": 10
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
-        "108": {
+        "100": {
             "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 5,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "109": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "110": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                },
                 {
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
                         "x_position": 2,
-                        "y_position": 2,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "111": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
                         "y_position": 0,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "HILLS",
-            "type_key": 5
-        },
-        "112": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 3,
-                        "modified": false
-                    }
                 },
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "101": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "102": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
                         "x_position": 7,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "113": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "114": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 4,
                         "y_position": 0,
                         "modified": false
                     }
@@ -2991,192 +2702,9 @@
                 {
                     "A Tree": {
                         "type": "Nature",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 0,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 2,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 10,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "115": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 10,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 6,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "116": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 8,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
                         "key": 1,
                         "x_position": 1,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "SWAMP",
-            "type_key": 2
-        },
-        "117": {
-            "tokens": [
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 4,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 4,
-                        "y_position": 3,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
-        },
-        "118": {
-            "tokens": [
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "DESERT",
-            "type_key": 4
-        },
-        "119": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 7,
-                        "y_position": 10,
+                        "y_position": 2,
                         "modified": false
                     }
                 },
@@ -3184,17 +2712,8 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 8,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 8,
-                        "y_position": 6,
+                        "x_position": 6,
+                        "y_position": 0,
                         "modified": false
                     }
                 },
@@ -3202,8 +2721,8 @@
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 2,
-                        "y_position": 4,
+                        "x_position": 10,
+                        "y_position": 1,
                         "modified": false
                     }
                 }
@@ -3211,29 +2730,14 @@
             "type_str": "FOREST",
             "type_key": 3
         },
-        "120": {
-            "tokens": [
-                {
-                    "A Tree": {
-                        "type": "Nature",
-                        "key": 1,
-                        "x_position": 3,
-                        "y_position": 1,
-                        "modified": false
-                    }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "121": {
+        "103": {
             "tokens": [
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 1,
+                        "x_position": 7,
+                        "y_position": 6,
                         "modified": false
                     }
                 },
@@ -3241,38 +2745,74 @@
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
-                        "x_position": 1,
-                        "y_position": 6,
+                        "x_position": 10,
+                        "y_position": 7,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "ICELAND",
-            "type_key": 6
+            "type_str": "FOREST",
+            "type_key": 3
         },
-        "122": {
+        "104": {
             "tokens": [
                 {
-                    "A Tree": {
-                        "type": "Nature",
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
-                        "x_position": 4,
-                        "y_position": 2,
+                        "x_position": 8,
+                        "y_position": 5,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "ICELAND",
-            "type_key": 6
-        },
-        "123": {
-            "tokens": [
+                },
                 {
                     "Dedra Meero": {
                         "type": "Monsters",
                         "key": 1,
                         "x_position": 2,
-                        "y_position": 1,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "105": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 4,
                         "modified": false
                     }
                 },
@@ -3281,7 +2821,465 @@
                         "type": "Animals",
                         "key": 1,
                         "x_position": 7,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "106": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
                         "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "107": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "108": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "109": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "110": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "111": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "112": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "113": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "114": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "115": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 6,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 2,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "116": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "117": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "118": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 3,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 9,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 0,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "119": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 1,
+                        "y_position": 7,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "120": {
+            "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 5,
                         "modified": false
                     }
                 },
@@ -3293,19 +3291,13 @@
                         "y_position": 4,
                         "modified": false
                     }
-                }
-            ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
-        },
-        "124": {
-            "tokens": [
+                },
                 {
-                    "Taurus": {
-                        "type": "Animals",
+                    "A Tree": {
+                        "type": "Nature",
                         "key": 1,
-                        "x_position": 10,
-                        "y_position": 8,
+                        "x_position": 3,
+                        "y_position": 1,
                         "modified": false
                     }
                 },
@@ -3313,26 +3305,8 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 9,
-                        "y_position": 9,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 9,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Taurus": {
-                        "type": "Animals",
-                        "key": 1,
-                        "x_position": 5,
-                        "y_position": 8,
+                        "x_position": 7,
+                        "y_position": 5,
                         "modified": false
                     }
                 },
@@ -3340,41 +3314,32 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 0,
+                        "x_position": 8,
                         "y_position": 7,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
+            "type_str": "JUNGLE",
+            "type_key": 7
         },
-        "125": {
+        "121": {
             "tokens": [
                 {
                     "A Tree": {
                         "type": "Nature",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 5,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
                         "key": 1,
                         "x_position": 2,
-                        "y_position": 7,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 0,
-                        "y_position": 6,
-                        "modified": false
-                    }
-                },
-                {
-                    "Dedra Meero": {
-                        "type": "Monsters",
-                        "key": 1,
-                        "x_position": 1,
-                        "y_position": 9,
+                        "y_position": 2,
                         "modified": false
                     }
                 },
@@ -3386,19 +3351,129 @@
                         "y_position": 1,
                         "modified": false
                     }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 5,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 0,
+                        "y_position": 4,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 6,
+                        "modified": false
+                    }
                 }
             ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
+            "type_str": "TUNDRA",
+            "type_key": 8
         },
-        "126": {
+        "122": {
             "tokens": [
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
                 {
                     "Taurus": {
                         "type": "Animals",
                         "key": 1,
                         "x_position": 1,
-                        "y_position": 7,
+                        "y_position": 10,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 1,
+                        "modified": false
+                    }
+                },
+                {
+                    "A Tree": {
+                        "type": "Nature",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 8,
+                        "y_position": 6,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "123": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "124": {
+            "tokens": [
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 7,
+                        "y_position": 10,
                         "modified": false
                     }
                 },
@@ -3407,7 +3482,31 @@
                         "type": "Monsters",
                         "key": 1,
                         "x_position": 3,
-                        "y_position": 4,
+                        "y_position": 2,
+                        "modified": false
+                    }
+                },
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 4,
+                        "y_position": 8,
+                        "modified": false
+                    }
+                }
+            ],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "125": {
+            "tokens": [
+                {
+                    "Taurus": {
+                        "type": "Animals",
+                        "key": 1,
+                        "x_position": 9,
+                        "y_position": 5,
                         "modified": false
                     }
                 },
@@ -3415,14 +3514,28 @@
                     "A Tree": {
                         "type": "Nature",
                         "key": 1,
-                        "x_position": 2,
-                        "y_position": 4,
+                        "x_position": 5,
+                        "y_position": 3,
+                        "modified": false
+                    }
+                },
+                {
+                    "Dedra Meero": {
+                        "type": "Monsters",
+                        "key": 1,
+                        "x_position": 10,
+                        "y_position": 5,
                         "modified": false
                     }
                 }
             ],
-            "type_str": "MOUNTAIN",
-            "type_key": 1
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "126": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
         }
     }
 }

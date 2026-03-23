@@ -1,0 +1,16 @@
+Character was added to the map
+Character moved from (600, 400) to (3, 1)
+Character moved from (3, 1) to (4, 2)
+Mr Guy was added to the map
+Mr Guy moved from (600, 400) to (2, 8)
+Taurus was added to the map
+Taurus's health value changes from 15 to 10
+d6 rolled a 3
+d8 rolled a 3
+d8 rolled a 3
+d12 rolled a 4
+d20 rolled a 11
+d20 rolled a 1
+d20 rolled a 17
+d8 rolled a 6
+d6 rolled a 2

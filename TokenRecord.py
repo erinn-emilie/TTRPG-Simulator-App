@@ -15,6 +15,8 @@ class TokenRecord():
         self.name = self.token_dict["name"]
         self.key = self.token_dict["key"]
         self.default = True
+        self.__log_new_token()
+
 
     def get_name(self) -> str:
         return self.name
@@ -67,6 +69,10 @@ class TokenRecord():
     def get_default_status(self):
         return self.default
 
+    def __log_new_token(self):
+        if(self.logger_ref.get_writable_status()):
+            change_line = self.name + " was added to the map"
+            self.logger_ref.add_line(change_line)
 
     def __log_position_change(self, new_pos:tuple, old_pos:tuple):
         if(self.logger_ref.get_writable_status()):

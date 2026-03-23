@@ -5,10 +5,13 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 
-class DiceRoller(QMainWindow):
-    def __init__(self):
-        super().__init__()
+from toolbox.Toolbox import Toolbox
 
+class DiceRoller(QMainWindow):
+    def __init__(self, toolbox:Toolbox):
+        super().__init__()
+        self.toolbox = toolbox
+        self.logger_ref = self.toolbox.get_logger_ref()
         #################### FIRST INTERFACE START ####################
 
         # all standard dice
@@ -157,52 +160,45 @@ class DiceRoller(QMainWindow):
         self.setWindowTitle("Dice Roller")
         self.setFixedSize(QSize(300, 400))
         self.setCentralWidget(tabs)
+
+    def __log_dice_outcome(self, dice_type, outcome):
+        if(self.logger_ref.get_writable_status()):
+            change_line = "d" + str(dice_type) + " rolled a " + str(outcome)
+            self.logger_ref.add_line(change_line)
         
     def d4clicked(self):
         outcome = random.randint(1, 4)
-        with open("logfiles/TemporaryLog.txt", "a") as log:
-            log.write("rolled 1d4+0 --> {} \n".format(outcome))
-        print("log: rolled 1d4+0 -->", outcome)
+        self.__log_dice_outcome(4, outcome)
         self.outn.setText(str(outcome))
         self.outn2.setText(str(outcome))
 
     def d6clicked(self):
         outcome = random.randint(1, 6)
-        with open("logfiles/TemporaryLog.txt", "a") as log:
-            log.write("rolled 1d6+0 --> {} \n".format(outcome))
-        print("log: rolled 1d6+0 -->", outcome)
+        self.__log_dice_outcome(6, outcome)
         self.outn.setText(str(outcome))
         self.outn2.setText(str(outcome))
 
     def d8clicked(self):
         outcome = random.randint(1, 8)
-        with open("logfiles/TemporaryLog.txt", "a") as log:
-            log.write("rolled 1d8+0 --> {} \n".format(outcome))
-        print("log: rolled 1d8+0 -->", outcome)
+        self.__log_dice_outcome(8, outcome)
         self.outn.setText(str(outcome))
         self.outn2.setText(str(outcome))
 
     def d10clicked(self):
         outcome = random.randint(1, 10)
-        with open("logfiles/TemporaryLog.txt", "a") as log:
-            log.write("rolled 1d10+0 --> {} \n".format(outcome))
-        print("log: rolled 1d10+0 -->", outcome)
+        self.__log_dice_outcome(10, outcome)
         self.outn.setText(str(outcome))
         self.outn2.setText(str(outcome))
 
     def d12clicked(self):
         outcome = random.randint(1, 12)
-        with open("logfiles/TemporaryLog.txt", "a") as log:
-            log.write("rolled 1d12+0 --> {} \n".format(outcome))
-        print("log: rolled 1d12+0 -->", outcome)
+        self.__log_dice_outcome(12, outcome)
         self.outn.setText(str(outcome))
         self.outn2.setText(str(outcome))
 
     def d20clicked(self):
         outcome = random.randint(1, 20)
-        with open("logfiles/TemporaryLog.txt", "a") as log:
-            log.write("rolled 1d20+0 --> {} \n".format(outcome))
-        print("log: rolled 1d20+0 -->", outcome)
+        self.__log_dice_outcome(20, outcome)
         self.outn.setText(str(outcome))
         self.outn2.setText(str(outcome))
 

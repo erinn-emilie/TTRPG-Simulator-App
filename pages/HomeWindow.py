@@ -398,7 +398,7 @@ class HomeWindow(QMainWindow):
 
     def __show_dice_roller_window(self):
         if(self.diceRollerWindow is None):
-            self.diceRollerwindow = DiceRoller()
+            self.diceRollerWindow = DiceRoller(self.toolbox)
         self.diceRollerWindow.show()
 
     def close_custom_tiles_window(self):
