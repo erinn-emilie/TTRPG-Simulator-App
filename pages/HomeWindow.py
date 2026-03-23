@@ -187,15 +187,26 @@ class HomeWindow(QMainWindow):
         self.customStructuresWindow = None
         self.customNatureWindow = None
         self.diceRollerWindow = None
+        self.login_window = None
 
         self.customTilesButton = QPushButton("Tiles", self.navbar)
+        self.customTilesButton.setIcon(QIcon("assets/tiles.png"))
         self.customPlayerButton = QPushButton("Player Characters", self.navbar)
+        self.customPlayerButton.setIcon(QIcon("assets/character.png"))
         self.customNonPlayerButton = QPushButton("Non-Player Characters", self.navbar)
+        self.customNonPlayerButton.setIcon(QIcon("assets/character.png"))
         self.customAnimalButton = QPushButton("Animals", self.navbar)
+        self.customAnimalButton.setIcon(QIcon("assets/animal.png"))
         self.customMonsterButton = QPushButton("Monsters", self.navbar)
+        self.customMonsterButton.setIcon(QIcon("assets/monsters.png"))
         self.customBuildingsButton = QPushButton("Buildings", self.navbar)
+        self.customBuildingsButton.setIcon(QIcon("assets/buildings.png"))
         self.customStructuresButton = QPushButton("Structures", self.navbar)
+        self.customStructuresButton.setIcon(QIcon("assets/buildings.png"))
         self.customNatureButton = QPushButton("Nature", self.navbar)
+        self.customNatureButton.setIcon(QIcon("assets/nature.png"))
+        self.diceRollerButton = QPushButton("Dice Roller", self.navbar)
+        self.diceRollerButton.setIcon(QIcon("assets/d20.png"))
 
 
         self.customBtnStyleSheet = """
@@ -213,15 +224,6 @@ class HomeWindow(QMainWindow):
         self.navbarContainerStyleSheet = """
             background-color: white;
         """
-
-        self.customTilesButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customNonPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customAnimalButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customMonsterButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customBuildingsButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customStructuresButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customNatureButton.setStyleSheet(self.customBtnStyleSheet)
 
         #Naomi login button section
         self.login_btn = QPushButton("Login / Register", self)
