@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt, QPoint, QEvent, QElapsedTimer
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtWidgets import (
     QDockWidget,
     QLabel,
@@ -23,6 +23,7 @@ from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
 from widgets.LogWidget import LogWidget
+from widgets.DiceRoller import DiceRoller
 
 import math
 
@@ -127,6 +128,7 @@ class HomeWindow(QMainWindow):
 
         self.seed_input_field = QLineEdit("Enter in a map seed here!")
         self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
+        self.seed_input_field.setStyleSheet("""background-color: white;""")
         self.map_settings_toolbar.addWidget(self.seed_input_field)
 
         self.generate_map_btn = QPushButton("Generate Map", self)
@@ -165,6 +167,7 @@ class HomeWindow(QMainWindow):
         self.scroll.setWidget(self.main_widget)
 
         self.navbar = QDockWidget("Custom Tokens", self)
+        self.navbar.setStyleSheet("""background-color: pink;""")
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
         self.navbar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.navbar.setMinimumHeight(500)
@@ -181,15 +184,26 @@ class HomeWindow(QMainWindow):
         self.customBuildingsWindow = None
         self.customStructuresWindow = None
         self.customNatureWindow = None
+        self.diceRollerWindow = None
 
         self.customTilesButton = QPushButton("Tiles", self.navbar)
+        self.customTilesButton.setIcon(QIcon("assets/tiles.png"))
         self.customPlayerButton = QPushButton("Player Characters", self.navbar)
+        self.customPlayerButton.setIcon(QIcon("assets/character.png"))
         self.customNonPlayerButton = QPushButton("Non-Player Characters", self.navbar)
+        self.customNonPlayerButton.setIcon(QIcon("assets/character.png"))
         self.customAnimalButton = QPushButton("Animals", self.navbar)
+        self.customAnimalButton.setIcon(QIcon("assets/animal.png"))
         self.customMonsterButton = QPushButton("Monsters", self.navbar)
+        self.customMonsterButton.setIcon(QIcon("assets/monsters.png"))
         self.customBuildingsButton = QPushButton("Buildings", self.navbar)
+        self.customBuildingsButton.setIcon(QIcon("assets/buildings.png"))
         self.customStructuresButton = QPushButton("Structures", self.navbar)
+        self.customStructuresButton.setIcon(QIcon("assets/buildings.png"))
         self.customNatureButton = QPushButton("Nature", self.navbar)
+        self.customNatureButton.setIcon(QIcon("assets/nature.png"))
+        self.diceRollerButton = QPushButton("Dice Roller", self.navbar)
+        self.diceRollerButton.setIcon(QIcon("assets/d20.png"))
 
 
         self.customBtnStyleSheet = """
@@ -205,17 +219,18 @@ class HomeWindow(QMainWindow):
               """
 
         self.navbarContainerStyleSheet = """
-            background-color: white;
+            background-color: pink;
         """
 
-        self.customTilesButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customNonPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customAnimalButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customMonsterButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customBuildingsButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customStructuresButton.setStyleSheet(self.customBtnStyleSheet)
-        self.customNatureButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customTilesButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customPlayerButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customNonPlayerButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customAnimalButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customMonsterButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customBuildingsButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customStructuresButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.customNatureButton.setStyleSheet(self.customBtnStyleSheet)
+        # self.diceRollerButton.setStyleSheet(self.customBtnStyleSheet)
 
 
         self.navbarLayout.addWidget(self.customTilesButton)
@@ -226,6 +241,7 @@ class HomeWindow(QMainWindow):
         self.navbarLayout.addWidget(self.customBuildingsButton)
         self.navbarLayout.addWidget(self.customStructuresButton)
         self.navbarLayout.addWidget(self.customNatureButton)
+        self.navbarLayout.addWidget(self.diceRollerButton)
 
 
         self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
@@ -236,6 +252,7 @@ class HomeWindow(QMainWindow):
         self.customBuildingsButton.clicked.connect(self.__show_custom_buildings_window)
         self.customStructuresButton.clicked.connect(self.__show_custom_structures_window)
         self.customNatureButton.clicked.connect(self.__show_custom_nature_window)
+        self.diceRollerButton.clicked.connect(self.__show_dice_roller_window)
 
         
         self.navbarContainer.setStyleSheet(self.navbarContainerStyleSheet)
@@ -378,6 +395,11 @@ class HomeWindow(QMainWindow):
         if(self.customNatureWindow is None):
             self.customNatureWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
         self.customNatureWindow.show()
+
+    def __show_dice_roller_window(self):
+        if(self.diceRollerWindow is None):
+            self.diceRollerwindow = DiceRoller()
+        self.diceRollerWindow.show()
 
     def close_custom_tiles_window(self):
         self.customTilesWindow.hide()
