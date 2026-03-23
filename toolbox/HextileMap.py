@@ -92,10 +92,8 @@ class HextileMap():
                 match(self.settings.getRandType()):
                     case TileGenerationTypes.RANDOM:
                         self.__populateRandomSettings()
-                        self.__populateTilesRandomSettings()
                     case TileGenerationTypes.WEIGHTED:
                         self.__populateMapGenericSettings()
-                        self.__populateTilesRandomSettings()
             case MapLoadLocations.LOCAL:
                 self.loadSavedMap(self.saved_map_name)
         self.logger_ref.set_writable_status(True)
@@ -160,6 +158,7 @@ class HextileMap():
         curRingNumber = 0
         numTilesInRing = 1
         curTileNum = 0
+        self.tile_list.clear()
         self.tile_list.append(curNode)
         while(curRingNumber < size):
             curTileNum += 1
@@ -357,124 +356,6 @@ class HextileMap():
         return nextNode
 
 
-
-    def __populateTilesRandomSettings(self):
-        tile_size = self.settings.getTileSize()
-        min_tokens_per_tile = 0
-        max_tokens_per_tile = math.ceil(tile_size/2)
-        rows_cols = math.ceil(tile_size/4)
-        record_key = 0
-        for tile in self.tile_list:
-            total_tokens = self.seed.getOtherRandInt(min_tokens_per_tile, max_tokens_per_tile)
-            tile_record = tile.getTileRecord()
-            tile_type = tile_record.get_tile_type()
-            for x in range(0, total_tokens-1):
-                num_rand_tokens = 0
-
-                rand_token_ref = None
-                rand_token_ref_idx = -1
-
-
-                iteration = 0
-                while(num_rand_tokens == 0):
-                    rand_token_ref_idx = self.seed.getOtherRandInt(0, len(self.tokens_ref_list)-1)
-                    rand_token_ref = self.tokens_ref_list[rand_token_ref_idx]
-                    num_rand_tokens = rand_token_ref.get_num_of_tokens()
-                    iteration += 1
-                    if(iteration == 100):
-                        break
-                if(iteration == 100):
-                    continue
-
-
-                rand_token_idx = -1
-                rand_token = None
-                allowed = False
-                name = ""
-                token_type = None
-
-                iteration = 0
-                while(not allowed):
-                    rand_token_idx = self.seed.getOtherRandInt(0, num_rand_tokens)
-                    rand_token = rand_token_ref.get_random_token_by_value(rand_token_idx)
-
-                    if not rand_token is None:
-                        multiple = rand_token["duplicatable"]
-                        name = rand_token["name"]
-
-                        token_type = self.__get_token_ref_type(rand_token_ref_idx)
-                        allowed = True
-                        if not multiple:
-                            for token in self.tokens_on_map:
-                                if(token_type == token.get_token_type() and name == token.get_name()):
-                                    allowed = False
-                                    break
-                        
-                        if allowed:
-                            for tile in rand_token["excluded_tiles"]:
-                                if(tile == tile_type):
-                                    allowed = False
-                                    break
-                    iteration += 1
-                    if(iteration == 50):
-                        break
-
-                if(iteration == 50):
-                    continue
-
-                record_key += 1
-                token_record = TokenRecord(self.logger_ref, rand_token, token_type, record_key)
-                self.tokens_on_map.append(token_record)
-
-                match(token_type):
-                    case TokenTypes.PLAYER_CHARACTERS:
-                        tile_record.add_player_character(token_record)
-                    case TokenTypes.NON_PLAYER_CHARACTERS:
-                        tile_record.add_nonplayer_character(token_record)
-                    case TokenTypes.ANIMALS:
-                        tile_record.add_animal_token(token_record)
-                    case TokenTypes.MONSTERS:
-                        tile_record.add_monster_token(token_record)
-                    case TokenTypes.BUILDINGS:
-                        tile_record.add_building_token(token_record)
-                    case TokenTypes.STRUCTURES:
-                        tile_record.add_structure_token(token_record)
-                    case TokenTypes.NATURE:
-                        tile_record.add_nature_token(token_record)
-
-    def positionTokensOnTile(self):
-        self.logger_ref.set_writable_status(False)
-        tile_size = self.settings.getTileSize()
-
-        sqrt_tile_size = math.floor(math.sqrt(tile_size))
-
-
-        for tile in self.tile_list:
-            tile_record = tile.getTileRecord()
-            all_tokens = tile_record.get_all_tokens()
-
-            for token in all_tokens:
-                x = self.seed.getOtherRandInt(0, sqrt_tile_size)
-                y = self.seed.getOtherRandInt(0, sqrt_tile_size)
-                iteration = 0
-                while(not tile_record.check_position((x, y))):
-                    x = self.seed.getOtherRandInt(0, sqrt_tile_size)
-                    y = self.seed.getOtherRandInt(0, sqrt_tile_size)
-                    iteration += 1
-                    if iteration == 50:
-                        break
-
-                if iteration == 50:
-                    break
-
-                tile_record.add_position((x,y))
-                token.set_position((x,y))
-
-        self.logger_ref.set_writable_status(True)
-
-
-
-
     def __populateMapGenericSettings(self):
         curNode = self.centerNode
         biomeInt = self.seed.getNextBiomeInt()
@@ -648,6 +529,9 @@ class HextileMap():
                 cur_record = cur_node.getTileRecord()
 
         final_dict = {map_name: all_tiles_dict}
+
+        self.logger_ref.change_save_path("logfiles/" + map_name + ".txt")
+        self.logger_ref.save_log()
         with open(self.JSON_SAVE_FILE, 'w') as file: 
             json.dump(final_dict, file, indent=4)
 

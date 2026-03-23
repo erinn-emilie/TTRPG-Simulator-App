@@ -1,12 +1,14 @@
 import json
 
 class Tokens():
-    def __init__(self, json_file_path):
+    def __init__(self, json_file_path, asset_path, token_type):
         self.JSON_FILE_PATH = json_file_path
+        self.ASSET_PATH = asset_path
         self.tokens_dict = {}
         self.tokens_list = []
         self.default_token_setup = {}
         self.total_tokens = 0
+        self.token_type = token_type
         self.title_str = self.JSON_FILE_PATH.lower().replace(".json", "").replace("jsonfiles/", "")
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
@@ -26,9 +28,14 @@ class Tokens():
             counter += 1
         self.total_tokens = counter
 
+    def get_asset_str(self):
+        return self.ASSET_PATH
+
     def get_title_str(self):
         return self.title_str
 
+    def get_token_type(self):
+        return self.token_type
 
     def get_num_of_tokens(self):
         return self.total_tokens
@@ -80,6 +87,7 @@ class Tokens():
             if(field != "key" and field != "name"):
                 new_token[field] = default_token[field]
             self.tokens_dict[new_name.upper()] = new_token
+        self.tokens_list.append(new_token)
         self.__update_json_file()
         return self.tokens_dict[new_name.upper()]
 

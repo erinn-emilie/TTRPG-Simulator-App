@@ -2,8 +2,10 @@ import random
 
 class Seed():
     def __init__(self, tile_types_ref, num = 0):
-        if(num > 100000 or num < 999999):        
+        if(num > 100000 and num < 999999):        
             random.seed(num)
+        else:
+            random.seed()
         self.total_tiles = tile_types_ref.get_total_tiles()
 
     # !!!

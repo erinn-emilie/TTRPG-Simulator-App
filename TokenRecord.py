@@ -3,24 +3,22 @@ from Enums.TokenTypes import TokenTypes
 import copy
 
 class TokenRecord():
-    def __init__(self, logger_ref, token_dict:dict, token_type:TokenTypes, record_key:int, position=(0,0)):
+    def __init__(self, logger_ref, token_dict:dict, token_type:TokenTypes, position=(0,0)):
         self.logger_ref = logger_ref
         self.token_dict = copy.deepcopy(token_dict)
         self.position = position
         self.token_dict["x_position"] = self.position[0]
         self.token_dict["y_position"] = self.position[1]
-        self.record_key = record_key
         self.token_type = token_type
         self.token_dict["token_type"] = TokenTypes.get_str_from_token_type(self.token_type)
         self.name = self.token_dict["name"]
         self.key = self.token_dict["key"]
         self.default = True
+        self.__log_new_token()
+
 
     def get_name(self) -> str:
         return self.name
-
-    def get_record_key(self) -> int:
-        return self.record_key
 
     def get_token_key(self) -> int:
         return self.key
@@ -67,6 +65,10 @@ class TokenRecord():
     def get_default_status(self):
         return self.default
 
+    def __log_new_token(self):
+        if(self.logger_ref.get_writable_status()):
+            change_line = self.name + " was added to the map"
+            self.logger_ref.add_line(change_line)
 
     def __log_position_change(self, new_pos:tuple, old_pos:tuple):
         if(self.logger_ref.get_writable_status()):

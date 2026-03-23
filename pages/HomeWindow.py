@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt, QPoint, QEvent, QElapsedTimer
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtWidgets import (
     QDockWidget,
     QLabel,
@@ -23,6 +23,7 @@ from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
 from widgets.LogWidget import LogWidget
+from widgets.DiceRoller import DiceRoller
 
 from TTRPG_Login_Window import Window #line naomi added to connect login and homepage
 
@@ -129,6 +130,7 @@ class HomeWindow(QMainWindow):
 
         self.seed_input_field = QLineEdit("Enter in a map seed here!")
         self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
+        self.seed_input_field.setStyleSheet("""background-color: white;""")
         self.map_settings_toolbar.addWidget(self.seed_input_field)
 
         self.generate_map_btn = QPushButton("Generate Map", self)
@@ -167,6 +169,7 @@ class HomeWindow(QMainWindow):
         self.scroll.setWidget(self.main_widget)
 
         self.navbar = QDockWidget("Custom Tokens", self)
+        self.navbar.setStyleSheet("""background-color: pink;""")
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
         self.navbar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.navbar.setMinimumHeight(500)
@@ -183,19 +186,42 @@ class HomeWindow(QMainWindow):
         self.customBuildingsWindow = None
         self.customStructuresWindow = None
         self.customNatureWindow = None
+        self.diceRollerWindow = None
 
-        
-        
-        
-        
-        self.customTilesButton = QPushButton("Custom Tiles", self.navbar)
-        self.customPlayerButton = QPushButton("Custom Player Characters", self.navbar)
-        self.customNonPlayerButton = QPushButton("Custom Non-Player Characters", self.navbar)
-        self.customAnimalButton = QPushButton("Custom Animals", self.navbar)
-        self.customMonsterButton = QPushButton("Custom Monsters", self.navbar)
-        self.customBuildingsButton = QPushButton("Custom Buildings", self.navbar)
-        self.customStructuresButton = QPushButton("Custom Structures", self.navbar)
-        self.customNatureButton = QPushButton("Custom Nature", self.navbar)
+        self.customTilesButton = QPushButton("Tiles", self.navbar)
+        self.customPlayerButton = QPushButton("Player Characters", self.navbar)
+        self.customNonPlayerButton = QPushButton("Non-Player Characters", self.navbar)
+        self.customAnimalButton = QPushButton("Animals", self.navbar)
+        self.customMonsterButton = QPushButton("Monsters", self.navbar)
+        self.customBuildingsButton = QPushButton("Buildings", self.navbar)
+        self.customStructuresButton = QPushButton("Structures", self.navbar)
+        self.customNatureButton = QPushButton("Nature", self.navbar)
+
+
+        self.customBtnStyleSheet = """
+              background-color: white;
+              color: black;
+              border-style: solid;
+              border-color: black;
+              border-width: 2px;
+              border-radius: 10px;
+              padding: 5px;
+              text-align: center;
+              font-size: 16px;
+              """
+
+        self.navbarContainerStyleSheet = """
+            background-color: white;
+        """
+
+        self.customTilesButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customPlayerButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customNonPlayerButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customAnimalButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customMonsterButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customBuildingsButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customStructuresButton.setStyleSheet(self.customBtnStyleSheet)
+        self.customNatureButton.setStyleSheet(self.customBtnStyleSheet)
 
         #Naomi login button section
         self.login_btn = QPushButton("Login / Register", self)
@@ -210,6 +236,7 @@ class HomeWindow(QMainWindow):
         self.navbarLayout.addWidget(self.customBuildingsButton)
         self.navbarLayout.addWidget(self.customStructuresButton)
         self.navbarLayout.addWidget(self.customNatureButton)
+        self.navbarLayout.addWidget(self.diceRollerButton)
 
 
         self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
@@ -220,6 +247,7 @@ class HomeWindow(QMainWindow):
         self.customBuildingsButton.clicked.connect(self.__show_custom_buildings_window)
         self.customStructuresButton.clicked.connect(self.__show_custom_structures_window)
         self.customNatureButton.clicked.connect(self.__show_custom_nature_window)
+        self.diceRollerButton.clicked.connect(self.__show_dice_roller_window)
 
         
         self.navbarContainer.setStyleSheet(self.navbarContainerStyleSheet)
@@ -365,6 +393,11 @@ class HomeWindow(QMainWindow):
         if(self.customNatureWindow is None):
             self.customNatureWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
         self.customNatureWindow.show()
+
+    def __show_dice_roller_window(self):
+        if(self.diceRollerWindow is None):
+            self.diceRollerWindow = DiceRoller(self.toolbox)
+        self.diceRollerWindow.show()
 
     def close_custom_tiles_window(self):
         self.customTilesWindow.hide()

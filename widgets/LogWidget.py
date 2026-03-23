@@ -34,7 +34,7 @@ class LogWidget(QWidget):
 
     def __populate_log_layout(self):
         log_contents = self.logger_ref.get_all_log_contents()
-        for line in log_contents:
+        for line in reversed(log_contents):
             label = QLabel(line)
             self.log_contents_layout.addWidget(label)
 

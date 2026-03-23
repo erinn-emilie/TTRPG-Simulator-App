@@ -5,6 +5,8 @@ from toolbox.Tokens import Tokens
 from toolbox.SavedMaps import SavedMaps
 from toolbox.Logger import Logger
 
+from Enums.TokenTypes import TokenTypes
+
 class Toolbox():
     def __init__(self, screen_width:int, screen_height:int):
         self.screen_width = screen_width
@@ -12,13 +14,13 @@ class Toolbox():
 
         self.tile_types_ref = TileTypes()
         self.logger_ref = Logger()
-        self.player_characters_ref = Tokens("jsonfiles/PlayerCharacters.json")
-        self.nonplayer_characters_ref = Tokens("jsonfiles/NonPlayerCharacters.json")
-        self.animals_ref = Tokens("jsonfiles/Animals.json")
-        self.monsters_ref = Tokens("jsonfiles/Monsters.json")
-        self.buildings_ref = Tokens("jsonfiles/Buildings.json")
-        self.structures_ref = Tokens("jsonfiles/Structures.json")
-        self.nature_ref = Tokens("jsonfiles/Nature.json")
+        self.player_characters_ref = Tokens("jsonfiles/PlayerCharacters.json", "assets/character.png", TokenTypes.PLAYER_CHARACTERS)
+        self.nonplayer_characters_ref = Tokens("jsonfiles/NonPlayerCharacters.json", "assets/character.png", TokenTypes.NON_PLAYER_CHARACTERS)
+        self.animals_ref = Tokens("jsonfiles/Animals.json", "assets/animal.png", TokenTypes.ANIMALS)
+        self.monsters_ref = Tokens("jsonfiles/Monsters.json", "assets/monsters.png", TokenTypes.MONSTERS)
+        self.buildings_ref = Tokens("jsonfiles/Buildings.json", "assets/buildings.png", TokenTypes.BUILDINGS)
+        self.structures_ref = Tokens("jsonfiles/Structures.json", "assets/buildings.png", TokenTypes.STRUCTURES)
+        self.nature_ref = Tokens("jsonfiles/Nature.json", "assets/nature.png", TokenTypes.NATURE)
         self.settings_ref = Settings(self.tile_types_ref)
         self.saved_maps_ref = SavedMaps()
         self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref, self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref, self.saved_maps_ref, self.screen_width, self.screen_height, self.logger_ref)
