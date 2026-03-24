@@ -11,8 +11,12 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QGridLayout,  
     QToolBar,
-    QComboBox
+    QComboBox,
+    QLineEdit,
+    QInputDialog,
+    QFileDialog
 )
+
 
 from Enums.TokenTypes import TokenTypes
 from widgets.GenericContainerWidget import TokenContainerWidget
@@ -20,6 +24,7 @@ from widgets.GenericContainerWidget import TokenRecordContainerWidget
 
 import math
 from functools import partial
+import os
 
 
 from HextileNode import HextileNode
@@ -27,12 +32,20 @@ from toolbox.Toolbox import Toolbox
 from TokenRecord import TokenRecord
 
 class QMapWidget(QWidget):
-    def __init__(self, screen_width, screen_height, tile_size, background_img_path):
+    def __init__(self, toolbox:Toolbox, background_img_path):
         super().__init__()
-        self.screen_width = screen_width
-        self.screen_height = screen_height
-        self.tile_size = tile_size
+        self.toolbox = toolbox
+        self.screen_width = self.toolbox.get_screen_width()
+        self.screen_height = self.toolbox.get_screen_height()
+        self.settings_ref = self.toolbox.get_settings_ref()
+        self.tile_size = self.settings_ref.getTileSize()
         self.background_img_path = background_img_path
+
+    def reload_tile_size(self):
+        self.tile_size = self.settings_ref.getTileSize()
+
+    def set_background_img(self, new_background_img):
+        self.background_img_path = new_background_img
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -58,21 +71,36 @@ class QMapWidget(QWidget):
 
         painter.drawLines(lines)
 
+    def keyPressEvent(self, event):
+        print("Map Widget")
+
 
 class TokenLabel(QLabel):
     def __init__(self, toolbox:Toolbox, token_record:TokenRecord, grid_window, parent=None):
         super().__init__(parent=parent)
         self.toolbox = toolbox
+        self.settings_ref = self.toolbox.get_settings_ref()
         self.token_record = token_record
         self.grid_window = grid_window
+        self.token_record_window = None
         self.dragging = False
+        self.old_x = 0
+        self.old_y = 0
         
     def get_token_record(self) -> TokenRecord:
         return self.token_record
 
     def mousePressEvent(self, event):
+        self.grid_window.deselect_token_label()
         if(event.button() == Qt.MouseButton.LeftButton):
+            pos = self.mapToGlobal(event.position())
+            self.old_x = pos.x()
+            self.old_y = pos.y()
             self.dragging = True
+        if(event.button() == Qt.MouseButton.RightButton):
+            if(self.token_record_window is None):
+                self.token_record_window = TokenRecordContainerWidget(self.token_record, self.toolbox)
+            self.token_record_window.show()
         event.accept()
 
     def mouseReleaseEvent(self, event):
@@ -80,8 +108,17 @@ class TokenLabel(QLabel):
             if(self.dragging):
                 self.dragging = False
                 global_pos = self.mapToGlobal(event.position())
-                self.grid_window.move_token_label(self, global_pos)
+                x = global_pos.x()
+                y = global_pos.y()
+                tile_size = self.settings_ref.getTileSize()
+                if(abs(self.old_x - x) < tile_size and abs(self.old_y - y) < tile_size):
+                    self.grid_window.select_token_label(self)
+                else:
+                    self.grid_window.move_token_label(self, global_pos)
         event.accept()
+
+    def keyPressEvent(self, event):
+        print("Child")
 
 class GridWindow(QMainWindow):
     def __init__(self, hex_node:HextileNode, toolbox:Toolbox):
@@ -101,6 +138,8 @@ class GridWindow(QMainWindow):
         self.screen_width = self.toolbox.get_screen_width()
         self.screen_height = self.toolbox.get_screen_height()
 
+        self.selected_label = None
+
         self.middle_x = 0
         self.middle_y = 0
 
@@ -113,8 +152,16 @@ class GridWindow(QMainWindow):
         self.__compute_snap_positions()
         self.__setup_token_dropdowns()
 
+        self.change_tile_size = QPushButton("Tile Size")
+        self.change_tile_size.clicked.connect(self.__change_tile_size)
+        self.toolbar.addWidget(self.change_tile_size)
 
-        self.map_widget = QMapWidget(self.screen_width, self.screen_height, self.tile_size, self.background_img_path)
+        self.change_background_btn = QPushButton("Background Image")
+        self.change_background_btn.clicked.connect(self.__change_background_img)
+        self.toolbar.addWidget(self.change_background_btn)
+
+
+        self.map_widget = QMapWidget(self.toolbox, self.background_img_path)
 
         self.main_layout = QVBoxLayout()
         self.main_layout.addWidget(self.toolbar)
@@ -125,6 +172,53 @@ class GridWindow(QMainWindow):
 
         self.setCentralWidget(self.main_widget)
 
+
+    def __change_tile_size(self):
+        old_tile_size = self.settings_ref.getTileSize()
+        tile_size, ok = QInputDialog.getText(self, "Tile Size", str(old_tile_size))
+        if ok and tile_size:
+            try:
+                new_tile_size = int(tile_size)
+                self.tile_size = new_tile_size
+                self.settings_ref.setTileSize(new_tile_size)
+                self.map_widget.reload_tile_size()
+                self.map_widget.update()
+                self.__compute_snap_positions()
+            except ValueError:
+                print("Value error")
+
+
+    def __change_background_img(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Select an image!")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
+
+        if file_dialog.exec():
+            try:
+                selected_files_list = file_dialog.selectedFiles()
+                img_path = selected_files_list[0]
+                img_name = os.path.basename(img_path)
+
+                img_name = img_name.replace(".jpg", ".png")
+                img_name = img_name.replace(".jpeg", ".png")
+                cur_dir = os.getcwd()
+                asset_dir = os.path.join(cur_dir, "assets")
+                asset_path = os.path.join(asset_dir, img_name)
+                os.rename(img_path, asset_path)
+
+                self.map_widget.set_background_img(asset_path)
+                self.map_widget.update()
+            except FileNotFoundError:
+                print("File couldn't be found")
+            except FileExistsError:
+                print("That file already exists in this location")
+
+    def deselect_token_label(self):
+        self.selected_label = None
+
+    def select_token_label(self, label):
+        self.selected_label = label
 
     def move_token_label(self, label, global_pos):
         local_pos = self.mapFromGlobal(global_pos)
@@ -183,7 +277,8 @@ class GridWindow(QMainWindow):
         token_refs_list = self.toolbox.get_list_of_token_refs()
         for ref in token_refs_list:
             title = ref.get_title_str()
-            title_str = "Choose a " + title
+            title = title[0:1].upper() + title[1:len(title)-1]
+            title_str = title + " Tokens"
             icon_str = ref.get_asset_str()
             icon = QIcon(icon_str)
             combo = QComboBox()
@@ -199,7 +294,7 @@ class GridWindow(QMainWindow):
 
 
     def __token_selected(self, text, token_ref=None, combo=None, token_type=None):
-        if(not "Choose a" in text):
+        if(not "Tokens" in text):
             token = token_ref.get_token_by_name(text)
             token_record = TokenRecord(self.logger_ref, token, token_type, position=(self.middle_x, self.middle_y))
             self.tile_record.add_token_record(token_record)
@@ -219,4 +314,11 @@ class GridWindow(QMainWindow):
             self.token_labels.append(token_label)
             combo.setCurrentIndex(0)
 
+def keyPressEvent(self, event):
+    print("Parent")
+    if(not self.selected_label is None):
+        if event.key() == Qt.Key.Key_Left:
+            print("left")
+        if event.key() == Qt.Key.Key_Right:
+            print("right")
 

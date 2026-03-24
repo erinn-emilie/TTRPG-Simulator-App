@@ -19,7 +19,7 @@ class Settings():
     def getSeedRef(self):
         return self.seed
 
-    def setNewTileSize(self, new_tile_size:int):
+    def setTileSize(self, new_tile_size:int):
         self.tile_size = new_tile_size
 
     def getTileSize(self) -> int:

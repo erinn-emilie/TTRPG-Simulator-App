@@ -24,6 +24,7 @@ from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
 from widgets.LogWidget import LogWidget
 from widgets.DiceRoller import DiceRoller
+from Enums.MapSizes import MapSizes
 
 import math
 
@@ -54,9 +55,7 @@ class HexLabel(QLabel):
                 png_str = self.tile_types_ref.get_default_tile_asset_by_name(new_tile_type)
                 pixmap = QPixmap(png_str)
                 self.setPixmap(pixmap)
-        if(event.button() == Qt.MouseButton.LeftButton and self.home_window.is_in_ring_select()):
-            self.home_window.set_ring_select_pivot(self)
-        elif(event.button() == Qt.MouseButton.LeftButton):
+        if(event.button() == Qt.MouseButton.LeftButton):
             self.gridWindow.show()
             
         return super().mousePressEvent(event)
@@ -77,20 +76,6 @@ class HomeWindow(QMainWindow):
         self.map_layout = QVBoxLayout()
         self.map_widget = QWidget()
 
-        self.elapsed_timer = QElapsedTimer()
-
-        self.box_select_flag = False
-        self.corner_one = QPoint(0,0)
-        self.corner_two = QPoint(0,0)
-        self.top_boundary = 0
-        self.bottom_boundary = 0
-        self.left_boundary = 0
-        self.right_boundary = 0
-
-        self.ring_select_flag = False
-        self.ring_select_pivot = None
-
-        self.line_select_flag = False
 
         self.toolbox = toolbox_ref
 
@@ -148,17 +133,8 @@ class HomeWindow(QMainWindow):
         self.log_widget_btn.clicked.connect(self.__open_log_widget)
 
 
-        self.selected_tiles = []
-        self.setMouseTracking(True)
-        '''self.box_select_btn = QPushButton("Box Select Tiles", self)
-        self.box_select_btn.clicked.connect(self.__toggle_box_select)
-        self.map_settings_toolbar.addWidget(self.box_select_btn)'''
-
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.map_settings_toolbar)
 
-        '''self.ring_select_btn = QPushButton("Ring Select Tiles", self)
-        self.ring_select_btn.clicked.connect(self.__toggle_ring_select)
-        self.map_settings_toolbar.addWidget(self.ring_select_btn)'''
 
         self.scroll = QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
@@ -222,16 +198,6 @@ class HomeWindow(QMainWindow):
             background-color: pink;
         """
 
-        # self.customTilesButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customNonPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customAnimalButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customMonsterButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customBuildingsButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customStructuresButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customNatureButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.diceRollerButton.setStyleSheet(self.customBtnStyleSheet)
-
 
         self.navbarLayout.addWidget(self.customTilesButton)
         self.navbarLayout.addWidget(self.customPlayerButton)
@@ -260,101 +226,6 @@ class HomeWindow(QMainWindow):
 
         self.setCentralWidget(self.scroll)
             
-
-
-    def is_in_box_select(self):
-        return self.box_select_flag
-
-    def is_in_ring_select(self):
-        return self.ring_select_flag
-
-    def set_ring_select_pivot(self, node:HexLabel):
-        self.ring_select_pivot = node
-
-
-    def __toggle_box_select(self):
-        if(self.box_select_flag):
-            self.box_select_flag = False
-        else:
-            self.box_select_flag = True
-
-    def __toggle_ring_select(self):
-        if(self.ring_select_flag):
-            self.ring_select_flag = False
-        else:
-            self.ring_select_flag = True
-
-
-    def __determine_box(self):
-        c1_x = self.corner_one.x()
-        c2_x = self.corner_two.x()
-        c1_y = self.corner_one.y()
-        c2_y = self.corner_two.y()
-
-        if(c1_x < c2_x):
-            self.left_boundary = c1_x
-            self.right_boundary = c2_x
-        else:
-            self.left_boundary = c2_x
-            self.right_boundary = c1_x
-
-        if(c1_y < c2_y):
-            self.bottom_boundary = c1_y
-            self.top_boundary = c2_y
-        else:
-            self.bottom_boundary = c2_y
-            self.top_boundary = c1_y
-
-        self.__find_selected_tiles()
-
-    def __find_selected_tiles(self):
-        for tile in self.tile_labels_list:
-            global_position = tile.mapToGlobal(tile.pos())
-            x = global_position.x()
-            y = global_position.y()
-            if(x >= self.left_boundary and x <= self.right_boundary and y >= self.bottom_boundary and y <= self.top_boundary):
-                self.selected_tiles.append(tile)
-
-        self.__select_tiles()
-
-    def __select_tiles(self):
-        for tile in self.selected_tiles:
-            tile.clear()
-
-
-    def eventFilter(self, child, event):
-        if event.type() == QEvent.Type.MouseButtonPress:
-            global_position = event.globalPosition().toPoint()
-            self.__handle_mouse_press_event(global_position)
-            return False
-        if event.type() == QEvent.Type.MouseButtonRelease:
-            global_position = event.position().toPoint()
-            self.__handle_mouse_release_event(global_position)
-            return False
-        return super().eventFilter(child, event)
-
-    def __handle_mouse_press_event(self, global_position):
-        #local_position = self.mapToParent(global_position)
-        print(str(global_position) + "From WINDOW LOCAL")
-        if(self.box_select_flag):
-            self.corner_one = global_position
-        if(self.ring_select_flag):
-            self.elapsed_timer.start()
-
-    def __handle_mouse_release_event(self, global_position):
-        if(self.box_select_flag):
-            self.corner_two = global_position
-            self.__determine_box()
-        if(self.ring_select_flag):
-            total_time_ms = self.elapsed_timer.elapsed()
-            total_time_s = total_time_ms / 1000
-            total_rings = math.floor(total_time_s / 3)
-
-            print(total_rings)
-
-
-        
-
 
     def __show_custom_tiles_window(self):
         if(self.customTilesWindow is None):
@@ -451,9 +322,23 @@ class HomeWindow(QMainWindow):
     def __generate_map(self):
         self.map_layout.removeWidget(self.map_widget)
         self.map_widget = QWidget()
-        # !!!
-        # Layout so bad need fixed
-        self.map_widget.setMinimumSize(3000,3000)
+        map_size = self.settings_ref_obj.getMapSize()
+        min_size = 0
+        match(map_size):
+            case MapSizes.XSMALL:
+                min_size = 1000
+            case MapSizes.SMALL:
+                min_size = 2000
+            case MapSizes.MEDIUM:
+                min_size = 3000
+            case MapSizes.LARGE:
+                min_size = 4000
+            case MapSizes.XLARGE:
+                min_size = 5000
+            case _:
+                min_size = 3000
+        
+        self.map_widget.setMinimumSize(min_size, min_size)
         self.hextile_map_obj.generateMap()
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
@@ -476,13 +361,7 @@ class HomeWindow(QMainWindow):
         numTilesInRing = 1
         curTileNum = 0
         self.tile_labels_list = []
-        # !!!
-        # This works for now but the placement of the tiles desperately (cant spell)
-        # needs to be more dynamic as i have no idea how it would look on another screen
-        # size with this configuration and also its just kinda shit practice
 
-        #1200, 100, 200, 175, 210
-        #840, 70, 140, 122, 210
         pivX = 840    
         pivY = 840
 

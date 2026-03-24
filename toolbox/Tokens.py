@@ -1,4 +1,5 @@
 import json
+import copy
 
 class Tokens():
     def __init__(self, json_file_path, asset_path, token_type):
@@ -80,17 +81,20 @@ class Tokens():
         default_token = self.tokens_dict["DEFAULT"]
         self.total_tokens += 1
         new_name = "new token"
-        new_token = {}
+        new_token = copy.deepcopy(default_token)
         new_token["name"] = new_name
         new_token["key"] = self.total_tokens
-        for field in default_token:
-            if(field != "key" and field != "name"):
-                new_token[field] = default_token[field]
-            self.tokens_dict[new_name.upper()] = new_token
         self.tokens_list.append(new_token)
+        self.tokens_dict[new_name.upper()] = new_token
         self.__update_json_file()
         return self.tokens_dict[new_name.upper()]
 
+    def delete_token(self, token_key):
+        for token in self.tokens_dict:
+            if(self.tokens_dict[token]["key"] == token_key):
+                self.tokens_dict.pop(token)
+                break
+        self.__update_json_file()
     def get_tokens_list(self) -> list:
         return self.tokens_list
 

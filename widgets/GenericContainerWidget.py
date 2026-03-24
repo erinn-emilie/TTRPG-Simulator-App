@@ -8,7 +8,8 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QPlainTextEdit,
-    QFileDialog
+    QFileDialog,
+    QMessageBox
     )
 
 from functools import partial
@@ -17,9 +18,10 @@ import os
 
  
 class TokenContainerWidget(QWidget):
-    def __init__(self, token:dict, toolbox:Toolbox, token_class_ref):
+    def __init__(self, token:dict, toolbox:Toolbox, token_class_ref, overhead_window):
         super().__init__()
         self.toolbox = toolbox
+        self.overhead_window = overhead_window
         self.token = token
         self.token_class_ref = token_class_ref
         self.setStyleSheet("""
@@ -199,6 +201,10 @@ class TokenContainerWidget(QWidget):
         self.edit_btn = QPushButton("Edit")
         self.edit_btn.clicked.connect(self.__edit_fields)
         self.btn_row.addWidget(self.edit_btn)
+
+        self.del_token_btn = QPushButton("Delete")
+        self.del_token_btn.clicked.connect(self.__delete_token)
+        self.btn_row.addWidget(self.del_token_btn)
 
         self.save_btn = QPushButton("Save")
         self.save_btn.clicked.connect(self.__save_fields)
@@ -488,6 +494,14 @@ class TokenContainerWidget(QWidget):
         else:
           print("The file does not exist") 
 
+    def __delete_token(self):
+        answer = QMessageBox.question(self, 'Confirmation', 'Are you sure you want to delete this token?', QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+
+        if answer == QMessageBox.StandardButton.Yes:
+            self.token_class_ref.delete_token(self.token_key)
+            self.overhead_window.delete_token_widget(self)
+        else:
+            print("User clicked No (or closed the dialog)")
 
         
 
@@ -718,6 +732,7 @@ class TokenRecordContainerWidget(QWidget):
         self.edit_btn.clicked.connect(self.__edit_fields)
         self.btn_row.addWidget(self.edit_btn)
 
+
         self.save_btn = QPushButton("Save")
         self.save_btn.clicked.connect(self.__save_fields)
         self.save_btn.hide()
@@ -844,3 +859,4 @@ class TokenRecordContainerWidget(QWidget):
         self.add_lg_btn.show()
         for btn in self.del_btns:
             btn.show()
+
