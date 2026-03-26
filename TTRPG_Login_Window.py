@@ -42,16 +42,27 @@ class Account(Base):
     email = Column(String(255), nullable=False)
     password_hash = Column(String(255), nullable=False)
 
-    class SavedToken(Base):
-        __tablename__ = "tokens"
-        token_id = Column(Integer, primary_key=True)
-        user_id = Column(Integer, ForeignKey("accounts.user_id"), nullable=False)
-        token_name = Column(String(100), nullable=False)
-        token_category = Column(String(50), nullable=False)
-        token_data = Column(Text, nullable=False)
+class SavedToken(Base):
+    __tablename__ = "tokens"
+    token_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("accounts.user_id"), nullable=False)
+    token_name = Column(String(100), nullable=False)
+    token_category = Column(String(50), nullable=False)
+    token_data = Column(Text, nullable=False)
 
 #creates a database table if none exists, otherwise it does nothing
 Base.metadata.create_all(engine)
+
+def save_token_record(user_id, token_name, token_category, token_dict):
+    with SessionLocal() as session:
+        new_token = SavedToken(
+            user_id=user_id,
+            token_name=token_name,
+            token_category=token_category,
+            token_data=json.dumps(token_dict)
+        )
+        session.add(new_token)
+        session.commit()
 
 
 #GUI Section
