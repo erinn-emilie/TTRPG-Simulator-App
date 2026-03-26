@@ -65,7 +65,7 @@
       "TUNDRA": 80,
       "WASTELAND": 45
     },
-    "default_background": "",
+    "default_background": "assets/mountainbackground.png",
     "default_asset": "assets/mountainhextile.png",
     "user_assets": {
       "slot1": "",
@@ -265,7 +265,7 @@
       "TUNDRA": 90,
       "WASTELAND": 40
     },
-    "default_background": "",
+    "default_background": "assets/wastelandbackground.png",
     "default_asset": "assets/wastelandhextile.png",
     "user_assets": {
       "slot1": "",

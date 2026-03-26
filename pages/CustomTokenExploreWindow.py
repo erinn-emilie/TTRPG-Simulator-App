@@ -38,7 +38,7 @@ class CustomTokenExploreWindow(QMainWindow):
         self.tokens_list = self.token_ref.get_tokens_list()
         if(len(self.tokens_list) > 0):
             for token in self.tokens_list:
-                new_widget = TokenContainerWidget(token, self.toolbox, self.token_ref)
+                new_widget = TokenContainerWidget(token, self.toolbox, self.token_ref, self)
                 self.main_layout.addWidget(new_widget)
 
         self.main_widget.setLayout(self.main_layout)
@@ -50,9 +50,13 @@ class CustomTokenExploreWindow(QMainWindow):
         self.setCentralWidget(self.scroll)
 
 
+    def delete_token_widget(self, widget):
+        self.main_layout.removeWidget(widget)
+        widget.deleteLater()
+
     def __add_new_token(self):
         new_token = self.token_ref.create_new_token()
-        new_widget = TokenContainerWidget(new_token, self.toolbox, self.token_ref)
+        new_widget = TokenContainerWidget(new_token, self.toolbox, self.token_ref, self)
         self.main_layout.insertWidget(1,new_widget)
 
         
