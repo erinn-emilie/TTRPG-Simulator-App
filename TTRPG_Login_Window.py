@@ -4,13 +4,14 @@
 #Imports the database connection code from the tester file.
 import sys
 import bcrypt
+import json
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QWidget, QPushButton, QApplication, QGridLayout, QLabel, QLineEdit, QMessageBox
 )
 
-from sqlalchemy import create_engine, Column, Integer, String, select
+from sqlalchemy import create_engine, Column, Integer, String, select, ForeignKey, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.engine import URL
 
@@ -40,6 +41,14 @@ class Account(Base):
     username = Column(String(50), nullable=False)
     email = Column(String(255), nullable=False)
     password_hash = Column(String(255), nullable=False)
+
+    class SavedToken(Base):
+        __tablename__ = "tokens"
+        token_id = Column(Integer, primary_key=True)
+        user_id = Column(Integer, ForeignKey("accounts.user_id"), nullable=False)
+        token_name = Column(String(100), nullable=False)
+        token_category = Column(String(50), nullable=False)
+        token_data = Column(Text, nullable=False)
 
 #creates a database table if none exists, otherwise it does nothing
 Base.metadata.create_all(engine)
