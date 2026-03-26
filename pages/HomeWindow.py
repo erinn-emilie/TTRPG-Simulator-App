@@ -80,6 +80,7 @@ class HomeWindow(QMainWindow):
 
 
         self.toolbox = toolbox_ref
+        self.user_id = None
 
         self.hextile_map_obj = self.toolbox.get_hextile_map_ref()
         self.tile_types_ref_obj = self.toolbox.get_tile_types_ref()
@@ -112,6 +113,7 @@ class HomeWindow(QMainWindow):
         self.xtra_settings_btn.clicked.connect(self.__open_xtra_settings)
         self.map_settings_toolbar.addWidget(self.xtra_settings_btn)
 
+        self.login_btn.clicked.connect(self.__open_login_window) 
 
         self.seed_input_field = QLineEdit("Enter in a map seed here!")
         self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
@@ -295,8 +297,12 @@ class HomeWindow(QMainWindow):
             print(total_rings)
 
 
-        
+      
 
+    def __open_login_window(self):
+        if self.login_window is None:
+            self.login_window = Window(self)
+            self.login_window.show()
 
     def __show_custom_tiles_window(self):
         if(self.customTilesWindow is None):

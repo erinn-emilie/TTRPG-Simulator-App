@@ -81,8 +81,9 @@ def get_saved_token(user_id, token_name, token_category):
 
 #GUI Section
 class Window(QWidget):
-    def __init__(self):
+    def __init__(self, home_window=None):
         super().__init__()
+        self.home_window = home_window
 
         layout = QGridLayout()
         layout.setContentsMargins(20, 20, 20, 20)
