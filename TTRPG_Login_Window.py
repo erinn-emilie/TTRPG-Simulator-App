@@ -64,6 +64,20 @@ def save_token_record(user_id, token_name, token_category, token_dict):
         session.add(new_token)
         session.commit()
 
+def get_saved_token(user_id, token_name, token_category):
+    with SessionLocal() as session:
+        saved_token = session.execute(
+            select(SavedToken).where(
+                SavedToken.user_id == user_id,
+                SavedToken.token_name == token_name,
+                SavedToken.token_category == token_category
+            )
+        ).scalar_one_or_none()
+
+        if saved_token is None:
+            return None
+
+        return json.loads(saved_token.token_data)
 
 #GUI Section
 class Window(QWidget):
