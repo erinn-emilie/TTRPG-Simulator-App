@@ -185,6 +185,22 @@ class Tokens():
                 self.tokens_dict[token]["large_fields"][new_key] = new_value
         self.__update_json_file()
 
+    def import_token(self, token_dict: dict):
+        token_name = token_dict["name"].upper()
+        self.tokens_dict[token_name] = token_dict
+
+        found = False
+        for i, token in enumerate(self.tokens_list):
+            if token["key"] == token_dict["key"]:
+                self.tokens_list[i] = token_dict
+                found = True
+                break
+
+        if not found:
+            self.tokens_list.append(token_dict)
+
+        self.total_tokens = len(self.tokens_list)
+        self.__update_json_file()
 
     def __update_json_file(self):
         with open(self.JSON_FILE_PATH, 'w') as file: 
