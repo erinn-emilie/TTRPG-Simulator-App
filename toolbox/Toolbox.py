@@ -53,6 +53,23 @@ class Toolbox():
     def get_list_of_token_refs(self) -> list:
         return [self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref]
 
+    def get_token_ref_by_category(self, category: str) -> Tokens:
+        if category == "player_characters":
+            return self.player_characters_ref
+        elif category == "nonplayer_characters":
+            return self.nonplayer_characters_ref
+        elif category == "animals":
+            return self.animals_ref
+        elif category == "monsters":
+            return self.monsters_ref
+        elif category == "buildings":
+            return self.buildings_ref
+        elif category == "structures":
+            return self.structures_ref
+        elif category == "nature":
+            return self.nature_ref
+        return None
+
     def get_hextile_map_ref(self) -> HextileMap:
         return self.hextile_map_ref
 

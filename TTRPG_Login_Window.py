@@ -14,13 +14,14 @@ class Window(QWidget):
 
 """import sys
 import bcrypt
+import json
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QWidget, QPushButton, QApplication, QGridLayout, QLabel, QLineEdit, QMessageBox
 )
 
-from sqlalchemy import create_engine, Column, Integer, String, select
+from sqlalchemy import create_engine, Column, Integer, String, select, ForeignKey, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.engine import URL
 
@@ -51,14 +52,48 @@ class Account(Base):
     email = Column(String(255), nullable=False)
     password_hash = Column(String(255), nullable=False)
 
+class SavedToken(Base):
+    __tablename__ = "tokens"
+    token_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("accounts.user_id"), nullable=False)
+    token_name = Column(String(100), nullable=False)
+    token_category = Column(String(50), nullable=False)
+    token_data = Column(Text, nullable=False)
+
 #creates a database table if none exists, otherwise it does nothing
 Base.metadata.create_all(engine)
 
+def save_token_record(user_id, token_name, token_category, token_dict):
+    with SessionLocal() as session:
+        new_token = SavedToken(
+            user_id=user_id,
+            token_name=token_name,
+            token_category=token_category,
+            token_data=json.dumps(token_dict)
+        )
+        session.add(new_token)
+        session.commit()
+
+def get_saved_token(user_id, token_name, token_category):
+    with SessionLocal() as session:
+        saved_token = session.execute(
+            select(SavedToken).where(
+                SavedToken.user_id == user_id,
+                SavedToken.token_name == token_name,
+                SavedToken.token_category == token_category
+            )
+        ).scalar_one_or_none()
+
+        if saved_token is None:
+            return None
+
+        return json.loads(saved_token.token_data)
 
 #GUI Section
 class Window(QWidget):
-    def __init__(self):
+    def __init__(self, home_window=None):
         super().__init__()
+        self.home_window = home_window
 
         layout = QGridLayout()
         layout.setContentsMargins(20, 20, 20, 20)
