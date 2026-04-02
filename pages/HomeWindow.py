@@ -113,7 +113,7 @@ class HomeWindow(QMainWindow):
         self.xtra_settings_btn.clicked.connect(self.__open_xtra_settings)
         self.map_settings_toolbar.addWidget(self.xtra_settings_btn)
 
-        self.login_btn.clicked.connect(self.__open_login_window) 
+        #self.login_btn.clicked.connect(self.__open_login_window) 
 
         self.seed_input_field = QLineEdit("Enter in a map seed here!")
         self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
@@ -203,16 +203,6 @@ class HomeWindow(QMainWindow):
             background-color: white;
         """
 
-        # self.customTilesButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customNonPlayerButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customAnimalButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customMonsterButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customBuildingsButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customStructuresButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.customNatureButton.setStyleSheet(self.customBtnStyleSheet)
-        # self.diceRollerButton.setStyleSheet(self.customBtnStyleSheet)
-
 
         self.navbarLayout.addWidget(self.customTilesButton)
         self.navbarLayout.addWidget(self.customPlayerButton)
@@ -240,62 +230,7 @@ class HomeWindow(QMainWindow):
         self.navbar.setWidget(self.navbarContainer)
 
         self.setCentralWidget(self.scroll)
-            
-
-        if(c1_y < c2_y):
-            self.bottom_boundary = c1_y
-            self.top_boundary = c2_y
-        else:
-            self.bottom_boundary = c2_y
-            self.top_boundary = c1_y
-
-        self.__find_selected_tiles()
-
-    def __find_selected_tiles(self):
-        for tile in self.tile_labels_list:
-            global_position = tile.mapToGlobal(tile.pos())
-            x = global_position.x()
-            y = global_position.y()
-            if(x >= self.left_boundary and x <= self.right_boundary and y >= self.bottom_boundary and y <= self.top_boundary):
-                self.selected_tiles.append(tile)
-
-        self.__select_tiles()
-
-    def __select_tiles(self):
-        for tile in self.selected_tiles:
-            tile.clear()
-
-
-    def eventFilter(self, child, event):
-        if event.type() == QEvent.Type.MouseButtonPress:
-            global_position = event.globalPosition().toPoint()
-            self.__handle_mouse_press_event(global_position)
-            return False
-        if event.type() == QEvent.Type.MouseButtonRelease:
-            global_position = event.position().toPoint()
-            self.__handle_mouse_release_event(global_position)
-            return False
-        return super().eventFilter(child, event)
-
-    def __handle_mouse_press_event(self, global_position):
-        #local_position = self.mapToParent(global_position)
-        print(str(global_position) + "From WINDOW LOCAL")
-        if(self.box_select_flag):
-            self.corner_one = global_position
-        if(self.ring_select_flag):
-            self.elapsed_timer.start()
-
-    def __handle_mouse_release_event(self, global_position):
-        if(self.box_select_flag):
-            self.corner_two = global_position
-            self.__determine_box()
-        if(self.ring_select_flag):
-            total_time_ms = self.elapsed_timer.elapsed()
-            total_time_s = total_time_ms / 1000
-            total_rings = math.floor(total_time_s / 3)
-
-            print(total_rings)
-
+           
 
         
 
