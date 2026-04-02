@@ -1,55 +1,56 @@
 {
-  "DEFAULT": {
-    "key": -1,
-    "name": "",
-    "duplicatable": true,
-    "small_fields": {
-      "health": 0,
-      "strength": 0,
-      "dexterity": 0,
-      "constitution": 0,
-      "intelligence": 0,
-      "wisdom": 0,
-      "charisma": 0
+    "DEFAULT": {
+        "key": -1,
+        "name": "",
+        "duplicatable": true,
+        "small_fields": {
+            "health": 0,
+            "strength": 0,
+            "dexterity": 0,
+            "constitution": 0,
+            "intelligence": 0,
+            "wisdom": 0,
+            "charisma": 0
+        },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": "",
+        "old_map_assets": [],
+        "excluded_tiles": {},
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
     },
-    "large_fields": {
-      "biography": "",
-      "notes": ""
-    },
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
-  },
-  "TAURUS": {
-    "key": 1,
-    "name": "Taurus",
-    "duplicatable": true,
-    "small_fields": {
-      "health": "15",
-      "strength": "17",
-      "dexterity": "4",
-      "constitution": "12",
-      "intelligence": "1",
-      "wisdom": "2",
-      "charisma": "20",
-      "name": "Taurus"
-    },
-    "large_fields": {
-      "biography": "The best boy.",
-      "notes": "Kind of smelly?"
-    },
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "assets\\dog.png",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
-  }
+    "TAURUS": {
+        "key": 1,
+        "name": "Taurus",
+        "duplicatable": true,
+        "small_fields": {
+            "health": "20",
+            "strength": "17",
+            "dexterity": "4",
+            "constitution": "12",
+            "intelligence": "1",
+            "wisdom": "2",
+            "charisma": "20",
+            "age": "9"
+        },
+        "large_fields": {
+            "biography": "The best boy.",
+            "notes": "Kind of smelly?",
+            "Inventory": "Tennis ball."
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": "assets\\dog.png",
+        "old_map_assets": [],
+        "excluded_tiles": {},
+        "base_height_multiplier": 1,
+        "base_width_multiplier": 1
+    }
 }

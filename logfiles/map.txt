@@ -1,7 +1,0 @@
-Character was added to the map
-Character moved from (600, 400) to (5, 2)
-Character was added to the map
-Character moved from (600, 400) to (4, 3)
-Taurus was added to the map
-Taurus moved from (600, 400) to (0, 4)
-Character's health value changes from 100 to 10

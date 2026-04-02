@@ -48,6 +48,7 @@
     <Compile Include="TTRPG_Simulator_App.py" />
     <Compile Include="widgets\GenericContainerWidget.py" />
     <Compile Include="widgets\TileChangeMessageBox.py" />
+    <Compile Include="widgets\TileProbabilitiesWidget.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="jsonfiles\Animals.json" />

@@ -2,7 +2,17 @@
 #You need the following Python packages: pyqt6, sqlalchemy, pyodbc, and bcrypt. Install them using "pip install {package_name}"
 
 #Imports the database connection code from the tester file.
-import sys
+
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (
+    QWidget, QPushButton, QApplication, QGridLayout, QLabel, QLineEdit, QMessageBox
+)
+
+class Window(QWidget):
+    def __init__(self):
+        super().__init__()
+
+"""import sys
 import bcrypt
 
 from PyQt6.QtCore import Qt
@@ -145,11 +155,5 @@ class Window(QWidget):
                 QMessageBox.critical(self, "Login Failed", "Invalid username or password.")
 
         except Exception as e:
-            QMessageBox.critical(self, "Database error", str(e))
+            QMessageBox.critical(self, "Database error", str(e))"""
 
-#runs the application
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = Window()
-    window.show()
-    sys.exit(app.exec())

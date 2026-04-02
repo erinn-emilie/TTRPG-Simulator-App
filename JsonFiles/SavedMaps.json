@@ -1,0 +1,680 @@
+{
+    "Erinn's Map": {
+        "0": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "1": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "2": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "3": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "4": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "5": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "6": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "7": {
+            "tokens": [],
+            "type_str": "DESERT",
+            "type_key": 4
+        },
+        "8": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "9": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "10": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "11": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "12": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "13": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "14": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "15": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "16": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "17": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "18": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "19": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "20": {
+            "tokens": [],
+            "type_str": "DESERT",
+            "type_key": 4
+        },
+        "21": {
+            "tokens": [],
+            "type_str": "DESERT",
+            "type_key": 4
+        },
+        "22": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "23": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "24": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "25": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "26": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "27": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "28": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "29": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "30": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "31": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "32": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "33": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "34": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "35": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "36": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "37": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "38": {
+            "tokens": [],
+            "type_str": "DESERT",
+            "type_key": 4
+        },
+        "39": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "40": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "41": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "42": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "43": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "44": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "45": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "46": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "47": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "48": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "49": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "50": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "51": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "52": {
+            "tokens": [],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "53": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "54": {
+            "tokens": [],
+            "type_str": "JUNGLE",
+            "type_key": 7
+        },
+        "55": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "56": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "57": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "58": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "59": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "60": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "61": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "62": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "63": {
+            "tokens": [],
+            "type_str": "DESERT",
+            "type_key": 4
+        },
+        "64": {
+            "tokens": [],
+            "type_str": "DESERT",
+            "type_key": 4
+        },
+        "65": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "66": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "67": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "68": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "69": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "70": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "71": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "72": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "73": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "74": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "75": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "76": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "77": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "78": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "79": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "80": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "81": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "82": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "83": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "84": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "85": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "86": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "87": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "88": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "89": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "90": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "91": {
+            "tokens": [
+                {
+                    "key": 1,
+                    "name": "Taurus",
+                    "duplicatable": true,
+                    "small_fields": {
+                        "health": "20000",
+                        "strength": "17",
+                        "dexterity": "4",
+                        "constitution": "12",
+                        "intelligence": "1",
+                        "wisdom": "2",
+                        "charisma": "20",
+                        "age": "9"
+                    },
+                    "large_fields": {
+                        "biography": "The best boy.",
+                        "notes": "Kind of smelly?",
+                        "Inventory": "Tennis ball."
+                    },
+                    "spawn_all": true,
+                    "spawnable_tiles": [],
+                    "large_assets": [],
+                    "set_map_asset": "assets\\dog.png",
+                    "old_map_assets": [],
+                    "excluded_tiles": {},
+                    "base_height_multiplier": 1,
+                    "base_width_multiplier": 1,
+                    "x_position": 450,
+                    "y_position": 250,
+                    "token_type": "Animals",
+                    "modified": true
+                },
+                {
+                    "name": "Taurus",
+                    "token_type": "Animals",
+                    "key": 1,
+                    "x_position": 600,
+                    "y_position": 300,
+                    "modified": false
+                }
+            ],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "92": {
+            "tokens": [],
+            "type_str": "MOUNTAIN",
+            "type_key": 1
+        },
+        "93": {
+            "tokens": [],
+            "type_str": "MOUNTAIN",
+            "type_key": 1
+        },
+        "94": {
+            "tokens": [],
+            "type_str": "PLAINS",
+            "type_key": 0
+        },
+        "95": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "96": {
+            "tokens": [],
+            "type_str": "FOREST",
+            "type_key": 3
+        },
+        "97": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "98": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "99": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "100": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "101": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "102": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "103": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "104": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "105": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "106": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "107": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "108": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "109": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "110": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "111": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "112": {
+            "tokens": [],
+            "type_str": "SWAMP",
+            "type_key": 2
+        },
+        "113": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "114": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "115": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "116": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "117": {
+            "tokens": [],
+            "type_str": "TUNDRA",
+            "type_key": 8
+        },
+        "118": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        },
+        "119": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "120": {
+            "tokens": [],
+            "type_str": "ICELAND",
+            "type_key": 6
+        },
+        "121": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "122": {
+            "tokens": [],
+            "type_str": "WASTELAND",
+            "type_key": 9
+        },
+        "123": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "124": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "125": {
+            "tokens": [],
+            "type_str": "WATER",
+            "type_key": 10
+        },
+        "126": {
+            "tokens": [],
+            "type_str": "HILLS",
+            "type_key": 5
+        }
+    }
+}

@@ -26,10 +26,10 @@ class TokenRecord():
     def get_position(self) -> tuple:
         return self.position
 
-    def get_x_position(self) -> float:
+    def get_x_position(self) -> int:
         return self.position[0]
 
-    def get_y_position(self) -> float:
+    def get_y_position(self) -> int:
         return self.position[1]
 
     def get_token_name(self) -> str:
@@ -83,18 +83,19 @@ class TokenRecord():
 
 
     def __log_value_changes(self, old_value, new_value, value_key):
+        self.default = False
         if(self.logger_ref.get_writable_status()):
             change_line = self.name + "'s " + value_key + " value changes from " + old_value + " to " + new_value
             self.logger_ref.add_line(change_line)
 
     def __log_key_changes(self, old_key, new_key):
+        self.default = False
         if(self.logger_ref.get_writable_status()):
             change_line = "The name of " + old_key + " for " + self.name + " changed to " + new_key
             self.logger_ref.add_line(change_line)
 
 
     def change_small_field_values(self, token_key, value_key, new_value):
-        self.default = False
         if(value_key == "name"):
             self.__log_value_changes(self.token_dict["name"], new_value, value_key)
             self.token_dict["name"] = new_value
@@ -103,20 +104,17 @@ class TokenRecord():
             self.token_dict["small_fields"][value_key] = new_value
 
     def change_small_field_keys(self, token_key, old_key, new_key):
-        self.default = False
         self.__log_value_changes(old_key, new_key)
         self.token_dict["small_fields"][new_key] = self.token_dict["small_fields"].pop(old_key)
 
 
     def change_lg_field_values(self, token_key, value_key, new_value):
-        self.default = False
         self.__log_key_changes(self.token_dict["large_fields"][value_key], new_value, value_key)
         plain_txt = new_value.toPlainText()
         self.token_dict["large_fields"][value_key] = plain_txt
 
 
     def change_lg_field_keys(self, token_key, old_key, new_key):
-        self.default = False
         self.__log_value_changes(old_key, new_key)
         self.token_dict["large_fields"][new_key] = self.token_dict["large_fields"].pop(old_key)
         

@@ -467,16 +467,16 @@ class HextileMap():
         all_tiles_dict = {}
         cur_tile_pos_key = 0
         all_tiles_dict[str(cur_tile_pos_key)] = {}
-        for token in cur_record.get_all_tokens():
+        for token in cur_record.get_token_records():
             token_dict = token.get_token_dict()
             if(token.get_default_status):
                 abrev_dict = {
-                    token_dict["name"]: {
-                        "type": token_dict["token_type"],
-                        "key": token_dict["key"],
-                        "x_position": token_dict["x_position"],
-                        "y_position": token_dict["y_position"]
-                    }
+                    "name": token_dict["name"],
+                    "token_type": token_dict["token_type"],
+                    "key": token_dict["key"],
+                    "x_position": token_dict["x_position"],
+                    "y_position": token_dict["y_position"],
+                    "modified": False
                 }
                 cur_tokens_list.append(abrev_dict)
             else:
@@ -497,17 +497,16 @@ class HextileMap():
             cur_tokens_list = []
             cur_tile_pos_key += 1
             all_tiles_dict[str(cur_tile_pos_key)] = {}
-            for token in cur_record.get_all_tokens():
+            for token in cur_record.get_token_records():
                 token_dict = token.get_token_dict()
-                if(token.get_default_status):
+                if(token.get_default_status()):
                     abrev_dict = {
-                        token_dict["name"]: {
-                            "type": token_dict["token_type"],
-                            "key": token_dict["key"],
-                            "x_position": token_dict["x_position"],
-                            "y_position": token_dict["y_position"],
-                            "modified": False
-                        }
+                        "name": token_dict["name"],
+                        "token_type": token_dict["token_type"],
+                        "key": token_dict["key"],
+                        "x_position": token_dict["x_position"],
+                        "y_position": token_dict["y_position"],
+                        "modified": False
                     }
                     cur_tokens_list.append(abrev_dict)
                 else:
@@ -538,92 +537,72 @@ class HextileMap():
 
 
     def loadSavedMap(self, map_name:str):
+        self.saved_maps.fetch_saved_maps()
         map_dict = self.saved_maps.find_map_by_name(map_name)
-        self.__createMap(len(map_dict))
-        curNode = self.centerNode
-        curRingNumber = 1
-        curTileNum = 0
-        numTilesInRing = 6
+        if(not map_dict is None):
+            self.__createMap(len(map_dict))
+            curNode = self.centerNode
+            curRingNumber = 1
+            curTileNum = 0
+            numTilesInRing = 6
 
-        dict_pos = 0
+            dict_pos = 0
 
-        tile_type = map_dict[str(dict_pos)]["type_str"]
-
-        curNode.setTileType(tile_type)
-
-        record_key = 0
-        tokens = map_dict[str(dict_pos)]["tokens"]
-        #def __init__(self, token_dict:dict, token_type:TokenTypes, record_key:int, position=(0,0)):
-        curRecord = curNode.getTileRecord()
-        for token in tokens:           
-            record_key += 1
-            for name in token: 
-                type_str = token[name]["type"]
-                token_type = self.__findTokenTypeFromStr(token[name]["type"])
-                token_type_ref = self.__findTokenRefFromType(token_type)
-                token_record = TokenRecord(self.logger_ref, token_type_ref.get_token_by_name(name), token_type, record_key, position=(token[name]["x_position"], token[name]["y_position"]))
-
-                self.tokens_on_map.append(token_record)
-
-                match(token_type):
-                    case TokenTypes.PLAYER_CHARACTERS:
-                        curRecord.add_player_character(token_record)
-                    case TokenTypes.NON_PLAYER_CHARACTERS:
-                        curRecord.add_nonplayer_character(token_record)
-                    case TokenTypes.ANIMALS:
-                        curRecord.add_animal_token(token_record)
-                    case TokenTypes.MONSTERS:
-                        curRecord.add_monster_token(token_record)
-                    case TokenTypes.BUILDINGS:
-                        curRecord.add_building_token(token_record)
-                    case TokenTypes.STRUCTURES:
-                        curRecord.add_structure_token(token_record)
-                    case TokenTypes.NATURE:
-                        curRecord.add_nature_token(token_record)
-
-        curNode = curNode.getNorthNode()
-
-        dict_pos += 1
-
-        while(str(dict_pos) in map_dict):
-            curTileNum += 1
             tile_type = map_dict[str(dict_pos)]["type_str"]
-            tokens = map_dict[str(dict_pos)]["tokens"]
-            dict_pos += 1
+
             curNode.setTileType(tile_type)
+
+            record_key = 0
+            tokens = map_dict[str(dict_pos)]["tokens"]
             curRecord = curNode.getTileRecord()
             for token in tokens:           
                 record_key += 1
-                for name in token:
-                    token_type = self.__findTokenTypeFromStr(token[name]["type"])
+                token_type = self.__findTokenTypeFromStr(token["token_type"])
+                token_type_ref = self.__findTokenRefFromType(token_type)
+                name = token["name"]
+
+                token_dict = token
+                if(token["modified"]):
+                    token_dict = token_type_ref.get_token_by_name(name)
+
+                token_record = TokenRecord(self.logger_ref, token_dict, token_type, position=(token["x_position"], token["y_position"]))
+
+                self.tokens_on_map.append(token_record)
+                curRecord.add_token_record(token_record)
+
+            curNode = curNode.getNorthNode()
+
+            dict_pos += 1
+
+            while(str(dict_pos) in map_dict):
+                curTileNum += 1
+                tile_type = map_dict[str(dict_pos)]["type_str"]
+                tokens = map_dict[str(dict_pos)]["tokens"]
+                dict_pos += 1
+                curNode.setTileType(tile_type)
+                curRecord = curNode.getTileRecord()
+                for token in tokens:           
+                    record_key += 1
+                    token_type = self.__findTokenTypeFromStr(token["token_type"])
                     token_type_ref = self.__findTokenRefFromType(token_type)
-                    token_record = TokenRecord(self.logger_ref, token_type_ref.get_token_by_name(name), token_type, record_key, position=(token[name]["x_position"], token[name]["y_position"]))
+                    name = token["name"]
+
+                    token_dict = token
+                    if(not token["modified"]):
+                        token_dict = token_type_ref.get_token_by_name(name)
+
+                    token_record = TokenRecord(self.logger_ref, token_dict, token_type, position=(token["x_position"], token["y_position"]))
 
                     self.tokens_on_map.append(token_record)
+                    curRecord.add_token_record(token_record)
 
-                    match(token_type):
-                        case TokenTypes.PLAYER_CHARACTERS:
-                            curRecord.add_player_character(token_record)
-                        case TokenTypes.NON_PLAYER_CHARACTERS:
-                            curRecord.add_nonplayer_character(token_record)
-                        case TokenTypes.ANIMALS:
-                            curRecord.add_animal_token(token_record)
-                        case TokenTypes.MONSTERS:
-                            curRecord.add_monster_token(token_record)
-                        case TokenTypes.BUILDINGS:
-                            curRecord.add_building_token(token_record)
-                        case TokenTypes.STRUCTURES:
-                            curRecord.add_structure_token(token_record)
-                        case TokenTypes.NATURE:
-                            curRecord.add_nature_token(token_record)
+                if(curTileNum == numTilesInRing):
+                    curRingNumber += 1
+                    if(not curRingNumber > len(map_dict)):
+                        curNode = curNode.getNorthEastNode().getNorthNode()
 
-            if(curTileNum == numTilesInRing):
-                curRingNumber += 1
-                if(not curRingNumber > len(map_dict)):
-                    curNode = curNode.getNorthEastNode().getNorthNode()
-
-                    numTilesInRing = curRingNumber * 6
-                    curTileNum = 0
-            else:
-                curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
+                        numTilesInRing = curRingNumber * 6
+                        curTileNum = 0
+                else:
+                    curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
 

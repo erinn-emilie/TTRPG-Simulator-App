@@ -503,9 +503,129 @@ class TokenContainerWidget(QWidget):
         else:
             print("User clicked No (or closed the dialog)")
 
-        
+
 
 class TileContainerWidget(QWidget):
+    def __init__(self, tile_name:str, toolbox:Toolbox, tile_img_path:str):
+        super().__init__()
+        self.toolbox = toolbox
+        self.tile_types_ref = self.toolbox.get_tile_types_ref()
+        self.old_tile_name = tile_name
+        self.new_tile_name = ""
+        self.tile_img_path = tile_img_path
+
+        self.main_layout = QHBoxLayout()
+
+        self.tile_name_label = QLineEdit(self.old_tile_name)
+        self.tile_name_label.textEdited.connect(self.__change_tile_name)
+        self.tile_name_label.setReadOnly(True)
+        self.tile_name_label.setMaximumWidth(100)
+
+        self.edit_name_btn = QPushButton("Edit Name")
+        self.edit_name_btn.clicked.connect(self.__set_tile_name_editable)
+        self.save_name_btn = QPushButton("Save Edit")
+        self.save_name_btn.clicked.connect(self.__save_tile_name)
+        self.cancel_name_btn = QPushButton("Cancel Edit")
+        self.cancel_name_btn.clicked.connect(self.__set_tile_name_uneditable)
+
+        self.tile_img_pixmap = QPixmap(self.tile_img_path)
+        self.tile_img_label = QLabel()
+        self.tile_img_label.setPixmap(self.tile_img_pixmap)
+        self.tile_img_label.setScaledContents(True)
+        self.tile_img_label.setMaximumHeight(200)
+        self.tile_img_label.setMaximumWidth(200)
+
+        self.change_tile_img_btn = QPushButton("Change Tile Image")
+        self.change_tile_img_btn.clicked.connect(self.__change_tile_img)
+
+        self.main_layout.addStretch()
+
+        self.edit_btn_layout = QHBoxLayout()
+        self.edit_btn_layout.addWidget(self.edit_name_btn)
+        self.edit_btn_layout.addWidget(self.save_name_btn)
+        self.edit_btn_layout.addWidget(self.cancel_name_btn)
+        self.save_name_btn.hide()
+        self.cancel_name_btn.hide()
+
+        self.edit_btn_v_layout = QVBoxLayout()
+        self.edit_btn_v_layout.addStretch()
+        self.edit_btn_v_layout.addLayout(self.edit_btn_layout)
+
+        self.edit_tile_probs_btn = QPushButton("Edit Tile Probabilities")
+        self.edit_tile_probs_btn.clicked.connect(self.__edit_tile_probs)
+        self.edit_btn_v_layout.addWidget(self.edit_tile_probs_btn)
+        self.edit_btn_v_layout.addStretch()
+
+        self.main_layout.addLayout(self.edit_btn_v_layout)
+
+        self.main_layout.addSpacing(50)
+
+        self.main_layout.addWidget(self.tile_name_label)
+        self.main_layout.addSpacing(50)
+        self.main_layout.addWidget(self.tile_img_label)
+        self.main_layout.addSpacing(50)
+        self.main_layout.addWidget(self.change_tile_img_btn)
+
+        self.main_layout.addStretch()
+        
+        self.setLayout(self.main_layout)
+
+    def __set_tile_name_editable(self):
+        self.tile_name_label.setReadOnly(False)
+        self.edit_name_btn.hide()
+        self.save_name_btn.show()
+        self.cancel_name_btn.show()
+
+    def __set_tile_name_uneditable(self):
+        self.tile_name_label.setReadOnly(True)
+        self.edit_name_btn.show()
+        self.save_name_btn.hide()
+        self.cancel_name_btn.hide()
+
+    def __change_tile_name(self, text):
+        self.new_tile_name = text
+
+    def __save_tile_name(self):
+        if(self.new_tile_name != ""):
+            self.tile_types_ref.change_tile_name(self.old_tile_name, self.new_tile_name)
+            self.old_tile_name = self.new_tile_name
+            self.new_tile_name = ""
+        self.__set_tile_name_uneditable()
+
+    def __change_tile_img(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Select an image!")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
+
+        if file_dialog.exec():
+            try:
+                selected_files_list = file_dialog.selectedFiles()
+                img_path = selected_files_list[0]
+                img_name = os.path.basename(img_path)
+
+                img_name = img_name.replace(".jpg", ".png")
+                img_name = img_name.replace(".jpeg", ".png")
+                cur_dir = os.getcwd()
+                asset_dir = os.path.join(cur_dir, "assets")
+                asset_path = os.path.join(asset_dir, img_name)
+                os.rename(img_path, asset_path)
+
+                self.tile_types_ref.change_tile_image(asset_path)
+
+            except FileNotFoundError:
+                print("File couldn't be found")
+            except FileExistsError:
+                print("That file already exists in this location")
+
+    def __edit_tile_probs(self):
+        print("edit")
+
+
+
+        
+
+class TileContainerWidgetBAD(QWidget):
     def __init__(self, tile_name:str, toolbox:Toolbox, tile_image_path:str):
         super().__init__()
         self.toolbox = toolbox

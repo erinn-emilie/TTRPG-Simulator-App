@@ -70,62 +70,7 @@ class GenericContainerWidget(QWidget):
     def disable_tile_name_label(self):
         self.tileNameLabel.setEnabled(False)
 
-        
-
-
-'''class CustomTilesWindow(QMainWindow):
-    def __init__(self, toolboxRef:Toolbox):
-        super().__init__()
-        self.title = "Custom Tile Menu"
-        self.setWindowTitle(self.title)
-        self.toolbox = toolboxRef
-        self.tileTypesRef = self.toolbox.get_tile_types_ref()
-
-        self.main_widget = QWidget()
-        self.mainLayout = QVBoxLayout()
-        self.tile_list = self.tileTypesRef.getTileNamesList()
-        for tile in self.tile_list:
-            image_path = self.tileTypesRef.getDefaultTileAssetByName(tile.upper())
-            widget = GenericContainerWidget(tile, self.tile_list, image_path)
-            self.mainLayout.addWidget(widget)
-        self.addTileButton = QPushButton("Add New Tile")
-        self.addTileButton.clicked.connect(self.__add_new_tile)
-        self.mainLayout.addWidget(self.addTileButton)
-        self.main_widget.setLayout(self.mainLayout)
-        self.scroll = QScrollArea()
-        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(self.main_widget)
-        self.setCentralWidget(self.scroll)
-
-    def __add_new_tile(self):
-        file_dialog = QFileDialog(self)
-        file_dialog.setWindowTitle("Select a file to use as the image for your tile!")
-        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
-        file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
-
-        if file_dialog.exec():
-            try:
-                selected_files_list = file_dialog.selectedFiles()
-                img_path = selected_files_list[0]
-                img_name = os.path.basename(img_path)
-                cur_dir = os.getcwd()
-                asset_dir = os.path.join(cur_dir, "assets")
-                asset_path = os.path.join(asset_dir, img_name)
-                os.rename(img_path, asset_path)
-            except FileNotFoundError:
-                print("File couldn't be found")
-            except FileExistsError:
-                print("That file already exists in this location")
-
-            widget = GenericContainerWidget("New Tile", self.tile_list, asset_path)
-            self.mainLayout.addWidget(widget)
-            self.tileTypesRef.add_new_tile("New Tile", asset_path)'''
-
-
-
-
+       
 
 
 if __name__ == "__main__":

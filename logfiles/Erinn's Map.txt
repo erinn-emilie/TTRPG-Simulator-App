@@ -1,0 +1,4 @@
+Taurus was added to the map  2026-03-25 16:36:01
+Taurus moved from (600, 300) to (450, 250)  2026-03-25 16:36:02
+Taurus was added to the map  2026-03-25 16:36:04
+Taurus's health value changes from 20 to 20000  2026-03-25 16:36:12

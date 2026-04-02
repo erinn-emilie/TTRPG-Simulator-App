@@ -97,15 +97,23 @@ class SettingsMenu(QMainWindow):
 
         map_size_row = QHBoxLayout()
         map_size_label = QLabel("Pick the size of your map!")
+        map_size_row.addStretch()
         map_size_row.addWidget(map_size_label)
         map_size_row.addWidget(self.map_size_dropdown)
+        map_size_row.addStretch()
+        self.main_layout.addStretch()
         self.main_layout.addLayout(map_size_row)
+        self.main_layout.addSpacing(100)
 
         tile_gen_row = QHBoxLayout()
         tile_gen_label = QLabel("Pick the type of tile generation!")
+        tile_gen_row.addStretch()
         tile_gen_row.addWidget(tile_gen_label)
         tile_gen_row.addWidget(self.tile_gen_type_dropdown)
+        tile_gen_row.addStretch()
         self.main_layout.addLayout(tile_gen_row)
+        self.main_layout.addStretch()
+
         
         self.main_layout.addWidget(self.save_btn)
         self.setCentralWidget(self.main_widget)

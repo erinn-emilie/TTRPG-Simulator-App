@@ -4,6 +4,11 @@ class SavedMaps():
     def __init__(self):
         self.JSON_FILE_PATH = "jsonfiles/SavedMaps.json"
         
+        self.fetch_saved_maps()
+
+
+    def fetch_saved_maps(self):
+        self.all_saved_maps = {}
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.all_saved_maps = json.load(file)

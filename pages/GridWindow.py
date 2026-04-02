@@ -83,6 +83,7 @@ class TokenLabel(QLabel):
         self.token_record = token_record
         self.grid_window = grid_window
         self.token_record_window = None
+        self.scroll = None
         self.dragging = False
         self.old_x = 0
         self.old_y = 0
@@ -99,8 +100,11 @@ class TokenLabel(QLabel):
             self.dragging = True
         if(event.button() == Qt.MouseButton.RightButton):
             if(self.token_record_window is None):
+                self.scroll = QScrollArea()
+                self.scroll.setWidgetResizable(True)
                 self.token_record_window = TokenRecordContainerWidget(self.token_record, self.toolbox)
-            self.token_record_window.show()
+                self.scroll.setWidget(self.token_record_window)
+            self.scroll.show()
         event.accept()
 
     def mouseReleaseEvent(self, event):
@@ -163,6 +167,9 @@ class GridWindow(QMainWindow):
 
         self.map_widget = QMapWidget(self.toolbox, self.background_img_path)
 
+        self.__initial_token_setup()
+
+
         self.main_layout = QVBoxLayout()
         self.main_layout.addWidget(self.toolbar)
         self.main_layout.addWidget(self.map_widget)
@@ -182,8 +189,9 @@ class GridWindow(QMainWindow):
                 self.tile_size = new_tile_size
                 self.settings_ref.setTileSize(new_tile_size)
                 self.map_widget.reload_tile_size()
-                self.map_widget.update()
                 self.__compute_snap_positions()
+                self.__move_existing_tokens()
+                self.map_widget.update()
             except ValueError:
                 print("Value error")
 
@@ -225,6 +233,9 @@ class GridWindow(QMainWindow):
         local_x = local_pos.x()
         local_y = local_pos.y()
 
+        print("Local " + str(local_x))
+        print("Local " + str(local_y))
+
         new_x = -1
         new_y = -1
 
@@ -233,12 +244,19 @@ class GridWindow(QMainWindow):
             x = pos[0]
             y = pos[1]
 
-            dist = (((local_x - x) ** 2) + ((local_y - y) ** 2)) ** 0.5
+            radius = self.tile_size / 2
+            top_y = y - radius
+            bot_y = y + radius
+            left_x = x - radius
+            right_x = x + radius
 
-            if(dist < min_dist):
-                min_dist = dist
+            if((local_x > left_x) and (local_x < right_x) and (local_y > top_y) and (local_y < bot_y)):
                 new_x = x
                 new_y = y
+                print("New " + str(x))
+                print("New " + str(y))
+                break
+
 
         if(new_x > -1 and new_y > -1):
             token_record = label.get_token_record()
@@ -253,6 +271,7 @@ class GridWindow(QMainWindow):
 
 
     def __compute_snap_positions(self):
+        self.snap_positions.clear()
         rows = int(self.screen_height / self.tile_size)
         cols = int(self.screen_width / self.tile_size)
         middle_row = int(rows/2)
@@ -277,7 +296,7 @@ class GridWindow(QMainWindow):
         token_refs_list = self.toolbox.get_list_of_token_refs()
         for ref in token_refs_list:
             title = ref.get_title_str()
-            title = title[0:1].upper() + title[1:len(title)-1]
+            title = title[0:1].upper() + title[1:len(title)]
             title_str = title + " Tokens"
             icon_str = ref.get_asset_str()
             icon = QIcon(icon_str)
@@ -292,6 +311,29 @@ class GridWindow(QMainWindow):
                 combo.addItem(icon, name)
             self.toolbar.addWidget(combo)
 
+    def __initial_token_setup(self):
+        token_records = self.tile_record.get_token_records()
+        for token_record in token_records:
+            token_label = TokenLabel(self.toolbox, token_record, self, parent=self.map_widget)
+            asset_path = token_record.get_map_asset()
+            pixmap = QPixmap(asset_path)
+            scaled_pixmap = pixmap.scaled(
+                self.tile_size, self.tile_size,
+                aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                transformMode =Qt.TransformationMode.SmoothTransformation
+            )
+
+            token_label.setPixmap(scaled_pixmap)
+            token_label.resize(self.tile_size, self.tile_size)
+            token_label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+
+            x_pos = token_record.get_x_position()
+            y_pos = token_record.get_y_position()
+            token_label.move(x_pos, y_pos)
+
+            token_label.show()
+            self.token_labels.append(token_label)
+
 
     def __token_selected(self, text, token_ref=None, combo=None, token_type=None):
         if(not "Tokens" in text):
@@ -301,11 +343,16 @@ class GridWindow(QMainWindow):
             token_label = TokenLabel(self.toolbox, token_record, self, parent=self.map_widget)
             asset_path = token_record.get_map_asset()
             pixmap = QPixmap(asset_path)
-            pixmap = pixmap.scaled(self.tile_size, self.tile_size)
+            scaled_pixmap = pixmap.scaled(
+                self.tile_size, self.tile_size,
+                aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                transformMode =Qt.TransformationMode.SmoothTransformation
+            )
 
 
 
-            token_label.setPixmap(pixmap)
+            token_label.setPixmap(scaled_pixmap)
+            token_label.resize(self.tile_size, self.tile_size)
             token_label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
             token_label.move(self.middle_x, self.middle_y)
@@ -314,11 +361,42 @@ class GridWindow(QMainWindow):
             self.token_labels.append(token_label)
             combo.setCurrentIndex(0)
 
-def keyPressEvent(self, event):
-    print("Parent")
-    if(not self.selected_label is None):
-        if event.key() == Qt.Key.Key_Left:
-            print("left")
-        if event.key() == Qt.Key.Key_Right:
-            print("right")
+
+    def __move_existing_tokens(self):
+        for token_label in self.token_labels:
+            min_dist = 100000
+            token_record = token_label.get_token_record()
+            cur_pos = token_record.get_position()
+            cur_x = cur_pos[0]
+            cur_y = cur_pos[1]
+            new_x = cur_x
+            new_y = cur_y
+            for pos in self.snap_positions:
+                x = pos[0]
+                y = pos[1]
+                x_diff = abs(cur_x - x)
+                y_diff = abs(cur_y - y)
+                if(x_diff < 1 and y_diff < 1):
+                    dist = ((x_diff ** 2) + (y_diff ** 2)) ** 0.5
+                    if(dist < min_dist):
+                        min_dist = dist
+                        new_x = x
+                        new_y = y
+            pixmap = token_label.pixmap()
+            scaled_pixmap = pixmap.scaled(
+                self.tile_size, self.tile_size,
+                aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+                transformMode =Qt.TransformationMode.SmoothTransformation
+            )
+            token_label.setPixmap(scaled_pixmap)
+            token_label.resize(self.tile_size, self.tile_size)
+            token_label.move(new_x, new_y)
+
+    def keyPressEvent(self, event):
+        print("Parent")
+        if(not self.selected_label is None):
+            if event.key() == Qt.Key.Key_Left:
+                print("left")
+            if event.key() == Qt.Key.Key_Right:
+                print("right")
 

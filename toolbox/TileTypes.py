@@ -124,6 +124,13 @@ class TileTypes():
         self.__update_json_file()
 
 
+    def change_tile_image(self, tile_name:str, img_path_str:str):
+        self.__create_hexagonal_image_mask(img_path_str)
+        try:
+            self.tiles_dict[tile_name]["default_asset"] = img_path_str 
+        except KeyError:
+            print("this didnt work lol")
+
     def __create_hexagonal_image_mask(self, img_path_str:str):
         img = Image.open(img_path_str).convert("RGBA")
         width = 500

@@ -110,9 +110,9 @@ class CustomTileExploreWindow(QMainWindow):
         self.main_layout = QVBoxLayout()
 
 
-        self.edit_btn = QPushButton("Edit")
-        self.edit_btn.clicked.connect(self.__edit_tiles)
-        self.main_layout.addWidget(self.edit_btn)
+        self.add_tile_btn = QPushButton("Add New Tile")
+        self.add_tile_btn.clicked.connect(self.__add_new_tile)
+        self.main_layout.addWidget(self.add_tile_btn)
 
         self.save_btn = QPushButton("Save Changes")
         self.main_layout.addWidget(self.save_btn)
@@ -126,9 +126,7 @@ class CustomTileExploreWindow(QMainWindow):
             widget = TileContainerWidget(tile, self.toolbox, image_path)
             self.tile_widgets.append(widget)
             self.main_layout.addWidget(widget)
-        self.add_tile_btn = QPushButton("Add New Tile")
-        self.add_tile_btn.clicked.connect(self.__add_new_tile)
-        self.main_layout.addWidget(self.add_tile_btn)
+
         self.main_widget.setLayout(self.main_layout)
         self.scroll = QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
@@ -161,15 +159,9 @@ class CustomTileExploreWindow(QMainWindow):
             except FileExistsError:
                 print("That file already exists in this location")
 
+            self.tile_types_ref.add_new_tile("New Tile", asset_path)
             widget = TileContainerWidget("New Tile", self.toolbox, asset_path)
             self.main_layout.addWidget(widget)
-            self.tile_types_ref.add_new_tile("New Tile", asset_path)
-
-    def __edit_tiles(self):
-        self.save_btn.show()
-        self.edit_btn.hide()
-        for widget in self.tile_widgets:
-            widget.enable_tile_name_label()
 
     def __save_changes(self):
         for widget in self.tile_widgets:
