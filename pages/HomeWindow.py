@@ -26,7 +26,7 @@ from widgets.LogWidget import LogWidget
 from widgets.DiceRoller import DiceRoller
 from Enums.MapSizes import MapSizes
 
-from TTRPG_Login_Window import Window #line naomi added to connect login and homepage
+from TTRPG_Login_Window import Window 
 
 import math
 
@@ -64,9 +64,6 @@ class HexLabel(QLabel):
 
 
 
-
-#Class derived from QMainWindow, this is the homepage of the whole app,
-#where the map is generated and displayed.  
 class HomeWindow(QMainWindow):
     def __init__(self, toolbox_ref:Toolbox):
         super().__init__()            
@@ -90,30 +87,19 @@ class HomeWindow(QMainWindow):
         self.tile_labels_list = []
         self.__layout_tiles()
 
-        #The map_layout contains the map widget, and the layout is given to the map widget
         self.map_layout.addWidget(self.map_widget)
         self.main_widget.setLayout(self.map_layout)
 
-        #!!!
-        #Keep for now, need to find a way to make the map fully scrollable and zoom in/out-able lol
         self.map_widget.setMinimumSize(3000,3000)
 
-        # A bar across the top that holds a button for the user to open up custom
-        # settings, a field for the user to enter a seed, and the generate map button
         self.map_settings_toolbar = QToolBar()
-        # !!!
-        # Looks terrible fix lol
+
         self.map_settings_toolbar.setStyleSheet("background-color: pink")
         self.map_settings_toolbar.setMinimumHeight(100)
 
-        # !!!
-        # Need to make a custom buttom class for buttons like this that 
-        # have a set stylesheet adn stuff
         self.xtra_settings_btn = QPushButton("Configure Extra Settings", self)
         self.xtra_settings_btn.clicked.connect(self.__open_xtra_settings)
         self.map_settings_toolbar.addWidget(self.xtra_settings_btn)
-
-        #self.login_btn.clicked.connect(self.__open_login_window) 
 
         self.seed_input_field = QLineEdit("Enter in a map seed here!")
         self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
@@ -316,9 +302,6 @@ class HomeWindow(QMainWindow):
 
 
 
-    # creates a window of the custom class Settings Menu.
-    # !!!
-    # Should pass the Toolbox, also shouldn't set stylesheet here should set in the actual class
     def __open_xtra_settings(self):
         self.settings_menu_window = SettingsMenu(self.toolbox)
         self.settings_menu_window.show()
