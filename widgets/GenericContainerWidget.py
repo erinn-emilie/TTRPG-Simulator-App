@@ -9,12 +9,85 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QPlainTextEdit,
     QFileDialog,
-    QMessageBox
+    QMessageBox,
+    QMainWindow
     )
 
 from functools import partial
 from toolbox.Toolbox import Toolbox
 import os
+
+class TileProbWindow(QMainWindow):
+    def __init__(self, toolbox:Toolbox, tile_name:str):
+        super().__init__()
+        self.tile_name = tile_name
+        self.toolbox = toolbox
+        self.tile_types_ref = self.toolbox.get_tile_types_ref()
+        self.main_widget = QWidget()
+        self.main_layout = QVBoxLayout()
+
+
+
+        self.name_labels = []
+        self.weight_labels = []
+        self.new_tile_weights_dict = {}
+        self.old_tile_weights_dict = {}
+
+        self.save_btn = QPushButton("Save Changes")
+        self.save_btn.clicked.connect(self.__save_changes)
+
+        self.main_layout.addWidget(self.save_btn)
+
+        self.__setup_layout()
+
+        self.main_widget.setLayout(self.main_layout)
+        self.setCentralWidget(self.main_widget)
+
+    def __setup_layout(self):
+        weights = self.tile_types_ref.get_tile_weights_by_name(self.tile_name)
+
+        for tile in weights:
+            if(tile.upper() == self.tile_name.upper()):
+                continue
+            row = QHBoxLayout()
+            self.new_tile_weights_dict[tile] = ""
+            name_label = QLabel(tile)
+            self.name_labels.append(name_label)
+            weight = weights[tile]
+            self.old_tile_weights_dict[tile] = weight
+            weight_label = QLineEdit(str(weight))
+            weight_label.textEdited.connect(partial(self.__change_tile_weight, name_key=tile, label=weight_label))
+            self.weight_labels.append(weight_label)
+
+            row.addWidget(name_label)
+            row.addWidget(weight_label)
+            self.main_layout.addLayout(row)
+
+    def __change_tile_weight(self, new_weight, name_key="", label=None):
+        if(new_weight != ""):
+            try: 
+                weight = int(new_weight)
+                self.new_tile_weights_dict[name_key] = weight
+            except ValueError:
+                old_weight = self.old_tile_weights_dict[name_key]
+                label.setText(str(old_weight))
+
+
+        self.new_tile_weights_dict[name_key] = new_weight
+
+    def __save_changes(self):
+        for tile in self.new_tile_weights_dict:
+            if(self.new_tile_weights_dict[tile] != ""):
+                try:
+                    weight = self.new_tile_weights_dict[tile]
+                    weight = int(weight)
+                    self.tile_types_ref.change_tile_weight(self.tile_name, tile, weight)
+                    self.new_tile_weights_dict[tile] = ""
+                except ValueError:
+                    self.new_tile_weights_dict[tile] = ""
+                    continue
+
+
 
  
 class TokenContainerWidget(QWidget):
@@ -513,6 +586,7 @@ class TileContainerWidget(QWidget):
         self.old_tile_name = tile_name
         self.new_tile_name = ""
         self.tile_img_path = tile_img_path
+        self.tile_probs_window = None
 
         self.main_layout = QHBoxLayout()
 
@@ -619,64 +693,13 @@ class TileContainerWidget(QWidget):
                 print("That file already exists in this location")
 
     def __edit_tile_probs(self):
-        print("edit")
+        if(not self.tile_probs_window):
+            self.tile_probs_window = TileProbWindow(self.toolbox, self.old_tile_name)
+        self.tile_probs_window.show()
 
 
 
         
-
-class TileContainerWidgetBAD(QWidget):
-    def __init__(self, tile_name:str, toolbox:Toolbox, tile_image_path:str):
-        super().__init__()
-        self.toolbox = toolbox
-        self.tile_types_ref = self.toolbox.get_tile_types_ref()
-        self.main_layout = QVBoxLayout()
-
-
-        self.tile_name_prompt_label = QLabel("Tile Name:")
-
-        self.old_tile_name = tile_name
-        self.new_tile_name = ""
-        self.tile_name_label = QLineEdit(self.old_tile_name)
-        self.tile_name_label.setReadOnly(True)
-        self.tile_name_label.textEdited.connect(self.__tile_name_edited)
-        self.tile_name_label.setMaximumWidth(200)
-        self.tile_name_prompt_label.setMaximumWidth(200)
-
-
-        self.tile_image_pixmap = QPixmap(tile_image_path)
-        self.tile_image_label = QLabel()
-        self.tile_image_label.setPixmap(self.tile_image_pixmap)
-        self.tile_image_label.setScaledContents(True)
-        self.tile_image_label.setMaximumWidth(300)
-        self.tile_image_label.setMaximumHeight(300)
-        self.tile_name_row = QHBoxLayout()
-        self.tile_name_row.addWidget(self.tile_name_prompt_label)
-        self.tile_name_row.addWidget(self.tile_name_label)
-        self.tile_name_row.addWidget(self.tile_image_label)
-        self.main_layout.addLayout(self.tile_name_row)
-        self.setLayout(self.main_layout)
-
-    def enable_tile_name_label(self):
-        self.tile_name_label.setReadOnly(False)
-
-    def disable_tile_name_label(self):
-        self.tile_name_label.setReadOnly(True)
-
-    def __tile_name_edited(self,text):
-        self.new_tile_name = text
-
-    def cancel_tile_name_edit(self):
-        self.new_tile_name = ""
-
-    def save_new_tile_name(self):
-        if(self.new_tile_name != ""):
-            self.tile_types_ref.change_tile_name(self.old_tile_name, self.new_tile_name)
-            self.old_tile_name = self.new_tile_name
-            self.new_tile_name = ""
-
-
-
 
 class TokenRecordContainerWidget(QWidget):
     def __init__(self, token_record, toolbox:Toolbox):

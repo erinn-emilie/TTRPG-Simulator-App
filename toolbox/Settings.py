@@ -11,10 +11,10 @@ class Settings():
         self.seed = Seed(tile_types_ref)
 
     def setNewSeed(self, newSeed):
-        self.seed = Seed(newSeed)
+        self.seed.reseed(seed=newSeed)
 
     def setNewRandomSeed(self):
-        self.seed = Seed()
+        self.seed.reseed()
 
     def getSeedRef(self):
         return self.seed

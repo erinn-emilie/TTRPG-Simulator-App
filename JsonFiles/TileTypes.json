@@ -30,7 +30,7 @@
         "name": "Plains",
         "tile_weights": {
             "PLAINS": 100,
-            "MOUNTAIN": 80,
+            "MOUNTAIN": 90,
             "SWAMP": 70,
             "FOREST": 90,
             "DESERT": 10,

@@ -114,10 +114,9 @@ class CustomTileExploreWindow(QMainWindow):
         self.add_tile_btn.clicked.connect(self.__add_new_tile)
         self.main_layout.addWidget(self.add_tile_btn)
 
-        self.save_btn = QPushButton("Save Changes")
+        """self.save_btn = QPushButton("Save Changes")
         self.main_layout.addWidget(self.save_btn)
-        self.save_btn.clicked.connect(self.__save_changes)
-        self.save_btn.hide()
+        self.save_btn.clicked.connect(self.__save_changes)"""
 
         self.tile_list = self.tile_types_ref.get_tile_names_list()
         self.tile_widgets = []
@@ -163,7 +162,7 @@ class CustomTileExploreWindow(QMainWindow):
             widget = TileContainerWidget("New Tile", self.toolbox, asset_path)
             self.main_layout.addWidget(widget)
 
-    def __save_changes(self):
+"""    def __save_changes(self):
         for widget in self.tile_widgets:
-            widget.save_new_tile_name()
+            widget.save_new_tile_name()"""
 

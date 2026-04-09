@@ -18,3 +18,9 @@ class Seed():
 
     def getOtherRandInt(self, start:int, stop:int):
         return random.randint(start, stop)
+
+    def reseed(self, seed=None):
+        if(not seed):
+            random.seed()
+        else:
+            random.seed(seed)

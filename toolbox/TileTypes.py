@@ -78,6 +78,12 @@ class TileTypes():
         colTileName = self.get_tile_name_by_key(col)
         return self.get_tile_weight_by_name(rowTileName, colTileName)
 
+    def get_tile_weights_by_name(self, tileName:str) -> dict:
+        try:
+            return self.tiles_dict[tileName.upper()]["tile_weights"]
+        except KeyError:
+            return dict
+
 
     def get_default_tile_asset_by_name(self, tileName:str) -> str:
         try: 
@@ -121,6 +127,11 @@ class TileTypes():
             new_tile_dict[formatted_tile_name]["tile_weights"].update({tile.upper(): 100})
 
         self.tiles_dict.update(new_tile_dict)
+        self.__update_json_file()
+
+
+    def change_tile_weight(self, tile_name:str, tile_weight_name:str, new_weight:int):
+        self.tiles_dict[tile_name.upper()]["tile_weights"][tile_weight_name.upper()] = new_weight
         self.__update_json_file()
 
 

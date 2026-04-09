@@ -6,12 +6,14 @@ from PyQt6.QtWidgets import (
     QMainWindow,
     QToolBar,
     QVBoxLayout,
+    QHBoxLayout,
     QWidget,
     QScrollArea,
     QLineEdit,
     QPushButton,
     QMessageBox,
-    QInputDialog
+    QInputDialog,
+    QSizePolicy
     )
 
 from toolbox.Toolbox import Toolbox
@@ -87,38 +89,64 @@ class HomeWindow(QMainWindow):
         self.tile_labels_list = []
         self.__layout_tiles()
 
+        self.map_settings_btn_stylesheet = """
+            color: #F0F2A6;
+            font-size: 10pt;
+        """
+
         self.map_layout.addWidget(self.map_widget)
         self.main_widget.setLayout(self.map_layout)
 
         self.map_widget.setMinimumSize(3000,3000)
 
+        self.map_widget_stylesheet = """
+            background-color: #F0F2A6;
+        """
+
+        self.map_widget.setStyleSheet(self.map_widget_stylesheet)
+
         self.map_settings_toolbar = QToolBar()
 
-        self.map_settings_toolbar.setStyleSheet("background-color: pink")
+        self.map_settings_toolbar.setStyleSheet("background-color: #aa6373")
         self.map_settings_toolbar.setMinimumHeight(100)
 
         self.xtra_settings_btn = QPushButton("Configure Extra Settings", self)
         self.xtra_settings_btn.clicked.connect(self.__open_xtra_settings)
+        self.xtra_settings_btn.setFlat(True)
+        self.xtra_settings_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.xtra_settings_btn)
+
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        self.map_settings_toolbar.addWidget(spacer)
 
         self.seed_input_field = QLineEdit("Enter in a map seed here!")
         self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
         self.seed_input_field.setStyleSheet("""background-color: white;""")
+        self.seed_input_field.setMaximumWidth(300)
         self.map_settings_toolbar.addWidget(self.seed_input_field)
 
         self.generate_map_btn = QPushButton("Generate Map", self)
         self.generate_map_btn.clicked.connect(self.__generate_map)
+        self.generate_map_btn.setFlat(True)
+        self.generate_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.generate_map_btn)
 
         self.save_map_btn = QPushButton("Save Map", self)
         self.save_map_btn.clicked.connect(self.__save_map)
+        self.save_map_btn.setFlat(True)
+        self.save_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.save_map_btn)
 
         self.load_map_btn = QPushButton("Load Map", self)
+        self.load_map_btn.setFlat(True)
+        self.load_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.load_map_btn)
         self.load_map_btn.clicked.connect(self.__load_saved_map)
 
         self.log_widget_btn = QPushButton("Log Widget", self)
+        self.log_widget_btn.setFlat(True)
+        self.log_widget_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.log_widget_btn)
         self.log_widget_btn.clicked.connect(self.__open_log_widget)
 
@@ -133,14 +161,17 @@ class HomeWindow(QMainWindow):
         self.scroll.setWidget(self.main_widget)
 
         self.navbar = QDockWidget("Custom Tokens", self)
-        self.navbar.setStyleSheet("""background-color: pink;""")
+        #self.navbar.setStyleSheet("""background-color: white;""")
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
         self.navbar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.navbar.setMinimumHeight(500)
-
+        
 
         self.navbarContainer = QWidget()
+
         self.navbarLayout = QVBoxLayout(self.navbarContainer)
+
+
 
         self.customTilesWindow = None
         self.customPlayersWindow = None
@@ -155,23 +186,39 @@ class HomeWindow(QMainWindow):
 
         self.customTilesButton = QPushButton("Tiles", self.navbar)
         self.customTilesButton.setIcon(QIcon("assets/tiles.png"))
+        self.customTilesButton.setFlat(True)
+
         self.customPlayerButton = QPushButton("Player Characters", self.navbar)
         self.customPlayerButton.setIcon(QIcon("assets/character.png"))
+        self.customPlayerButton.setFlat(True)
+
         self.customNonPlayerButton = QPushButton("Non-Player Characters", self.navbar)
         self.customNonPlayerButton.setIcon(QIcon("assets/character.png"))
+        self.customNonPlayerButton.setFlat(True)
+        
         self.customAnimalButton = QPushButton("Animals", self.navbar)
         self.customAnimalButton.setIcon(QIcon("assets/animal.png"))
+        self.customAnimalButton.setFlat(True)
+
         self.customMonsterButton = QPushButton("Monsters", self.navbar)
         self.customMonsterButton.setIcon(QIcon("assets/monsters.png"))
+        self.customMonsterButton.setFlat(True)
+
         self.customBuildingsButton = QPushButton("Buildings", self.navbar)
         self.customBuildingsButton.setIcon(QIcon("assets/buildings.png"))
+        self.customBuildingsButton.setFlat(True)
+
         self.customStructuresButton = QPushButton("Structures", self.navbar)
         self.customStructuresButton.setIcon(QIcon("assets/buildings.png"))
+        self.customStructuresButton.setFlat(True)
+        
         self.customNatureButton = QPushButton("Nature", self.navbar)
         self.customNatureButton.setIcon(QIcon("assets/nature.png"))
+        self.customNatureButton.setFlat(True)
+
         self.diceRollerButton = QPushButton("Dice Roller", self.navbar)
         self.diceRollerButton.setIcon(QIcon("assets/d20.png"))
-
+        self.diceRollerButton.setFlat(True)
 
         self.customBtnStyleSheet = """
               background-color: white;
