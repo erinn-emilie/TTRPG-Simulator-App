@@ -3,8 +3,23 @@ import json
 class SavedMaps():
     def __init__(self):
         self.JSON_FILE_PATH = "jsonfiles/SavedMaps.json"
-        
+        self.active_save_name = ""
+        self.active_save_dict = {}
         self.fetch_saved_maps()
+
+
+    def set_active_save_dict(self, save_dict:dict):
+        self.active_save_dict = save_dict
+
+    def get_active_save_dict(self) -> dict:
+        return self.active_save_dict
+
+
+    def set_active_save_name(self, save_name:str):
+        self.active_save_name = save_name
+
+    def get_active_save_name(self) -> str:
+        return self.active_save_name
 
 
     def fetch_saved_maps(self):

@@ -26,6 +26,9 @@
     <Compile Include="enums\TileSizeUnits.py" />
     <Compile Include="enums\TokenTypes.py" />
     <Compile Include="pages\GridWindow.py" />
+    <Compile Include="toolbox\Account.py" />
+    <Compile Include="toolbox\ConnectionLogic.py" />
+    <Compile Include="toolbox\Database.py" />
     <Compile Include="toolbox\Logger.py" />
     <Compile Include="toolbox\SavedMaps.py" />
     <Compile Include="TokenRecord.py" />
@@ -39,12 +42,12 @@
     <Compile Include="toolbox\Settings.py" />
     <Compile Include="widgets\DiceRoller.py" />
     <Compile Include="widgets\LogWidget.py" />
+    <Compile Include="widgets\SessionWidget.py" />
     <Compile Include="widgets\SettingsMenu.py" />
     <Compile Include="TileRecord.py" />
     <Compile Include="toolbox\TileTypes.py" />
     <Compile Include="toolbox\Tokens.py" />
     <Compile Include="toolbox\Toolbox.py" />
-    <Compile Include="TTRPG_Login_Window.py" />
     <Compile Include="TTRPG_Simulator_App.py" />
     <Compile Include="widgets\GenericContainerWidget.py" />
     <Compile Include="widgets\TileChangeMessageBox.py" />

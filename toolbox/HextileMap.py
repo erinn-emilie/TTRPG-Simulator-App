@@ -460,7 +460,7 @@ class HextileMap():
                 return curTile
         return None
 
-    def saveMap(self, map_name:str):
+    def saveMap(self, map_name="Session Map"):
         cur_node = self.centerNode
         cur_record = cur_node.getTileRecord()
         cur_tokens_list = []
@@ -531,6 +531,8 @@ class HextileMap():
 
         self.logger_ref.change_save_path("logfiles/" + map_name + ".txt")
         self.logger_ref.save_log()
+        self.saved_maps_ref.set_active_save_name(map_name)
+        self.saved_maps_ref.set_active_save_dict(final_dict)
         with open(self.JSON_SAVE_FILE, 'w') as file: 
             json.dump(final_dict, file, indent=4)
 

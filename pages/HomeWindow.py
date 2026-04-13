@@ -26,11 +26,10 @@ from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
 from widgets.LogWidget import LogWidget
 from widgets.DiceRoller import DiceRoller
+from widgets.SessionWidget import SessionWidget
 from Enums.MapSizes import MapSizes
 
-from TTRPG_Login_Window import Window 
 
-import math
 
 
 
@@ -150,6 +149,14 @@ class HomeWindow(QMainWindow):
         self.map_settings_toolbar.addWidget(self.log_widget_btn)
         self.log_widget_btn.clicked.connect(self.__open_log_widget)
 
+        self.session_mng_btn = QPushButton("Session Manager", self)
+        self.session_mng_btn.setFlat(True)
+        self.session_mng_btn.setStyleSheet(self.map_settings_btn_stylesheet)
+        self.map_settings_toolbar.addWidget(self.session_mng_btn)
+        self.session_mng_btn.clicked.connect(self.__open_session_mngr)
+
+
+
 
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.map_settings_toolbar)
 
@@ -183,6 +190,7 @@ class HomeWindow(QMainWindow):
         self.customNatureWindow = None
         self.diceRollerWindow = None
         self.login_window = None
+        self.session_mngr_window = None
 
         self.customTilesButton = QPushButton("Tiles", self.navbar)
         self.customTilesButton.setIcon(QIcon("assets/tiles.png"))
@@ -345,6 +353,12 @@ class HomeWindow(QMainWindow):
     def __open_log_widget(self):
         self.log_widget = LogWidget(self.toolbox)
         self.log_widget.show()
+
+    def __open_session_mngr(self):
+        self.session_mngr_window = SessionWidget(self.toolbox)
+        self.session_mngr_window.show()
+
+
 
 
 
@@ -525,4 +539,4 @@ class HomeWindow(QMainWindow):
     def __save_map(self):
         map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name to save the map under!")
         if ok and map_name:
-            self.hextile_map_obj.saveMap(map_name)
+            self.hextile_map_obj.saveMap(map_name=map_name)
