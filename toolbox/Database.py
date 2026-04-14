@@ -2,8 +2,15 @@ import bcrypt
 import urllib
 from enum import Enum
 
-from sqlalchemy import create_engine, Column, Integer, String, select, ForeignKey, Text
+from sqlalchemy import create_engine, Column, Integer, String, select, ForeignKey, LargeBinary
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+
+from PIL import Image  
+import io  
+
+from Enums.TokenTypes import TokenTypes
+ 
 
 
 driver = "ODBC Driver 17 for SQL Server"  
@@ -46,6 +53,22 @@ class Maps(Base):
     map_name = Column(String(100), nullable=False)
     map_dict = Column(String(), nullable=False)
 
+class Tokens(Base):
+    __tablename__ = "Tokens"
+    token_id = Column(Integer, primary_key=True)
+    fk_user_id = Column(Integer, ForeignKey("Users.user_id"), nullable=False)
+    user_token_key = Column(Integer, nullable=False)
+    token_name = Column(String(200), nullable=False)
+    token_type = Column(String(20), nullable=False)
+    json_small_fields = Column(String(), nullable=False)
+    json_large_fields = Column(String(), nullable=False)
+    img_1 = Column(LargeBinary, nullable=True)
+    img_2 = Column(LargeBinary, nullable=True)
+    img_3 = Column(LargeBinary, nullable=True)
+    img_4 = Column(LargeBinary, nullable=True)
+    img_5 = Column(LargeBinary, nullable=True)
+    map_asset = Column(LargeBinary, nullable=True)
+
 class DatabaseMessages(Enum):
     NONE = -1
     SUCCESS = 0
@@ -57,6 +80,44 @@ class DatabaseMessages(Enum):
     NO_SESSION_FOUND = 6
 
 class Database:
+    def compress_image(image_path, quality=85):  
+        with Image.open(image_path) as img:  
+            if img.mode in ("RGBA", "P"):  
+                img = img.convert("RGB")  
+            img_byte_arr = io.BytesIO()  
+            img.save(img_byte_arr, format="PNG", quality=quality) 
+            return img_byte_arr.getvalue() 
+
+    def add_new_token(user_id:int, user_token_key:int, token_name:str, token_type:TokenTypes, json_small_fields:dict, json_large_fields:dict, map_asset="", images=[]):
+        with SessionLocal() as session:
+            new_token = Tokens(
+                fk_user_id=user_id,
+                user_token_key=user_token_key,
+                token_name=token_name,
+                token_type=TokenTypes.get_str_from_token_type(token_type),
+                json_small_fields=str(json_small_fields),
+                json_large_fields=str(json_large_fields)
+            )
+            session.add(new_token)
+            session.commit()
+            if(map_asset != ""):
+                new_token.map_asset = map_asset
+            for idx, img in images:
+                compressed = Database.compress_image(img)
+                match(idx):
+                    case 1:
+                        new_token.img_1 = compressed
+                    case 2:
+                        new_token.img_2 = compressed
+                    case 3:
+                        new_token.img_3 = compressed
+                    case 4:
+                        new_token.img_4 = compressed
+                    case 5: 
+                        new_token.img_5 = compressed
+            session.commit()
+
+
     def add_host_info_to_db(hostname:str, user_id:int, password:str, port:int):
         with SessionLocal() as session:
             new_host = Hosts(

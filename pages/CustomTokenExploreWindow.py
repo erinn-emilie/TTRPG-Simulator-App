@@ -4,7 +4,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QFileDialog,
     QPushButton,
-    QScrollArea
+    QScrollArea,
+    QCheckBox
 )
 
 from PyQt6.QtCore import Qt
@@ -26,6 +27,7 @@ class CustomTokenExploreWindow(QMainWindow):
         self.home_window = home_window
         self.token_type = token_type
         self.__find_token_ref()
+        self.account_ref = self.toolbox.get_account_ref()
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
 
@@ -34,6 +36,17 @@ class CustomTokenExploreWindow(QMainWindow):
         self.add_token_btn = QPushButton("Add New Token")
         self.main_layout.addWidget(self.add_token_btn)
         self.add_token_btn.clicked.connect(self.__add_new_token)
+
+        self.save_to_local = True
+        self.save_location_check = QCheckBox("Save to Database", parent=self)
+        self.save_location_check.setChecked(False)
+
+        self.main_layout.addWidget(self.save_location_check)
+
+        if(not self.account_ref.get_logged_in()):
+            self.save_location_check.hide()
+
+        self.save_location_check.toggled.connect(self.__change_save_location)
 
         self.tokens_list = self.token_ref.get_tokens_list()
         if(len(self.tokens_list) > 0):
@@ -55,9 +68,19 @@ class CustomTokenExploreWindow(QMainWindow):
         widget.deleteLater()
 
     def __add_new_token(self):
-        new_token = self.token_ref.create_new_token()
+        new_token = None
+        if(self.save_to_local):
+            new_token = self.token_ref.create_new_token()
+        else:
+            new_token = self.token_ref.create_new_token(local=False)
         new_widget = TokenContainerWidget(new_token, self.toolbox, self.token_ref, self)
         self.main_layout.insertWidget(1,new_widget)
+
+    def __change_save_location(self, state):
+        if(state):
+            self.save_to_local = False
+        else:
+            self.save_to_local = True
 
         
     def __find_token_ref(self):

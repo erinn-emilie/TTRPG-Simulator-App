@@ -1,10 +1,13 @@
 import json
 import copy
 
+from toolbox.Database import Database
+
 class Tokens():
-    def __init__(self, json_file_path, asset_path, token_type):
+    def __init__(self, json_file_path, asset_path, token_type, account_ref):
         self.JSON_FILE_PATH = json_file_path
         self.ASSET_PATH = asset_path
+        self.account_ref = account_ref
         self.tokens_dict = {}
         self.tokens_list = []
         self.default_token_setup = {}
@@ -77,8 +80,9 @@ class Tokens():
                 break
         self.__update_json_file()
 
-    def create_new_token(self) -> dict:
+    def create_new_token(self, local=True) -> dict:
         default_token = self.tokens_dict["DEFAULT"]
+        user_id = self.account_ref.get_account_id()
         self.total_tokens += 1
         new_name = "new token"
         new_token = copy.deepcopy(default_token)
@@ -86,7 +90,10 @@ class Tokens():
         new_token["key"] = self.total_tokens
         self.tokens_list.append(new_token)
         self.tokens_dict[new_name.upper()] = new_token
-        self.__update_json_file()
+        if(local):
+            self.__update_json_file()
+        else:
+            Database.add_new_token(user_id, self.total_tokens, new_name, self.token_type, new_token["small_fields"], new_token["large_fields"])
         return self.tokens_dict[new_name.upper()]
 
     def delete_token(self, token_key):
@@ -112,7 +119,7 @@ class Tokens():
         return self.default_token_setup
 
 
-    def change_small_field_values(self, token_key, value_key, new_value):
+    def change_small_field_values(self, token_key, value_key, new_value, local=True):
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
                 if(value_key == "name"):
@@ -121,7 +128,8 @@ class Tokens():
                 else:
                     self.tokens_dict[token]["small_fields"][value_key] = new_value
                 break
-        self.__update_json_file()
+        if(local):
+            self.__update_json_file()
 
     def change_small_field_keys(self, token_key, old_key, new_key):
         for token in self.tokens_dict:

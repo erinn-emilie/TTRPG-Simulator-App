@@ -168,7 +168,6 @@ class HomeWindow(QMainWindow):
         self.scroll.setWidget(self.main_widget)
 
         self.navbar = QDockWidget("Custom Tokens", self)
-        #self.navbar.setStyleSheet("""background-color: white;""")
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
         self.navbar.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetFloatable | QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.navbar.setMinimumHeight(500)
@@ -326,7 +325,7 @@ class HomeWindow(QMainWindow):
         self.diceRollerWindow.show()
 
     def close_custom_tiles_window(self):
-        self.customTilesWindow.hide()
+        self.customTilesWindow = None
 
     def close_custom_players_window(self):
         self.customPlayersWindow = None
