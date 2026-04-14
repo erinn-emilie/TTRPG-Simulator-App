@@ -16,17 +16,56 @@
 import socket
 import threading
 import random
+import time
 
 import bcrypt
 
-from toolbox.Database import Database
+from enum import Enum
+import re
+from urllib.request import urlopen
+
+
+
+from queue import Queue
+
+from toolbox.Database import Database, DatabaseMessages
+
+
+class SessionMessages(Enum):
+    REQ_JOIN = "request to join"
+    INIT_MAP_INFO = "initalize map information"
+
+class MessageQueue():
+    def __init__(self, conn, address):
+        self.conn = conn
+        self.address = address
+        self.messages = Queue()
+
+    def get_conn(self):
+        return self.conn
+
+    def get_address(self):
+        return self.address
+
+    def get_next_message(self):
+        if(not self.messages.empty()):
+            return self.messages.get()
+        return None
+
+    def add_message(self, msg):
+        self.messages.put(msg)
 
 class Session():
-    def __init__(self, acc_ref, live=False, host=False):
+    def __init__(self, acc_ref, saved_maps_ref, hextile_map_ref, live=False, host=False):
         self.live = live
         self.host = host
 
+        self.messages = []
+
+
         self.acc_ref = acc_ref
+        self.saved_maps_ref = saved_maps_ref
+        self.hextile_map_ref = hextile_map_ref
 
     def get_live_status(self) -> bool:
         return self.live
@@ -38,34 +77,85 @@ class Session():
         self.live = False
         self.host = False
 
+    def watch_queue(self, message_ref):
+        while True:
+            message = message_ref.get_next_message()
+            if(not message is None):
+                conn = message_ref.get_conn()
+                conn.send(message).encode("utf-8")
+            time.sleep(10)
 
-    def listen_for_client_as_host(sock):
+
+    def handle_client_as_host(self, conn, addr):
+        data = conn.recv(1024).decode("utf-8")
+        if(data == SessionMessages.REQ_JOIN):
+            print("joined")
+            new_queue = MessageQueue(conn, addr)
+            new_queue.put(SessionMessages.INIT_MAP_INFO.value)
+            new_queue.put(str(self.saved_maps_ref.get_active_save_dict()))
+            self.messages.append(new_queue)
+            threading.Thread(target=self.watch_queue, args=(new_queue, )).start()
+
+
+
+    def listen_for_client_as_host(self, sock):
         while True:
             conn, addr = sock.accept()
-            print("Connected by " + str(addr))
-            #threading.Thread(target=Session.handle_client, args=(conn, str(addr), )).start()
+            threading.Thread(target=self.handle_client_as_host, args=(conn, addr, )).start()
+
+    def wait_for_host_updates(self, conn):
+        init_map_info = False
+        while True:
+            data = conn.recv(1024).decode("utf-8")
+            if(init_map_info):
+                init_map_info = False
+                self.saved_maps_ref.set_active_save_dict(eval(data))
+                self.saved_maps_ref.set_active_save_name("Session Map")
+                self.hextile_map_ref.loadSavedMap("Session Map", active_save_dict=True)
+            if(data == SessionMessages.INIT_MAP_INFO):
+                init_map_info = True
+            time.sleep(5)
+
+    def listen_for_host_as_client(self, sock):
+        conn, addr = sock.accept()
+        threading.Thread(target=self.wait_for_host_updates, args=(conn,)).start()
 
 
-    def start_session_as_host(self, host = "", port="12345"):
+
+    def start_session_as_host(self, ip_address = "", port="80"):
         self.live = True
         self.host = True
 
         account_id = self.acc_ref.get_account_id()
         if(account_id != -1):
             random.seed()
-            if(host == ""):
-                host = socket.get_hostname()
+            if(ip_address == ""):
+                data = str(urlopen('http://checkip.dyndns.com/').read())
+                ip_address = re.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(data).group(1)
+
+                print("Your Public IP Address is:", ip_address)
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind((host,port))
+            sock.bind((socket.gethostname(),int(port)))
             pswd = str(random.randint(10**9, 10**10 - 1))
             pswd_hash = bcrypt.hashpw(pswd.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-            Database.add_host_info_to_db(host, account_id, pswd_hash, port)
+            Database.add_host_info_to_db(str(ip_address), account_id, pswd_hash, port)
 
 
             sock.listen(5)
-            threading.Thread(target=Session.listen_for_client_as_host, args=(sock, )).start()
+            threading.Thread(target=self.listen_for_client_as_host, args=(sock, )).start()
+        return pswd
 
 
-    def join_session_as_client(self):
+    def join_session_as_client(self, username, password):
         self.live = True
+        account_id = self.acc_ref.get_account_id()
+        if(account_id != -1):
+            msg, ip_address, port = Database.get_host_info(username, password)
+            if(msg == DatabaseMessages.SUCCESS):
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.connect((ip_address, port))
+                sock.send(SessionMessages.REQ_JOIN.value.encode("utf-8"))
 
+
+                sock.listen(5)
+                threading.Thread(target=self.listen_for_host_as_client, args=(sock, )).start()

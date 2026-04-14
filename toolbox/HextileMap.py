@@ -11,9 +11,10 @@ from Enums.TileGenerationTypes import TileGenerationTypes
 from Enums.TokenTypes import TokenTypes
 from Enums.MapLoadLocations import MapLoadLocations
 from TokenRecord import TokenRecord
+from toolbox.Database import Database
 
 class HextileMap():
-    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, screen_width, screen_height, logger_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
+    def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, screen_width, screen_height, logger_ref, acc_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
         self.JSON_SAVE_FILE = "jsonfiles/SavedMaps.json"
         self.local_map = {}
         self.tileTypes = tile_types_ref
@@ -33,6 +34,8 @@ class HextileMap():
         self.buildings_ref = buildings_ref
         self.structures_ref = structures_ref
         self.nature_ref = nature_ref
+
+        self.acc_ref = acc_ref
 
         self.tokens_ref_list = [self.players_ref, self.nonplayers_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref]
 
@@ -460,7 +463,7 @@ class HextileMap():
                 return curTile
         return None
 
-    def saveMap(self, map_name="Session Map"):
+    def saveMap(self, map_name="Session Map", local=True):
         cur_node = self.centerNode
         cur_record = cur_node.getTileRecord()
         cur_tokens_list = []
@@ -531,16 +534,24 @@ class HextileMap():
 
         self.logger_ref.change_save_path("logfiles/" + map_name + ".txt")
         self.logger_ref.save_log()
-        self.saved_maps_ref.set_active_save_name(map_name)
-        self.saved_maps_ref.set_active_save_dict(final_dict)
-        with open(self.JSON_SAVE_FILE, 'w') as file: 
-            json.dump(final_dict, file, indent=4)
+        self.saved_maps.set_active_save_name(map_name)
+        self.saved_maps.set_active_save_dict(final_dict)
+        if(local):
+            with open(self.JSON_SAVE_FILE, 'w') as file: 
+                json.dump(final_dict, file, indent=4)
+        else:
+            user_id = self.acc_ref.get_account_id()
+            Database.add_map_to_db(user_id, map_name, final_dict)
 
 
 
-    def loadSavedMap(self, map_name:str):
-        self.saved_maps.fetch_saved_maps()
-        map_dict = self.saved_maps.find_map_by_name(map_name)
+    def loadSavedMap(self, map_name:str, active_save_dict=False):
+        map_dict = {}
+        if(active_save_dict):
+            map_dict = self.saved_maps.get_active_save_dict()
+        else:
+            self.saved_maps.fetch_saved_maps()
+            map_dict = self.saved_maps.find_map_by_name(map_name)
         if(not map_dict is None):
             self.__createMap(len(map_dict))
             curNode = self.centerNode

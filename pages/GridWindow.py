@@ -31,6 +31,8 @@ from HextileNode import HextileNode
 from toolbox.Toolbox import Toolbox
 from TokenRecord import TokenRecord
 
+
+
 class QMapWidget(QWidget):
     def __init__(self, toolbox:Toolbox, background_img_path):
         super().__init__()
@@ -233,42 +235,29 @@ class GridWindow(QMainWindow):
         local_x = local_pos.x()
         local_y = local_pos.y()
 
-        print("Local " + str(local_x))
-        print("Local " + str(local_y))
+        closest_pos = None
+        closest_dist = float('inf')
+        radius = self.tile_size // 2
 
-        new_x = -1
-        new_y = -1
+        for x, y in self.snap_positions:
+            dx = local_x - x
+            dy = local_y - y
+            dist = (dx**2 + dy**2)**(1/2)
 
-        min_dist = 100000
-        for pos in self.snap_positions:
-            x = pos[0]
-            y = pos[1]
+            if dist < closest_dist and dist <= radius ** 2:
+                closest_dist = dist
+                closest_pos = (x, y)
 
-            radius = self.tile_size / 2
-            top_y = y - radius
-            bot_y = y + radius
-            left_x = x - radius
-            right_x = x + radius
-
-            if((local_x > left_x) and (local_x < right_x) and (local_y > top_y) and (local_y < bot_y)):
-                new_x = x
-                new_y = y
-                print("New " + str(x))
-                print("New " + str(y))
-                break
-
-
-        if(new_x > -1 and new_y > -1):
+        if closest_pos:
+            new_x, new_y = closest_pos
             token_record = label.get_token_record()
             old_pos = token_record.get_position()
-            new_pos = (new_x, new_y)
-            token_record.set_position(new_pos)
-            if(not self.tile_record.check_position_filled(new_pos)):
-                self.tile_record.remove_empty_position(new_pos)
-                self.tile_record.add_empty_position(old_pos)
-                point = QPoint(new_x, new_y)
-                label.move(point)
 
+            if not self.tile_record.check_position_filled((new_x, new_y)):
+                token_record.set_position((new_x, new_y))
+                self.tile_record.remove_empty_position((new_x, new_y))
+                self.tile_record.add_empty_position(old_pos)
+                label.move(QPoint(new_x - label.width(), new_y - label.height()))
 
     def __compute_snap_positions(self):
         self.snap_positions.clear()
@@ -331,7 +320,6 @@ class GridWindow(QMainWindow):
             y_pos = token_record.get_y_position()
             token_label.move(x_pos, y_pos)
 
-            token_label.show()
             self.token_labels.append(token_label)
 
 

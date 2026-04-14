@@ -537,6 +537,12 @@ class HomeWindow(QMainWindow):
 
 
     def __save_map(self):
-        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name to save the map under!")
-        if ok and map_name:
-            self.hextile_map_obj.saveMap(map_name=map_name)
+        acc_ref = self.toolbox.get_account_ref()
+        if(not acc_ref.get_logged_in()):
+            map_name, ok = QInputDialog.getText(self, "Map Name", "You are not logged in, your map will be saved locally!\nPlease enter a name to save the map under!")
+            if ok and map_name:
+                self.hextile_map_obj.saveMap(map_name=map_name)
+        else:
+            map_name, ok = QInputDialog.getText(self, "Map Name", "Your map will be saved to your account!\nPlease enter a name to save the map under!")
+            if ok and map_name:
+                self.hextile_map_obj.saveMap(map_name=map_name, local=False)

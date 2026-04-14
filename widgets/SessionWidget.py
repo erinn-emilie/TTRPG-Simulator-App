@@ -17,7 +17,9 @@ from PyQt6.QtWidgets import (
     QFileDialog,
     QSpacerItem,
     QSizePolicy,
-    QMessageBox
+    QMessageBox,
+    QDialog,
+    QDialogButtonBox
 )
 
 from toolbox.ConnectionLogic import Session
@@ -25,6 +27,52 @@ from toolbox.Toolbox import Toolbox
 from toolbox.Database import DatabaseMessages
 
 from functools import partial
+
+class FindSessionDialog(QDialog):
+    def __init__(self, session_widget):
+        super().__init__()
+
+        self.main_layout = QVBoxLayout()
+
+        self.session_widget = session_widget
+
+        self.username_prompt = QLineEdit("username of user hosting session")
+        self.username_prompt.textEdited.connect(self.__username_input_edited)
+        self.password_prompt = QLineEdit("password of session")
+        self.password_prompt.textEdited.connect(self.__password_input_edited)
+
+
+        self.username_input = ""
+        self.password_input = ""
+
+
+
+        QBtn = (
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
+
+        self.buttonBox = QDialogButtonBox(QBtn)
+
+
+        self.buttonBox.accepted.connect(self.__send_data)
+        self.buttonBox.rejected.connect(self.reject)
+
+        self.main_layout.addWidget(self.username_prompt)
+        self.main_layout.addWidget(self.password_prompt)
+        self.main_layout.addWidget(self.buttonBox)
+
+        self.setLayout(self.main_layout)
+
+    def __username_input_edited(self, text):
+        self.username_input = text
+
+    def __password_input_edited(self, text):
+        self.password_input = text
+
+    def __send_data(self):
+        self.session_widget.set_join_username(self.username_input)
+        self.session_widget.set_join_password(self.password_input)
+        self.accept()
 
 
 class SessionWidget(QMainWindow):
@@ -55,10 +103,21 @@ class SessionWidget(QMainWindow):
 
     def __layout_with_acc(self):
         self.user_label = QLabel("User " + self.account_ref.get_username())
+        self.session_pass_label = QLabel()
+        self.session_pass_label.hide()
+        self.session_pass_btn = QPushButton("Show Session Password")
+        self.session_pass_btn.clicked.connect(self.__change_session_pass_view)
+        self.session_pass_btn.hide()
         self.start_session_btn = QPushButton("Start Session")
         self.start_session_btn.clicked.connect(self.__start_session)
+        self.join_session_btn = QPushButton("Join Session")
+        self.join_session_btn.clicked.connect(self.__join_session)
+
         self.main_layout.addWidget(self.user_label)
+        self.main_layout.addWidget(self.session_pass_label)
+        self.main_layout.addWidget(self.session_pass_btn)
         self.main_layout.addWidget(self.start_session_btn)
+        self.main_layout.addWidget(self.join_session_btn)
 
     def __layout_without_acc(self):
         self.change_form_btn = QPushButton("Don't have an account? Sign up here!")
@@ -140,9 +199,36 @@ class SessionWidget(QMainWindow):
 
 
     def __start_session(self):
-        self.session_ref.start_session_as_host()
-        #here we r gonna need to ask the map to create an object that is sendable
-        self.map_ref.saveMap()
+        password = self.session_ref.start_session_as_host()
+        self.session_pass_label.setText(password)
+        self.map_ref.saveMap(local=False)
+        self.start_session_btn.hide()
+        self.join_session_btn.hide()
+        self.session_pass_btn.show()
+
+    def set_join_username(self, text):
+        self.username_input = text
+
+    def set_join_password(self, text):
+        self.password_input = text
+
+    def __join_session(self):
+        dlg = FindSessionDialog(self)
+        ok = dlg.exec()
+        if(ok):
+            self.session_ref.join_session_as_client(self.username_input, self.password_input)
+        self.username_input = ""
+        self.password_input = ""
+
+    def __change_session_pass_view(self):
+        if(self.session_pass_label.isVisible()):
+            self.session_pass_label.hide()
+            self.session_pass_btn.setText("Show Session Password")
+        else:
+            self.session_pass_label.show()
+            self.session_pass_btn.setText("Hide Session Password")
+
+
         
 
     
