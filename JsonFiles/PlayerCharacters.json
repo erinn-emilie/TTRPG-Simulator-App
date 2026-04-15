@@ -32,37 +32,38 @@
         "base_height_multiplier": 1,
         "base_width_multiplier": 1
     },
-    "CALEB": {
-        "key": 1,
-        "name": "Caleb Wickline",
-        "duplicatable": false,
-        "small_fields": {
-            "health": "15",
-            "strength": "20",
-            "dexterity": "8",
-            "constitution": "15",
-            "intelligence": "11.5",
-            "wisdom": "8.5",
-            "charisma": "15"
-        },
-        "large_fields": {
-            "biography": "This is my biography.\n Hello!\n",
-            "notes": "This is my notes.\n yippeee\n"
-        },
-        "spawn_all": true,
-        "spawnable_tiles": [],
-        "large_assets": [
-            "assets/bigpic1",
-            "assets/bigpic2"
-        ],
-        "set_map_asset": "assets\\cute_smiley.png",
-        "old_map_assets": [
-            "assets/smallasset.png"
-        ],
-        "excluded_tiles": {},
-        "base_height_multiplier": 1,
-        "base_width_multiplier": 1
+  "CALEB": {
+    "key": 1,
+    "name": "Caleb Wickline",
+    "duplicatable": false,
+    "small_fields": {
+      "health": "15",
+      "strength": "20",
+      "dexterity": "8",
+      "constitution": "15",
+      "intelligence": "11.5",
+      "wisdom": "8.5",
+      "charisma": "15"
     },
+    "large_fields": {
+      "biography": "This is my biography.\n Hello!\n",
+      "notes": "This is my notes.\n yippeee\n"
+    },
+    "save_location": "local",
+    "spawn_all": true,
+    "spawnable_tiles": [],
+    "large_assets": [
+      "assets/bigpic1",
+      "assets/bigpic2"
+    ],
+    "set_map_asset": "assets\\cute_smiley.png",
+    "old_map_assets": [
+      "assets/smallasset.png"
+    ],
+    "excluded_tiles": {},
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
+  },
     "MR GUY": {
         "key": 0,
         "name": "Mr Guy",

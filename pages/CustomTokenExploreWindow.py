@@ -49,9 +49,11 @@ class CustomTokenExploreWindow(QMainWindow):
         self.save_location_check.toggled.connect(self.__change_save_location)
 
         self.tokens_list = self.token_ref.get_tokens_list()
+        self.all_widgets = []
         if(len(self.tokens_list) > 0):
             for token in self.tokens_list:
                 new_widget = TokenContainerWidget(token, self.toolbox, self.token_ref, self)
+                self.all_widgets.append(new_widget)
                 self.main_layout.addWidget(new_widget)
 
         self.main_widget.setLayout(self.main_layout)

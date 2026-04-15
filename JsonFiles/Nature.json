@@ -42,6 +42,7 @@
       "biography": "A singular tree.",
       "notes": "Can this even have stats?"
     },
+    "save_location": "local",
     "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],

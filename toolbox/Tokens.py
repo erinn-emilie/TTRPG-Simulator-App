@@ -2,9 +2,10 @@ import json
 import copy
 
 from toolbox.Database import Database
+from Enums.TokenTypes import TokenTypes
 
 class Tokens():
-    def __init__(self, json_file_path, asset_path, token_type, account_ref):
+    def __init__(self, json_file_path, asset_path, token_type, account_ref, local=True):
         self.JSON_FILE_PATH = json_file_path
         self.ASSET_PATH = asset_path
         self.account_ref = account_ref
@@ -14,6 +15,13 @@ class Tokens():
         self.total_tokens = 0
         self.token_type = token_type
         self.title_str = self.JSON_FILE_PATH.lower().replace(".json", "").replace("jsonfiles/", "")
+        self.tokens_dict = {}
+        if(local):
+            self.load_from_json()
+        else:
+            self.load_from_database()
+
+    def load_from_json(self):
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.tokens_dict = json.load(file)
@@ -23,13 +31,19 @@ class Tokens():
         except json.JSONDecodeError:
             print("JSON file with tokens couldn't be decoded!")
 
+    def load_from_database(self):
+        self.tokens_dict = Database.load_all_tokens_with_type(self.account_ref.get_account_id(), TokenTypes.get_str_from_token_type(self.token_type))
+        self.__setup()
+
+
     def __setup(self):
+        #self.tokens_list.clear()
         self.default_token_setup = self.tokens_dict["DEFAULT"]
-        counter = -1
+        counter = 0
         for token in self.tokens_dict:
-            if(counter != -1):
+            if(token != "DEFAULT"):
                 self.tokens_list.append(self.tokens_dict[token])
-            counter += 1
+                counter += 1
         self.total_tokens = counter
 
     def get_asset_str(self):
@@ -91,6 +105,7 @@ class Tokens():
         self.tokens_list.append(new_token)
         self.tokens_dict[new_name.upper()] = new_token
         if(local):
+            self.tokens_dict[new_name.upper()]["save_location"] = "local"
             self.__update_json_file()
         else:
             Database.add_new_token(user_id, self.total_tokens, new_name, self.token_type, new_token["small_fields"], new_token["large_fields"])
@@ -118,15 +133,26 @@ class Tokens():
                 return token
         return self.default_token_setup
 
+    def __check_local(self, value):
+        if value == "local":
+            return True
+        return False
 
-    def change_small_field_values(self, token_key, value_key, new_value, local=True):
+    def change_small_field_values(self, token_key, value_key, new_value):
+        local = True
+        user_id = self.account_ref.get_account_id()
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 if(value_key == "name"):
+                    if(not local):
+                        Database.update_token_name(user_id, self.tokens_dict[token]["name"], new_value)
                     self.tokens_dict[token]["name"] = new_value
                     self.tokens_dict[new_value.upper()] = self.tokens_dict.pop(token)
                 else:
                     self.tokens_dict[token]["small_fields"][value_key] = new_value
+                    if(not local):
+                        Database.update_small_fields(user_id, self.tokens_dict)
                 break
         if(local):
             self.__update_json_file()

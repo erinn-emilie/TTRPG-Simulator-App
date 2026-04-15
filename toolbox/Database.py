@@ -14,7 +14,7 @@ import io
 from Enums.TokenTypes import TokenTypes
 
 
-URL = "probably shouldnt have this in github lol"
+URL = "put something cool here"
 
 class DatabaseMessages(Enum):
     NONE = -1
@@ -28,6 +28,15 @@ class DatabaseMessages(Enum):
 
 
 class Database:
+    def load_all_tokens_with_type(user_id:int, token_type:str):
+        url = f"{URL}/load-all-tokens-with-type"
+        response = requests.post(url, json={"user_id": user_id, "token_type": token_type})
+        json_response = response.json()
+        message = json_response["message"]
+        if("ERROR" in message or "NONE" in message):
+            return {}
+        else:
+            return eval(json_response["info"])
     def check_user(username:str, password:str):
         url = f"{URL}/check-account"
         response = requests.post(url, json={"username": username, "password": password})
@@ -48,6 +57,10 @@ class Database:
             img_byte_arr = io.BytesIO()  
             img.save(img_byte_arr, format="PNG", quality=quality) 
             return img_byte_arr.getvalue() 
+
+    def update_token_name(user_id:int, old_name:str, new_name:str):
+        url = f"{URL}/update-token-name"
+        response = requests.post(url, json={"user_id": user_id, "old_name": old_name, "new_name": new_name})
 
     def add_new_token(user_id:int, user_token_key:int, token_name:str, token_type:TokenTypes, json_small_fields:dict, json_large_fields:dict, map_asset="", images=[]):
         compressed_images = []

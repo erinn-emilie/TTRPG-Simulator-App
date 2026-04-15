@@ -97,3 +97,23 @@ class Toolbox():
     def get_session_ref(self) -> Session:
         return self.session_ref
 
+    def reset_tokens_to_local(self):
+        self.player_characters_ref.load_from_json()
+        self.nonplayer_characters_ref.load_from_json()
+        self.animals_ref.load_from_json()
+        self.monsters_ref.load_from_json()
+        self.buildings_ref.load_from_json()
+        self.structures_ref.load_from_json()
+        self.nature_ref.load_from_json()
+
+    def reset_tokens_to_database(self):
+        self.player_characters_ref.load_from_database()
+        self.nonplayer_characters_ref.load_from_database()
+        self.animals_ref.load_from_database()
+        self.monsters_ref.load_from_database()
+        self.buildings_ref.load_from_database()
+        self.structures_ref.load_from_database()
+        self.nature_ref.load_from_database()
+
+
+

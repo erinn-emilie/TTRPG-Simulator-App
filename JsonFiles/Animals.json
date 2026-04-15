@@ -39,11 +39,12 @@
             "charisma": "20",
             "age": "9"
         },
-        "large_fields": {
-            "biography": "The best boy.",
-            "notes": "Kind of smelly?",
-            "Inventory": "Tennis ball."
-        },
+      "large_fields": {
+        "biography": "The best boy.",
+        "notes": "Kind of smelly?",
+        "Inventory": "Tennis ball."
+      },
+        "save_location":  "local",
         "spawn_all": true,
         "spawnable_tiles": [],
         "large_assets": [],

@@ -37,6 +37,7 @@
       "biography": "Beloved by the whole town.",
       "notes": "Used to be named William Robert's Tavern."
     },
+    "save_location": "local",
     "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],

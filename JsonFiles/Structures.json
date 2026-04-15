@@ -16,10 +16,7 @@
     },
     "large_assets": [],
     "set_map_asset": "",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
+    "old_map_assets": []
   },
   "DUCK STATUE": {
     "key": 1,
@@ -35,13 +32,9 @@
       "biography": "This statue has been there for centuries. Nobody knows who made it.\t",
       "notes": "Why a duck?"
     },
-    "spawn_all": true,
-    "spawnable_tiles": [],
+    "save_location": "local",
     "large_assets": [],
     "set_map_asset": "assets//duckstatue.png",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
+    "old_map_assets": []
   }
 }

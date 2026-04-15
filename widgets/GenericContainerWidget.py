@@ -396,6 +396,7 @@ class TokenContainerWidget(QWidget):
         self.small_fields_layout.insertLayout(self.total_sm_fields, new_row)
         self.total_sm_fields += 1
 
+
         self.token_class_ref.add_new_sm_field(self.token_key, sm_field, value)
         self.just_added.append(sm_field)
 

@@ -188,6 +188,7 @@ class SessionWidget(QMainWindow):
             for i in reversed(range(self.main_layout.count()-1)): 
                 self.main_layout.itemAt(i).widget().setParent(None)            
             self.__layout_with_acc()
+            self.toolbox.reset_tokens_to_database()
 
 
     def __try_sign_up(self):
