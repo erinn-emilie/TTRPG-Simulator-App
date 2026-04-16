@@ -24,6 +24,8 @@ from enum import Enum
 import re
 from urllib.request import urlopen
 
+import ipaddress
+
 
 
 from queue import Queue
@@ -103,10 +105,11 @@ class Session():
             conn, addr = sock.accept()
             threading.Thread(target=self.handle_client_as_host, args=(conn, addr, )).start()
 
-    def wait_for_host_updates(self, conn):
+    def wait_for_host_updates(self, sock):
         init_map_info = False
+        sock.send(SessionMessages.REQ_JOIN.value.encode("utf-8"))
         while True:
-            data = conn.recv(1024).decode("utf-8")
+            data = sock.recv(1024).decode("utf-8")
             if(init_map_info):
                 init_map_info = False
                 self.saved_maps_ref.set_active_save_dict(eval(data))
@@ -116,46 +119,60 @@ class Session():
                 init_map_info = True
             time.sleep(5)
 
-    def listen_for_host_as_client(self, sock):
-        conn, addr = sock.accept()
-        threading.Thread(target=self.wait_for_host_updates, args=(conn,)).start()
+    
+    def get_private_ip(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
+        return ip_address
 
 
 
-    def start_session_as_host(self, ip_address = "", port="80"):
+    def start_session_as_host(self, port=80):
         self.live = True
         self.host = True
 
         account_id = self.acc_ref.get_account_id()
         if(account_id != -1):
             random.seed()
-            if(ip_address == ""):
-                data = str(urlopen('http://checkip.dyndns.com/').read())
-                ip_address = re.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(data).group(1)
 
-                print("Your Public IP Address is:", ip_address)
+            ip_address_private = self.get_private_ip()
+            data = str(urlopen('http://checkip.dyndns.com/').read())
+            ip_address_public = re.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(data).group(1)
+
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind((socket.gethostname(),int(port)))
-            pswd = str(random.randint(10**9, 10**10 - 1))
+            sock.bind(("0.0.0.0",port))
+            pswd = str(random.randint(10**5, 10**6 - 1))
             pswd_hash = bcrypt.hashpw(pswd.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-            Database.add_host_info_to_db(str(ip_address), account_id, pswd_hash, port)
+            Database.add_host_info_to_db(str(ip_address_public), str(ip_address_private), account_id, pswd_hash, port)
 
 
             sock.listen(5)
             threading.Thread(target=self.listen_for_client_as_host, args=(sock, )).start()
         return pswd
 
+    def same_network(self, ip1, ip2, subnet_mask="255.255.255.0"):
+        try:
+            network = ipaddress.ip_network(f"{ip1}/{subnet_mask}", strict=False)
+            return ipaddress.ip_address(ip2) in network
+        except:
+            return False
 
     def join_session_as_client(self, username, password):
         self.live = True
         account_id = self.acc_ref.get_account_id()
         if(account_id != -1):
-            msg, ip_address, port = Database.get_host_info(username, password)
+            msg, ip_address, port, private_ip = Database.get_host_info(username, password)
             if(msg == DatabaseMessages.SUCCESS):
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.connect((ip_address, port))
-                sock.send(SessionMessages.REQ_JOIN.value.encode("utf-8"))
+                my_ip = self.get_private_ip()
+                if(self.same_network(my_ip, private_ip)):
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((private_ip, port))
 
+                    threading.Thread(target=self.wait_for_host_updates, args=(sock, )).start()
+                else:
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((ip_address, port))
 
-                sock.listen(5)
-                threading.Thread(target=self.listen_for_host_as_client, args=(sock, )).start()
+                    threading.Thread(target=self.wait_for_host_updates, args=(sock, )).start()

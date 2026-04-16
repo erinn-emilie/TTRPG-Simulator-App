@@ -15,7 +15,7 @@ import base64
 from Enums.TokenTypes import TokenTypes
 
 
-URL = "hmmmmm, something goes here"
+URL = ""
 
 class DatabaseMessages(Enum):
     NONE = -1
@@ -29,6 +29,19 @@ class DatabaseMessages(Enum):
 
 
 class Database:
+    def get_host_info(username:str, password:str):
+        url = f"{URL}/get-host-info"
+        response = requests.post(url, json={"username":username, "password":password})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            ip_address = json_response["ip_address"]
+            port = json_response["port"]
+            private_ip = json_response["private_ip"]
+            return DatabaseMessages.SUCCESS, ip_address, port, private_ip
+        else:
+            return DatabaseMessages.CRITICAL_ERROR, "", -1
+
     def load_all_tokens_with_type(user_id:int, token_type:str):
         url = f"{URL}/load-all-tokens-with-type"
         response = requests.post(url, json={"user_id": user_id, "token_type": token_type})
@@ -126,9 +139,9 @@ class Database:
             return DatabaseMessages.SUCCESS
         
 
-    def add_host_info_to_db(hostname:str, user_id:int, password:str, port:int):
+    def add_host_info_to_db(hostname_public:str, hostname_private:str, user_id:int, password:str, port:int):
         url = f"{URL}/add-host"
-        response = requests.post(url, json={"hostname": hostname, "user_id": user_id, "password": password, "port": port})
+        response = requests.post(url, json={"hostname": hostname_public, "private_ip": hostname_private, "user_id": user_id, "password": password, "port": port})
         json_response = response.json()
         message = json_response["message"]
 
