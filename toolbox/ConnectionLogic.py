@@ -84,17 +84,17 @@ class Session():
             message = message_ref.get_next_message()
             if(not message is None):
                 conn = message_ref.get_conn()
-                conn.send(message).encode("utf-8")
+                conn.send(message.encode("utf-8"))
             time.sleep(10)
 
 
     def handle_client_as_host(self, conn, addr):
         data = conn.recv(1024).decode("utf-8")
-        if(data == SessionMessages.REQ_JOIN):
+        if(data == SessionMessages.REQ_JOIN.value):
             print("joined")
             new_queue = MessageQueue(conn, addr)
-            new_queue.put(SessionMessages.INIT_MAP_INFO.value)
-            new_queue.put(str(self.saved_maps_ref.get_active_save_dict()))
+            new_queue.add_message(SessionMessages.INIT_MAP_INFO.value)
+            new_queue.add_message(str(self.saved_maps_ref.get_active_save_dict()))
             self.messages.append(new_queue)
             threading.Thread(target=self.watch_queue, args=(new_queue, )).start()
 
@@ -105,17 +105,20 @@ class Session():
             conn, addr = sock.accept()
             threading.Thread(target=self.handle_client_as_host, args=(conn, addr, )).start()
 
+
+    # needs reworked so server sends map data with an ending character at the end and client reads all of it before making it into a dict
     def wait_for_host_updates(self, sock):
         init_map_info = False
         sock.send(SessionMessages.REQ_JOIN.value.encode("utf-8"))
         while True:
             data = sock.recv(1024).decode("utf-8")
+            print(data)
             if(init_map_info):
                 init_map_info = False
                 self.saved_maps_ref.set_active_save_dict(eval(data))
                 self.saved_maps_ref.set_active_save_name("Session Map")
                 self.hextile_map_ref.loadSavedMap("Session Map", active_save_dict=True)
-            if(data == SessionMessages.INIT_MAP_INFO):
+            if(data == SessionMessages.INIT_MAP_INFO.value):
                 init_map_info = True
             time.sleep(5)
 
