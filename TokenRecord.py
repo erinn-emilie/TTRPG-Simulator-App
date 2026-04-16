@@ -11,11 +11,14 @@ class TokenRecord():
         self.token_dict["y_position"] = self.position[1]
         self.token_type = token_type
         self.token_dict["token_type"] = TokenTypes.get_str_from_token_type(self.token_type)
+        self.save_location = self.token_dict["save_location"]
         self.name = self.token_dict["name"]
         self.key = self.token_dict["key"]
         self.default = True
         self.__log_new_token()
 
+    def get_save_location(self) -> str:
+        return self.save_location
 
     def get_name(self) -> str:
         return self.name
@@ -38,7 +41,7 @@ class TokenRecord():
     def get_token_type(self) -> TokenTypes:
         return self.token_type
 
-    def get_map_asset(self) -> str:
+    def get_map_asset(self):
         return self.token_dict["set_map_asset"]
 
     def get_excluded_tiles(self) -> dict:

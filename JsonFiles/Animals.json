@@ -12,46 +12,36 @@
             "wisdom": 0,
             "charisma": 0
         },
-        "large_fields": {
-            "biography": "",
-            "notes": ""
-        },
-        "spawn_all": true,
-        "spawnable_tiles": [],
+      "large_fields": {
+        "biography": "",
+        "notes": ""
+      },
         "large_assets": [],
         "set_map_asset": "",
-        "old_map_assets": [],
-        "excluded_tiles": {},
-        "base_height_multiplier": 1,
-        "base_width_multiplier": 1
+        "old_map_assets": []
     },
     "TAURUS": {
         "key": 1,
         "name": "Taurus",
         "duplicatable": true,
-        "small_fields": {
-            "health": "20",
-            "strength": "17",
-            "dexterity": "4",
-            "constitution": "12",
-            "intelligence": "1",
-            "wisdom": "2",
-            "charisma": "20",
-            "age": "9"
-        },
+      "small_fields": {
+        "health": "20",
+        "strength": "17",
+        "dexterity": "4",
+        "constitution": "12",
+        "intelligence": "1",
+        "wisdom": "2",
+        "charisma": "20",
+        "age": "9"
+      },
       "large_fields": {
         "biography": "The best boy.",
         "notes": "Kind of smelly?",
         "Inventory": "Tennis ball."
       },
-        "save_location":  "local",
-        "spawn_all": true,
-        "spawnable_tiles": [],
+        "save_location": "local",
         "large_assets": [],
         "set_map_asset": "assets\\dog.png",
-        "old_map_assets": [],
-        "excluded_tiles": {},
-        "base_height_multiplier": 1,
-        "base_width_multiplier": 1
+        "old_map_assets": []
     }
 }

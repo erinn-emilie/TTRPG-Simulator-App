@@ -17,7 +17,7 @@ from PyQt6.QtWidgets import (
     QFileDialog
 )
 
-
+import base64
 from Enums.TokenTypes import TokenTypes
 from widgets.GenericContainerWidget import TokenContainerWidget
 from widgets.GenericContainerWidget import TokenRecordContainerWidget
@@ -295,8 +295,14 @@ class GridWindow(QMainWindow):
             combo.addItem(icon, title_str)
             for token in ref.get_tokens_list():
                 name = token["name"]
+                icon = None
                 asset_str = token["set_map_asset"]
-                icon = QIcon(asset_str)
+                if("local" in token["save_location"]):
+                    icon = QIcon(asset_str)
+                else:
+                    pixmap = QPixmap()
+                    pixmap.loadFromData(asset_str)
+                    icon = QIcon(pixmap)
                 combo.addItem(icon, name)
             self.toolbar.addWidget(combo)
 
@@ -304,8 +310,14 @@ class GridWindow(QMainWindow):
         token_records = self.tile_record.get_token_records()
         for token_record in token_records:
             token_label = TokenLabel(self.toolbox, token_record, self, parent=self.map_widget)
-            asset_path = token_record.get_map_asset()
-            pixmap = QPixmap(asset_path)
+            save_location = token_record.get_save_location()
+            pixmap = QPixmap()
+            if(save_location == "local"):
+                asset_path = token_record.get_map_asset()
+                pixmap = QPixmap(asset_path)
+            else:
+                blob = token_record.get_map_asset()
+                pixmap.loadFromData(blob)
             scaled_pixmap = pixmap.scaled(
                 self.tile_size, self.tile_size,
                 aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
@@ -330,7 +342,11 @@ class GridWindow(QMainWindow):
             self.tile_record.add_token_record(token_record)
             token_label = TokenLabel(self.toolbox, token_record, self, parent=self.map_widget)
             asset_path = token_record.get_map_asset()
-            pixmap = QPixmap(asset_path)
+            pixmap = QPixmap()
+            if("local" in token["save_location"]):
+                pixmap = QPixmap(asset_path)
+            else:
+                pixmap.loadFromData(asset_path)
             scaled_pixmap = pixmap.scaled(
                 self.tile_size, self.tile_size,
                 aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,

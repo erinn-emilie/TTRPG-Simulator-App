@@ -547,12 +547,15 @@ class HextileMap():
 
     def loadSavedMap(self, map_name:str, active_save_dict=False):
         map_dict = {}
+        user_id = self.acc_ref.get_account_id()
         if(active_save_dict):
             map_dict = self.saved_maps.get_active_save_dict()
         else:
             self.saved_maps.fetch_saved_maps()
             map_dict = self.saved_maps.find_map_by_name(map_name)
-        if(not map_dict is None):
+            if(not map_dict):
+                map_dict = Database.get_map_from_db(user_id, map_name)[map_name]
+        if(map_dict):
             self.__createMap(len(map_dict))
             curNode = self.centerNode
             curRingNumber = 1

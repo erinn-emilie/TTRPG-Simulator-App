@@ -25,7 +25,7 @@ class Tokens():
         try:
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.tokens_dict = json.load(file)
-            self.__setup()
+            self.__setup(change_default=True)
         except FileNotFoundError:
             print("Couldn't find JSON file with tokens!")
         except json.JSONDecodeError:
@@ -33,12 +33,17 @@ class Tokens():
 
     def load_from_database(self):
         self.tokens_dict = Database.load_all_tokens_with_type(self.account_ref.get_account_id(), TokenTypes.get_str_from_token_type(self.token_type))
+        for token in self.tokens_dict:
+            self.tokens_dict[token]["save_location"] = "database"
+            self.tokens_dict[token]["small_fields"] = eval(self.tokens_dict[token]["small_fields"])
+            self.tokens_dict[token]["large_fields"] = eval(self.tokens_dict[token]["large_fields"])
+
         self.__setup()
 
 
-    def __setup(self):
-        #self.tokens_list.clear()
-        self.default_token_setup = self.tokens_dict["DEFAULT"]
+    def __setup(self, change_default=False):
+        if(change_default):
+            self.default_token_setup = self.tokens_dict["DEFAULT"]
         counter = 0
         for token in self.tokens_dict:
             if(token != "DEFAULT"):
@@ -66,15 +71,18 @@ class Tokens():
 
 
     def change_map_asset(self, token_key, img_path):
-         for token in self.tokens_dict:
+        user_id = self.account_ref.get_account_id()
+        local = True
+        for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
-                old_map_asset = self.tokens_dict[token]["set_map_asset"]
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 self.tokens_dict[token]["set_map_asset"] = img_path
-                old_map_assets_list = self.tokens_dict[token]["old_map_assets"]
-                old_map_assets_list.append(old_map_asset)
-                self.tokens_dict[token]["old_map_assets"] = old_map_assets_list
-                self.__update_json_file()
+                if(local):
+                    self.__update_json_file()
+                else:
+                    Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], img_path)
                 break
+
 
 
     def add_new_large_image(self, token_key, img_path):
@@ -95,7 +103,7 @@ class Tokens():
         self.__update_json_file()
 
     def create_new_token(self, local=True) -> dict:
-        default_token = self.tokens_dict["DEFAULT"]
+        default_token = self.default_token_setup
         user_id = self.account_ref.get_account_id()
         self.total_tokens += 1
         new_name = "new token"
@@ -108,7 +116,8 @@ class Tokens():
             self.tokens_dict[new_name.upper()]["save_location"] = "local"
             self.__update_json_file()
         else:
-            Database.add_new_token(user_id, self.total_tokens, new_name, self.token_type, new_token["small_fields"], new_token["large_fields"])
+            self.tokens_dict[new_name.upper()]["save_location"] = "database"
+            Database.add_new_token(user_id, self.total_tokens, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
         return self.tokens_dict[new_name.upper()]
 
     def delete_token(self, token_key):
@@ -152,72 +161,108 @@ class Tokens():
                 else:
                     self.tokens_dict[token]["small_fields"][value_key] = new_value
                     if(not local):
-                        Database.update_small_fields(user_id, self.tokens_dict)
+                        Database.update_token_small_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["small_fields"])
                 break
         if(local):
             self.__update_json_file()
 
     def change_small_field_keys(self, token_key, old_key, new_key):
+        local = True
+        user_id = self.account_ref.get_account_id()
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 self.tokens_dict[token]["small_fields"][new_key] = self.tokens_dict[token]["small_fields"].pop(old_key)
+                if(not local):
+                    Database.update_token_small_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["small_fields"])
                 break
-        self.__update_json_file()
+            if(local):
+                self.__update_json_file()
 
 
     def change_lg_field_values(self, token_key, value_key, new_value):
         plain_txt = new_value.toPlainText()
-        print(plain_txt)
+        local = True
+        user_id = self.account_ref.get_account_id()
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 self.tokens_dict[token]["large_fields"][value_key] = plain_txt
+                if(not local):
+                    Database.update_token_large_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["large_fields"])
                 break
-        self.__update_json_file()
+        if(local):
+            self.__update_json_file()
 
 
     def change_lg_field_keys(self, token_key, old_key, new_key):
+        local = True
+        user_id = self.account_ref.get_account_id()
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 self.tokens_dict[token]["large_fields"][new_key] = self.tokens_dict[token]["large_fields"].pop(old_key)
+                if(not local):
+                    Database.update_token_large_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["large_fields"])
                 break
-        self.__update_json_file()
+        if(local):
+            self.__update_json_file()
 
 
     def delete_field(self, token_key, retired_key) -> bool:
+        local = True
+        user_id = self.account_ref.get_account_id()
         found = False
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 if(retired_key in self.tokens_dict[token]["small_fields"]):
                     del self.tokens_dict[token]["small_fields"][retired_key]
+                    if(not local):
+                        Database.update_token_small_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["small_fields"])
                     found = True
                 else:
                     if(retired_key in self.tokens_dict[token]["large_fields"]):
                         del self.tokens_dict[token]["large_fields"][retired_key]
+                        if(not local):
+                            Database.update_token_large_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["large_fields"])
                         found = True
                 break
-        if(found):
+        if(found and local):
             self.__update_json_file()
         return found
 
     def add_new_sm_field(self, token_key, new_key, new_value):
+        local = True
+        user_id = self.account_ref.get_account_id()
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 inc = 1
                 while(new_key in self.tokens_dict[token]["small_fields"]):
                     new_key += str(inc)
                     inc += 1
                 self.tokens_dict[token]["small_fields"][new_key] = new_value
-        self.__update_json_file()
+                if(not local):
+                    Database.update_token_small_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["small_fields"])
+        if(local):
+            self.__update_json_file()
 
     def add_new_lg_field(self, token_key, new_key, new_value):
+        local = True
+        user_id = self.account_ref.get_account_id()
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 inc = 1
                 while(new_key in self.tokens_dict[token]["large_fields"]):
                     new_key += str(inc)
                     inc += 1
                 self.tokens_dict[token]["large_fields"][new_key] = new_value
-        self.__update_json_file()
+                if(not local):
+                    Database.update_token_large_fields(user_id, self.tokens_dict[token]["name"], self.tokens_dict[token]["large_fields"])
+        if(local):
+            self.__update_json_file()
 
     def import_token(self, token_dict: dict):
         token_name = token_dict["name"].upper()

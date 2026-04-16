@@ -40,7 +40,7 @@ class HexLabel(QLabel):
         self.hex_node = hex_node
         self.toolbox = toolbox
         self.tile_types_ref = self.toolbox.get_tile_types_ref()
-        self.gridWindow = GridWindow(self.hex_node, self.toolbox)
+        self.gridWindow = None
         self.home_window = home_window
 
     def get_hex_node(self) -> HextileNode:
@@ -59,6 +59,7 @@ class HexLabel(QLabel):
                 pixmap = QPixmap(png_str)
                 self.setPixmap(pixmap)
         if(event.button() == Qt.MouseButton.LeftButton):
+            self.gridWindow = GridWindow(self.hex_node, self.toolbox)
             self.gridWindow.show()
             
         return super().mousePressEvent(event)
@@ -399,7 +400,7 @@ class HomeWindow(QMainWindow):
         self.map_layout.addWidget(self.map_widget)
 
     def __load_saved_map(self):
-        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name to save the map under!")
+        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name of the map to load!")
         if ok and map_name:
             self.map_layout.removeWidget(self.map_widget)
             self.map_widget = QWidget()

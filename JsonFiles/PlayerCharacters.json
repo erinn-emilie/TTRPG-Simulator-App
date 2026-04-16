@@ -64,66 +64,63 @@
     "base_height_multiplier": 1,
     "base_width_multiplier": 1
   },
-    "MR GUY": {
-        "key": 0,
-        "name": "Mr Guy",
-        "duplicatable": false,
-        "small_fields": {
-            "health": "12",
-            "strength": "20",
-            "dexterity": "5",
-            "constitution": "12",
-            "intelligence": "12",
-            "wisdom": "9",
-            "charisma": "13"
-        },
-        "large_fields": {
-            "biography": "This is my biography.",
-            "New Notes": ""
-        },
-        "spawn_all": true,
-        "spawnable_tiles": [],
-        "large_assets": [
-            "assets\\green_man.png",
-            "assets\\red_guy.png"
-        ],
-        "set_map_asset": "assets/smallasset.png",
-        "old_map_assets": [],
-        "excluded_tiles": {},
-        "base_height_multiplier": 1,
-        "base_width_multiplier": 1
+  "MR GUY": {
+    "key": 0,
+    "name": "Mr Guy",
+    "duplicatable": false,
+    "small_fields": {
+      "health": "12",
+      "strength": "20",
+      "dexterity": "5",
+      "constitution": "12",
+      "intelligence": "12",
+      "wisdom": "9",
+      "charisma": "13"
     },
-    "CHARACTER": {
-        "name": "Character",
-        "key": 3,
-        "duplicatable": false,
-        "small_fields": {
-            "health": "100",
-            "strength": "0",
-            "dexterity": "0",
-            "constitution": "0",
-            "intelligence": "0",
-            "wisdom": "0",
-            "favorite word": "word"
-        },
-        "large_fields": {
-            "biography": "This is a brand new character.",
-            "notes": ""
-        },
-        "spawn_all": true,
-        "spawnable_tiles": [],
-        "large_assets": [],
-        "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\new_stick.png",
-        "old_map_assets": [
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        ],
-        "excluded_tiles": {},
-        "base_height_multiplier": 1,
-        "base_width_multiplier": 1
-    }
+    "large_fields": {
+      "biography": "This is my biography.",
+      "New Notes": ""
+    },
+    "save_location": "local",
+    "large_assets": [
+      "assets\\green_man.png",
+      "assets\\red_guy.png"
+    ],
+    "set_map_asset": "assets/smallasset.png",
+    "old_map_assets": []
+  },
+  "CHARACTER": {
+    "name": "Character",
+    "key": 3,
+    "duplicatable": false,
+    "small_fields": {
+      "health": "100",
+      "strength": "0",
+      "dexterity": "0",
+      "constitution": "0",
+      "intelligence": "0",
+      "wisdom": "0",
+      "favorite word": "word"
+    },
+    "large_fields": {
+      "biography": "This is a brand new character.",
+      "notes": ""
+    },
+    "save_location": "local",
+    "spawn_all": true,
+    "spawnable_tiles": [],
+    "large_assets": [],
+    "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\new_stick.png",
+    "old_map_assets": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "excluded_tiles": {},
+    "base_height_multiplier": 1,
+    "base_width_multiplier": 1
+  }
 }
