@@ -15,8 +15,8 @@ class Toolbox():
         self.screen_height = screen_height
 
         self.tile_types_ref = TileTypes()
-        self.logger_ref = Logger()
         self.account_ref = Account()
+        self.logger_ref = Logger(self.account_ref)
         self.player_characters_ref = Tokens("jsonfiles/PlayerCharacters.json", "assets/character.png", TokenTypes.PLAYER_CHARACTERS, self.account_ref)
         self.nonplayer_characters_ref = Tokens("jsonfiles/NonPlayerCharacters.json", "assets/character.png", TokenTypes.NON_PLAYER_CHARACTERS, self.account_ref)
         self.animals_ref = Tokens("jsonfiles/Animals.json", "assets/animal.png", TokenTypes.ANIMALS, self.account_ref)
@@ -25,7 +25,7 @@ class Toolbox():
         self.structures_ref = Tokens("jsonfiles/Structures.json", "assets/buildings.png", TokenTypes.STRUCTURES, self.account_ref)
         self.nature_ref = Tokens("jsonfiles/Nature.json", "assets/nature.png", TokenTypes.NATURE, self.account_ref)
         self.settings_ref = Settings(self.tile_types_ref)
-        self.saved_maps_ref = SavedMaps()
+        self.saved_maps_ref = SavedMaps(self.account_ref)
         self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref, self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref, self.saved_maps_ref, self.screen_width, self.screen_height, self.logger_ref, self.account_ref)
         self.session_ref = Session(self.account_ref, self.saved_maps_ref, self.hextile_map_ref)
 

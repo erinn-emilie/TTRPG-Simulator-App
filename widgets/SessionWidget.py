@@ -189,6 +189,7 @@ class SessionWidget(QMainWindow):
                 self.main_layout.itemAt(i).widget().setParent(None)            
             self.__layout_with_acc()
             self.toolbox.reset_tokens_to_database()
+            self.toolbox.get_saved_maps_ref().fetch_from_database()
 
 
     def __try_sign_up(self):

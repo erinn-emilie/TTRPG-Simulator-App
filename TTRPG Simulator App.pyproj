@@ -26,6 +26,7 @@
     <Compile Include="enums\TileSizeUnits.py" />
     <Compile Include="enums\TokenTypes.py" />
     <Compile Include="pages\GridWindow.py" />
+    <Compile Include="pages\MapExploreWindow.py" />
     <Compile Include="toolbox\Account.py" />
     <Compile Include="toolbox\ConnectionLogic.py" />
     <Compile Include="toolbox\Database.py" />

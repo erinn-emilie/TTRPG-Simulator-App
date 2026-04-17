@@ -15,7 +15,6 @@ from toolbox.Database import Database
 
 class HextileMap():
     def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, screen_width, screen_height, logger_ref, acc_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
-        self.JSON_SAVE_FILE = "jsonfiles/SavedMaps.json"
         self.local_map = {}
         self.tileTypes = tile_types_ref
         self.settings = settings_ref
@@ -83,6 +82,10 @@ class HextileMap():
                 return self.monsters_ref
 
     def generateMap(self):
+        if(self.acc_ref.get_logged_in()):
+            self.logger_ref.open_new_log("TemporaryLog", local=False)
+        else:
+            self.logger_ref.open_new_log("TemporaryLog", local=True)
         self.mapSize = self.settings.getMapSize()
         self.tile_list.clear()
         self.tokens_on_map.clear()
@@ -530,18 +533,21 @@ class HextileMap():
                 cur_node = self.__iterateThroughNodes(cur_node, curRingNumber, curTileNum, numTilesInRing)
                 cur_record = cur_node.getTileRecord()
 
+        if(local):
+            all_tiles_dict["save_location"] = "local"
+            all_tiles_dict["save_key"] = ""
+        else:
+            all_tiles_dict["save_location"] = "database"
         final_dict = {map_name: all_tiles_dict}
 
-        self.logger_ref.change_save_path("logfiles/" + map_name + ".txt")
+        self.logger_ref.change_save_path("logfiles/" + map_name + ".txt", map_name)
         self.logger_ref.save_log()
         self.saved_maps.set_active_save_name(map_name)
         self.saved_maps.set_active_save_dict(final_dict)
         if(local):
-            with open(self.JSON_SAVE_FILE, 'w') as file: 
-                json.dump(final_dict, file, indent=4)
+            self.saved_maps.add_saved_map(map_name, final_dict)
         else:
-            user_id = self.acc_ref.get_account_id()
-            Database.add_map_to_db(user_id, map_name, final_dict)
+            self.saved_maps.add_saved_map(map_name, final_dict, local=False)
 
 
 
@@ -551,10 +557,12 @@ class HextileMap():
         if(active_save_dict):
             map_dict = self.saved_maps.get_active_save_dict()
         else:
-            self.saved_maps.fetch_saved_maps()
             map_dict = self.saved_maps.find_map_by_name(map_name)
             if(not map_dict):
                 map_dict = Database.get_map_from_db(user_id, map_name)[map_name]
+                self.logger_ref.open_new_log(map_name, local=False)
+            else:
+                self.logger_ref.open_new_log(map_name)
         if(map_dict):
             self.__createMap(len(map_dict))
             curNode = self.centerNode

@@ -1,11 +1,7 @@
 import bcrypt
-import urllib
 from enum import Enum
 
 import requests
-
-from sqlalchemy import create_engine, Column, Integer, String, select, ForeignKey, LargeBinary
-from sqlalchemy.orm import declarative_base, sessionmaker
 
 
 from PIL import Image  
@@ -29,6 +25,29 @@ class DatabaseMessages(Enum):
 
 
 class Database:
+
+    def save_log_file(user_id:int, log_name:str, log_contents_list:list):
+        url = f"{URL}/save-log-file"
+        log_contents = ""
+        for line in log_contents_list:
+            log_contents = log_contents + line + "/n"
+        requests.post(url, json={"user_id": user_id, "log_name": log_name, "log_contents": log_contents})
+
+    def fetch_log_contents(user_id:int, log_name:str):
+        url = f"{URL}/fetch-log-file"
+        response = requests.post(url, json={"user_id": user_id, "log_name": log_name})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            log_contents = json_response["log_contents"]
+            return log_contents
+        else:
+            return ""
+
+    def remove_host_info(user_id:int):
+        url = f"{URL}/remove-host-info"
+        requests.post(url, json={"user_id": user_id})
+
     def get_host_info(username:str, password:str):
         url = f"{URL}/get-host-info"
         response = requests.post(url, json={"username":username, "password":password})
@@ -122,13 +141,21 @@ class Database:
             print(f"ERROR: {e}")
             return DatabaseMessages.CRITICAL_ERROR
 
-    def add_new_token(user_id:int, user_token_key:int, token_name:str, token_type:str, json_small_fields:dict, json_large_fields:dict, map_asset="", images=[]):
+    def add_new_token(user_id:int, token_name:str, token_type:str, json_small_fields:dict, json_large_fields:dict, map_asset="", images=[]):
         compressed_images = []
         for img in images:
             compressed_images.append(Database.compress_image(img))
 
+        data = None
+        if(map_asset != ""):
+            with open(map_asset, "rb") as img: 
+                data = base64.b64encode(img.read()).decode("ascii")
+
+        if(not data):
+            data = ""
+
         url = f"{URL}/add-token"
-        response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "token_type": token_type, "json_small_fields": str(json_small_fields), "json_large_fields": str(json_large_fields), "images": compressed_images, "map_asset": map_asset})
+        response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "token_type": token_type, "json_small_fields": str(json_small_fields), "json_large_fields": str(json_large_fields), "images": compressed_images, "map_asset": data})
         json_response = response.json()
         message = json_response["message"]
         if("ERROR" in message or "NONE" in message):
@@ -137,6 +164,17 @@ class Database:
             return DatabaseMessages.DUPLICATE
         else:
             return DatabaseMessages.SUCCESS
+
+    def remove_token(user_id:int, token_name:str):
+        url = f"{URL}/remove-token"
+        response = requests.post(url, json={"user_id": user_id, "token_name": token_name})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            return DatabaseMessages.SUCCESS
+        else:
+            return DatabaseMessages.CRITICAL_ERROR
+
         
 
     def add_host_info_to_db(hostname_public:str, hostname_private:str, user_id:int, password:str, port:int):
@@ -148,6 +186,13 @@ class Database:
     def add_map_to_db(user_id:int, map_name:str, map_dict:dict):
         url = f"{URL}/add-map"
         response = requests.post(url, json={"user_id": user_id, "map_name": map_name, "map_dict": str(map_dict)})
+        json_response = response.json()
+        message = json_response["message"]
+
+        if("SUCCESS" in message):
+            return DatabaseMessages.SUCCESS
+        else:
+            return DatabaseMessages.CRITICAL_ERROR
 
     def get_map_from_db(user_id:int, map_name:str):
         url = f"{URL}/get-map"
@@ -159,6 +204,28 @@ class Database:
             info = json_response["info"]
             return eval(info)
         return {}
+
+    def get_all_maps(user_id:int):
+        url = f"{URL}/get-all-maps"
+        response = requests.post(url, json={"user_id": user_id})
+        json_response = response.json()
+        message = json_response["message"]
+
+        if("SUCCESS" in message):
+            info = json_response["info"]
+            return eval(info)
+        return {}
+
+    def remove_map_from_db(user_id:int, map_name:str):
+        url = f"{URL}/delete-map"
+        response = requests.post(url, json={"user_id": user_id, "map_name": map_name})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            return DatabaseMessages.SUCCESS
+        else:
+            return DatabaseMessages.CRITICAL_ERROR
+
 
     def create_new_user(username:str, email:str, password:str):
         url = f"{URL}/create-account"

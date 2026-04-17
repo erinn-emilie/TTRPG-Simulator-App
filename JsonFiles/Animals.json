@@ -12,36 +12,32 @@
             "wisdom": 0,
             "charisma": 0
         },
-      "large_fields": {
-        "biography": "",
-        "notes": ""
-      },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
         "large_assets": [],
         "set_map_asset": "",
         "old_map_assets": []
     },
-    "TAURUS": {
-        "key": 1,
-        "name": "Taurus",
-        "duplicatable": true,
-      "small_fields": {
-        "health": "20",
-        "strength": "17",
-        "dexterity": "4",
-        "constitution": "12",
-        "intelligence": "1",
-        "wisdom": "2",
-        "charisma": "20",
-        "age": "9"
-      },
-      "large_fields": {
-        "biography": "The best boy.",
-        "notes": "Kind of smelly?",
-        "Inventory": "Tennis ball."
-      },
-        "save_location": "local",
+    "NEW TOKEN": {
+        "key": 0,
+        "name": "new token",
+        "small_fields": {
+            "health": 0,
+            "strength": 0,
+            "dexterity": 0,
+            "constitution": 0,
+            "intelligence": 0,
+            "wisdom": 0,
+            "charisma": 0
+        },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
+        "set_map_asset": "assets/new token.png",
         "large_assets": [],
-        "set_map_asset": "assets\\dog.png",
-        "old_map_assets": []
+        "save_location": "local"
     }
 }

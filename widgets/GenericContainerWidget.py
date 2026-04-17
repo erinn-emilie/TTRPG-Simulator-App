@@ -10,8 +10,12 @@ from PyQt6.QtWidgets import (
     QPlainTextEdit,
     QFileDialog,
     QMessageBox,
-    QMainWindow
+    QMainWindow,
+    QCheckBox
     )
+
+from toolbox.Database import Database
+from toolbox.Database import DatabaseMessages
 
 from functools import partial
 from toolbox.Toolbox import Toolbox
@@ -94,12 +98,13 @@ class TileProbWindow(QMainWindow):
 
  
 class TokenContainerWidget(QWidget):
-    def __init__(self, token:dict, toolbox:Toolbox, token_class_ref, overhead_window):
+    def __init__(self, token:dict, toolbox:Toolbox, token_ref, overhead_window):
         super().__init__()
         self.toolbox = toolbox
+        self.account_ref = self.toolbox.get_account_ref()
         self.overhead_window = overhead_window
         self.token = token
-        self.token_class_ref = token_class_ref
+        self.token_ref = token_ref
         self.setStyleSheet("""
             background-color: pink;
         """)
@@ -134,6 +139,15 @@ class TokenContainerWidget(QWidget):
         name_label.textEdited.connect(partial(self.__edit_value_text, key="name"))
         name_row.addWidget(name_label)
         self.all_labels.append(name_label)
+
+
+        location = token["save_location"]
+        if(self.account_ref.get_logged_in()):
+            database_checkbox = QCheckBox(text="Saved to account.")
+            if("database" in location):
+                database_checkbox.setChecked(True)
+            database_checkbox.toggled.connect(partial(self.__change_save_location, checkbox=database_checkbox))
+            name_row.addWidget(database_checkbox)
 
         self.main_layout.addLayout(name_row)
 
@@ -320,7 +334,7 @@ class TokenContainerWidget(QWidget):
                 asset_dir = os.path.join(cur_dir, "assets")
                 asset_path = os.path.join(asset_dir, img_name)
                 os.rename(img_path, asset_path)
-                self.token_class_ref.add_new_large_image(self.token_key, asset_path)
+                self.token_ref.add_new_large_image(self.token_key, asset_path)
                 self.total_images += 1
                 img_label = QLabel()
                 pixmap = QPixmap(asset_path)
@@ -365,7 +379,7 @@ class TokenContainerWidget(QWidget):
                     asset_dir = os.path.join(cur_dir, "assets")
                     asset_path = os.path.join(asset_dir, img_name)
                     os.rename(img_path, asset_path)
-                    self.token_class_ref.change_map_asset(self.token_key, asset_path)
+                    self.token_ref.change_map_asset(self.token_key, asset_path)
                     self.total_images += 1
                     pixmap = QPixmap(asset_path)
                 else:   
@@ -375,7 +389,7 @@ class TokenContainerWidget(QWidget):
                         buffer = io.BytesIO()  
                         img.save(buffer, format='PNG')      
                         data = buffer.getvalue()
-                    self.token_class_ref.change_map_asset(self.token_key, img_path)
+                    self.token_ref.change_map_asset(self.token_key, img_path)
                     pixmap.loadFromData(data)
                 img_label.setPixmap(pixmap)
                 self.image_labels.append(img_label)
@@ -419,7 +433,7 @@ class TokenContainerWidget(QWidget):
         self.total_sm_fields += 1
 
 
-        self.token_class_ref.add_new_sm_field(self.token_key, sm_field, value)
+        self.token_ref.add_new_sm_field(self.token_key, sm_field, value)
         self.just_added.append(sm_field)
 
 
@@ -456,7 +470,7 @@ class TokenContainerWidget(QWidget):
         self.large_fields_layout.insertLayout(self.total_lg_fields, new_col)
         self.total_lg_fields += 1
 
-        self.token_class_ref.add_new_lg_field(self.token_key, lg_field, value)
+        self.token_ref.add_new_lg_field(self.token_key, lg_field, value)
         self.just_added.append(lg_field)
         
 
@@ -499,20 +513,20 @@ class TokenContainerWidget(QWidget):
     def __save_fields(self):
         for key in self.small_value_changes:
             if(self.small_value_changes[key] != ""):
-                self.token_class_ref.change_small_field_values(self.token_key, key, self.small_value_changes[key])
+                self.token_ref.change_small_field_values(self.token_key, key, self.small_value_changes[key])
         for old_key in self.small_key_changes:
             if(self.small_key_changes[old_key] != ""):
-                self.token_class_ref.change_small_field_keys(self.token_key, old_key, self.small_key_changes[old_key])
+                self.token_ref.change_small_field_keys(self.token_key, old_key, self.small_key_changes[old_key])
         for key in self.lg_value_changes:
             if(self.lg_value_changes[key] != ""):
-                self.token_class_ref.change_lg_field_values(self.token_key, key, self.lg_value_changes[key])
+                self.token_ref.change_lg_field_values(self.token_key, key, self.lg_value_changes[key])
         for old_key in self.lg_key_changes:
             if(self.lg_key_changes[old_key] != ""):
-                self.token_class_ref.change_lg_field_keys(self.token_key, old_key, self.lg_key_changes[old_key])
+                self.token_ref.change_lg_field_keys(self.token_key, old_key, self.lg_key_changes[old_key])
         for label in self.all_labels:
             label.setReadOnly(True)
         for key in self.to_del_keys:
-            self.token_class_ref.delete_field(self.token_key, key)
+            self.token_ref.delete_field(self.token_key, key)
         self.hidden_fields.clear()
         self.to_del_keys.clear()
         self.just_added.clear()
@@ -538,7 +552,7 @@ class TokenContainerWidget(QWidget):
         for item in self.hidden_fields:
             item.show()
         for item in self.just_added:
-            self.token_class_ref.delete_field(self.token_key, item)
+            self.token_ref.delete_field(self.token_key, item)
         for btn in self.del_btns:
             btn.hide()
 
@@ -585,7 +599,7 @@ class TokenContainerWidget(QWidget):
     def __delete_image(self, img_path, image_label):
         if os.path.exists(img_path):
             os.remove(img_path)
-            self.token_class_ref.remove_large_image(self.token_key, img_path)
+            self.token_ref.remove_large_image(self.token_key, img_path)
             image_label.hide()
         else:
           print("The file does not exist") 
@@ -594,10 +608,33 @@ class TokenContainerWidget(QWidget):
         answer = QMessageBox.question(self, 'Confirmation', 'Are you sure you want to delete this token?', QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
 
         if answer == QMessageBox.StandardButton.Yes:
-            self.token_class_ref.delete_token(self.token_key)
+            self.token_ref.delete_token(self.token_key)
             self.overhead_window.delete_token_widget(self)
         else:
             print("User clicked No (or closed the dialog)")
+
+
+    def __change_save_location(self, status, checkbox=None):
+        dlg = QMessageBox(self)
+        dlg.setWindowTitle("Save Token")
+        if(status):
+            if(self.account_ref.get_logged_in()):
+                self.token["save_location"] = "database"
+                message = self.token_ref.change_token_save_location(self.token, local=False)
+                if(message == DatabaseMessages.SUCCESS):
+                    dlg.setText("Token saved to your account!")
+                    dlg.exec()
+                else:
+                    dlg.setText("Something went wrong! Please try again!")
+                    dlg.exec()
+                    checkbox.setChecked(False)
+            else:
+                dlg.setText("Please log in or sign up to save a token to your account!")
+                dlg.exec()
+                checkbox.setChecked(False)
+        else:
+            message = self.token_ref.change_token_save_location(self.token, local=True)
+            self.token["save_location"] = "local"
 
 
 

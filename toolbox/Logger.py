@@ -1,15 +1,18 @@
 import copy
 from datetime import datetime as dt
+from toolbox.Database import Database
 
 class Logger():
-    def __init__(self, log_file_path = "logfiles/TemporaryLog.txt", writable=False):
+    def __init__(self, account_ref, log_file_path = "logfiles/TemporaryLog.txt", writable=False):
         self.log_file_path = log_file_path
         self.save_path = self.log_file_path
+        self.map_name = "TemporaryLog"
         self.log_contents = []
         self.last_session_contents = []
         self.current_session_contents = []
         self.__populate_log()
         self.writable = writable
+        self.account_ref = account_ref
 
 
     def set_writable_status(self, status:bool):
@@ -18,18 +21,31 @@ class Logger():
     def get_writable_status(self) -> bool:
         return self.writable
 
-    def __populate_log(self):
+    def clear_contents(self):
         self.log_contents.clear()
         self.last_session_contents.clear()
-        try:
-            with open(self.log_file_path, 'r') as file:
-                for line in file:
-                    self.log_contents.append(line.strip())
-            self.last_session_contents = copy.deepcopy(self.log_contents)
-        except FileNotFoundError:
-            print("Cannot find the log file!")
+        self.current_session_contents.clear()
 
-    def __rewrite_log_file(self):
+    def __populate_log(self, local=True):
+        self.log_contents.clear()
+        self.last_session_contents.clear()   
+        if(local):
+            try:
+                with open(self.log_file_path, 'r') as file:
+                    for line in file:
+                        self.log_contents.append(line.strip())
+                self.last_session_contents = copy.deepcopy(self.log_contents)
+            except FileNotFoundError:
+                print("Cannot find the log file!")
+        else:
+            user_id = self.account_ref.get_account_id()
+            log_string = Database.fetch_log_contents(user_id, self.map_name)
+            log_split = log_string.split("\n")
+            for line in log_split:
+                self.log_contents.append(line.strip())
+
+    def __rewrite_log_file(self, local=True):
+        if(local):
             try:
                 with open(self.save_path, 'w') as file:
                     for line in self.log_contents:
@@ -37,6 +53,9 @@ class Logger():
                         file.write(line)
             except FileNotFoundError:
                 print("Cannot find the old log file to save!")
+        else:
+            user_id = self.account_ref.get_account_id()
+            Database.save_log_file(user_id, self.map_name, self.log_contents)
 
     def get_all_log_contents(self) -> list:
         return self.log_contents
@@ -58,16 +77,30 @@ class Logger():
         self.log_contents.append(full_line)
         self.current_session_contents.append(full_line)
 
-    def change_save_path(self, path:str):
+    def change_save_path(self, path:str, map_name:str):
         self.save_path = path
+        self.map_name = map_name
 
-    def save_log(self):
-        self.__rewrite_log_file()
-
-    def open_new_log(self, new_file_path, save_old_log=True):
-        if(save_old_log):
+    def save_log(self, local=True):
+        if(local):
             self.__rewrite_log_file()
-        self.log_file_path = new_file_path
-        self.__populate_log()
+        else:
+            user_id = self.account_ref.get_account_id()
+            Database.save_log_file(user_id, self.map_name, self.log_contents)
+
+    def open_new_log(self, new_file_name, save_old_log=True, local=True):
+        if(save_old_log):
+            self.__rewrite_log_file(local=local)
+        new_file_path = f"jsonfiles/{new_file_name}.txt"
+        self.change_save_path(new_file_path, new_file_name)
+        self.__populate_log(local=local)
+
+    def change_to_temporary(self, save_old_log=True, local=True):
+        if(save_old_log):
+            self.__rewrite_log_file(local=local)
+        self.change_save_path("jsonfiles/TemporaryLog.txt", "TemporaryLog")
+        self.log_contents = []
+        self.last_session_contents = []
+        self.current_session_contents = []
 
 

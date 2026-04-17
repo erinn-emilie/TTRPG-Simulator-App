@@ -17,10 +17,12 @@ from PyQt6.QtWidgets import (
     )
 
 from toolbox.Toolbox import Toolbox
+from toolbox.Database import Database
 from HextileNode import HextileNode
 from widgets.SettingsMenu import SettingsMenu
 from pages.CustomTokenExploreWindow import CustomTileExploreWindow
 from pages.CustomTokenExploreWindow import CustomTokenExploreWindow
+from pages.MapExploreWindow import MapExploreWindow
 from pages.GridWindow import GridWindow
 from Enums.TokenTypes import TokenTypes
 from widgets.TileChangeMessageBox import TileChangeMessageBox
@@ -138,11 +140,12 @@ class HomeWindow(QMainWindow):
         self.save_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.save_map_btn)
 
+        '''
         self.load_map_btn = QPushButton("Load Map", self)
         self.load_map_btn.setFlat(True)
         self.load_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.load_map_btn)
-        self.load_map_btn.clicked.connect(self.__load_saved_map)
+        self.load_map_btn.clicked.connect(self.__load_saved_map)'''
 
         self.log_widget_btn = QPushButton("Log Widget", self)
         self.log_widget_btn.setFlat(True)
@@ -189,8 +192,8 @@ class HomeWindow(QMainWindow):
         self.customStructuresWindow = None
         self.customNatureWindow = None
         self.diceRollerWindow = None
-        self.login_window = None
         self.session_mngr_window = None
+        self.map_saves_window = None
 
         self.customTilesButton = QPushButton("Tiles", self.navbar)
         self.customTilesButton.setIcon(QIcon("assets/tiles.png"))
@@ -228,6 +231,9 @@ class HomeWindow(QMainWindow):
         self.diceRollerButton.setIcon(QIcon("assets/d20.png"))
         self.diceRollerButton.setFlat(True)
 
+        self.map_saves_btn = QPushButton("Saved Maps", self.navbar)
+        self.map_saves_btn.setFlat(True)
+
         self.customBtnStyleSheet = """
               background-color: white;
               color: black;
@@ -254,6 +260,7 @@ class HomeWindow(QMainWindow):
         self.navbarLayout.addWidget(self.customStructuresButton)
         self.navbarLayout.addWidget(self.customNatureButton)
         self.navbarLayout.addWidget(self.diceRollerButton)
+        self.navbarLayout.addWidget(self.map_saves_btn)
 
 
         self.customTilesButton.clicked.connect(self.__show_custom_tiles_window)
@@ -265,6 +272,7 @@ class HomeWindow(QMainWindow):
         self.customStructuresButton.clicked.connect(self.__show_custom_structures_window)
         self.customNatureButton.clicked.connect(self.__show_custom_nature_window)
         self.diceRollerButton.clicked.connect(self.__show_dice_roller_window)
+        self.map_saves_btn.clicked.connect(self.__show_map_saves_window)
 
         
         self.navbarContainer.setStyleSheet(self.navbarContainerStyleSheet)
@@ -273,16 +281,9 @@ class HomeWindow(QMainWindow):
         self.setCentralWidget(self.scroll)
            
 
-        
-
-    def __open_login_window(self):
-        if self.login_window is None:
-            self.login_window = Window(self)
-            self.login_window.show()
-
+       
     def __show_custom_tiles_window(self):
-        if(self.customTilesWindow is None):
-            self.customTilesWindow = CustomTileExploreWindow(self.toolbox, self)
+        self.customTilesWindow = CustomTileExploreWindow(self.toolbox, self)
         self.customTilesWindow.show()
 
     def __show_custom_players_window(self):
@@ -296,8 +297,7 @@ class HomeWindow(QMainWindow):
         self.customNonPlayersWindow.show()
 
     def __show_custom_animals_window(self):
-        if(self.customAnimalsWindow is None):
-            self.customAnimalsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.ANIMALS)
+        self.customAnimalsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.ANIMALS)
         self.customAnimalsWindow.show()
 
     def __show_custom_monsters_window(self):
@@ -325,30 +325,9 @@ class HomeWindow(QMainWindow):
             self.diceRollerWindow = DiceRoller(self.toolbox)
         self.diceRollerWindow.show()
 
-    def close_custom_tiles_window(self):
-        self.customTilesWindow = None
-
-    def close_custom_players_window(self):
-        self.customPlayersWindow = None
-
-    def close_custom_nonplayers_window(self):
-        self.customNonPlayersWindow = None
-
-    def close_custom_animals_window(self):
-        self.customAnimalsWindow = None
-
-    def close_custom_monsters_window(self):
-        self.customMonstersWindow = None
-
-    def close_custom_buildings_window(self):
-        self.customBuildingsWindow = None
-
-    def close_custom_structures_window(self):
-        self.customStructuresWindow = None
-
-    def close_custom_nature_window(self):
-        self.customNatureWindow = None
-
+    def __show_map_saves_window(self):
+        self.map_saves_window = MapExploreWindow(self.toolbox, self)
+        self.map_saves_window.show()
 
     def __open_log_widget(self):
         self.log_widget = LogWidget(self.toolbox)
@@ -399,15 +378,13 @@ class HomeWindow(QMainWindow):
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
 
-    def __load_saved_map(self):
-        map_name, ok = QInputDialog.getText(self, "Map Name", "Please enter a name of the map to load!")
-        if ok and map_name:
-            self.map_layout.removeWidget(self.map_widget)
-            self.map_widget = QWidget()
-            self.map_widget.setMinimumSize(3000,3000)
-            self.hextile_map_obj.loadSavedMap(map_name)
-            self.__layout_tiles()
-            self.map_layout.addWidget(self.map_widget)
+    def load_saved_map(self, map_name):
+        self.map_layout.removeWidget(self.map_widget)
+        self.map_widget = QWidget()
+        self.map_widget.setMinimumSize(3000,3000)
+        self.hextile_map_obj.loadSavedMap(map_name)
+        self.__layout_tiles()
+        self.map_layout.addWidget(self.map_widget)
 
 
     def __layout_tiles(self):
@@ -546,3 +523,9 @@ class HomeWindow(QMainWindow):
             map_name, ok = QInputDialog.getText(self, "Map Name", "Your map will be saved to your account!\nPlease enter a name to save the map under!")
             if ok and map_name:
                 self.hextile_map_obj.saveMap(map_name=map_name, local=False)
+
+
+"""    def closeEvent(self, event):
+        user_id = self.toolbox.get_account_ref().get_account_id()
+        if(self.toolbox.get_account_ref().get_logged_in()):
+            Database.remove_host_info(user_id)"""

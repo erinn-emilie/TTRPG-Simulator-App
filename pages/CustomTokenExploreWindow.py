@@ -103,24 +103,6 @@ class CustomTokenExploreWindow(QMainWindow):
                 self.token_ref = self.toolbox.get_nature_ref()
 
 
-    def closeEvent(self, event):
-        match(self.token_type):
-            case TokenTypes.PLAYER_CHARACTERS:
-                self.home_window.close_custom_players_window()
-            case TokenTypes.NON_PLAYER_CHARACTERS:
-                self.home_window.close_custom_nonplayers_window()
-            case TokenTypes.ANIMALS:
-                self.home_window.close_custom_animals_window()
-            case TokenTypes.MONSTERS:
-                self.home_window.close_custom_monsters_window()
-            case TokenTypes.BUILDINGS:
-                self.home_window.close_custom_buildings_window()
-            case TokenTypes.STRUCTURES:
-                self.home_window.close_custom_structures_window()
-            case TokenTypes.NATURE:
-                self.home_window.close_custom_nature_window()
-        event.accept()
-
 class CustomTileExploreWindow(QMainWindow):
     def __init__(self, toolbox_ref:Toolbox, home_window):
         super().__init__()
