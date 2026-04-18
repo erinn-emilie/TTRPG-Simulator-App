@@ -473,8 +473,18 @@ class HextileMap():
         all_tiles_dict = {}
         cur_tile_pos_key = 0
         all_tiles_dict[str(cur_tile_pos_key)] = {}
+        all_tiles_dict["unmodified_tokens"] = {}
+        saved_unmodified_tokens = []
+        save_location = "local"
+        if(not local):
+            save_location = "database"
         for token in cur_record.get_token_records():
+
             token_dict = token.get_token_dict()
+            if(not token_dict["key"] in saved_unmodified_tokens):
+                all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
+                saved_unmodified_tokens.append(token_dict["key"])
+            token_dict["save_location"] = save_location
             if(token.get_default_status):
                 abrev_dict = {
                     "name": token_dict["name"],
@@ -482,11 +492,11 @@ class HextileMap():
                     "key": token_dict["key"],
                     "x_position": token_dict["x_position"],
                     "y_position": token_dict["y_position"],
+                    "save_location": save_location,
                     "modified": False
                 }
                 cur_tokens_list.append(abrev_dict)
             else:
-                token_dict = token.get_token_dict()
                 cur_tokens_list.append(token_dict)
         all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
         all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
@@ -505,6 +515,9 @@ class HextileMap():
             all_tiles_dict[str(cur_tile_pos_key)] = {}
             for token in cur_record.get_token_records():
                 token_dict = token.get_token_dict()
+                if(not token_dict["key"] in saved_unmodified_tokens):
+                    all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
+                    saved_unmodified_tokens.append(token_dict["key"])
                 if(token.get_default_status()):
                     abrev_dict = {
                         "name": token_dict["name"],
@@ -550,6 +563,79 @@ class HextileMap():
             self.saved_maps.add_saved_map(map_name, all_tiles_dict, local=False)
 
 
+    def loadSaveFromKey(self, map_dict):
+        self.__createMap(len(map_dict))
+        curNode = self.centerNode
+        curRingNumber = 1
+        curTileNum = 0
+        numTilesInRing = 6
+
+        dict_pos = 0
+
+        tile_type = map_dict[str(dict_pos)]["type_str"]
+
+        curNode.setTileType(tile_type)
+
+        unmodified_tokens_dict = map_dict["unmodified_tokens"]
+
+        record_key = 0
+        tokens = map_dict[str(dict_pos)]["tokens"]
+        curRecord = curNode.getTileRecord()
+        for token in tokens:           
+            record_key += 1
+            token_type = self.__findTokenTypeFromStr(token["token_type"])
+            token_type_ref = self.__findTokenRefFromType(token_type)
+            name = token["name"]
+
+            token_dict = token
+            if(not token["modified"]):
+                token_dict = unmodified_tokens_dict[name.upper()]
+            token_dict["set_map_asset"] = unmodified_tokens_dict[name.upper()]["set_map_asset"]
+
+            token_record = TokenRecord(self.logger_ref, token_dict, token_type, position=(token["x_position"], token["y_position"]))
+
+            self.tokens_on_map.append(token_record)
+            curRecord.add_token_record(token_record)
+
+        curNode = curNode.getNorthNode()
+
+        dict_pos += 1
+
+        while(str(dict_pos) in map_dict):
+            curTileNum += 1
+            tile_type = map_dict[str(dict_pos)]["type_str"]
+            tokens = map_dict[str(dict_pos)]["tokens"]
+            dict_pos += 1
+            curNode.setTileType(tile_type)
+            curRecord = curNode.getTileRecord()
+            for token in tokens:           
+                record_key += 1
+                token_type = self.__findTokenTypeFromStr(token["token_type"])
+                token_type_ref = self.__findTokenRefFromType(token_type)
+                name = token["name"]
+
+                token_dict = token
+                if(not token["modified"]):
+                    token_dict = unmodified_tokens_dict[name.upper()]
+                    token_dict["set_map_asset"] = unmodified_tokens_dict[name.upper()]["set_map_asset"]
+                if(not token["modified"]):
+                    token_dict = token_type_ref.get_token_by_name(name)
+
+                token_record = TokenRecord(self.logger_ref, token_dict, token_type, position=(token["x_position"], token["y_position"]))
+
+                self.tokens_on_map.append(token_record)
+                curRecord.add_token_record(token_record)
+
+            if(curTileNum == numTilesInRing):
+                curRingNumber += 1
+                if(not curRingNumber > len(map_dict)):
+                    curNode = curNode.getNorthEastNode().getNorthNode()
+
+                    numTilesInRing = curRingNumber * 6
+                    curTileNum = 0
+            else:
+                curNode = self.__iterateThroughNodes(curNode, curRingNumber, curTileNum, numTilesInRing)
+
 
     def loadSavedMap(self, map_name:str, active_save_dict=False):
         map_dict = {}
@@ -586,7 +672,7 @@ class HextileMap():
                 name = token["name"]
 
                 token_dict = token
-                if(token["modified"]):
+                if(not token["modified"]):
                     token_dict = token_type_ref.get_token_by_name(name)
 
                 token_record = TokenRecord(self.logger_ref, token_dict, token_type, position=(token["x_position"], token["y_position"]))

@@ -88,7 +88,7 @@ class TokenRecord():
     def __log_value_changes(self, old_value, new_value, value_key):
         self.default = False
         if(self.logger_ref.get_writable_status()):
-            change_line = self.name + "'s " + value_key + " value changes from " + old_value + " to " + new_value
+            change_line = f"{self.name}'s {value_key} value changes from {old_value} to {new_value}"
             self.logger_ref.add_line(change_line)
 
     def __log_key_changes(self, old_key, new_key):
@@ -112,8 +112,8 @@ class TokenRecord():
 
 
     def change_lg_field_values(self, token_key, value_key, new_value):
-        self.__log_key_changes(self.token_dict["large_fields"][value_key], new_value, value_key)
         plain_txt = new_value.toPlainText()
+        self.__log_key_changes(plain_txt, value_key)
         self.token_dict["large_fields"][value_key] = plain_txt
 
 

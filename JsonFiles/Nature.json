@@ -21,9 +21,9 @@
         "large_assets": [],
         "set_map_asset": ""
     },
-    "NEW TOKEN": {
+    "TREE": {
         "key": 2,
-        "name": "new token",
+        "name": "Tree",
         "duplicatable": true,
         "small_fields": {
             "health": "200",
