@@ -31,6 +31,11 @@ class CustomTokenExploreWindow(QMainWindow):
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
 
+        #AA6373
+        #F0F2A6
+        #self.setStyleSheet("background-color: #AA6373;")
+
+
 
 
         self.add_token_btn = QPushButton("Add New Token")
@@ -63,6 +68,8 @@ class CustomTokenExploreWindow(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self.main_widget)
         self.setCentralWidget(self.scroll)
+        self.showMaximized()
+
 
 
     def delete_token_widget(self, widget):

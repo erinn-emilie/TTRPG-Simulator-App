@@ -194,6 +194,15 @@ class Database:
             print(f"ERROR: {e}")
             return DatabaseMessages.CRITICAL_ERROR
 
+    def update_token_lg_img(user_id:int, token_name:str, data:bytes):
+        url = f"{URL}/add-token-lg-img"
+
+        final_data = base64.b64encode(data).decode("ascii")
+        
+        response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "img_b64": final_data})
+        json_response = response.json()
+        message = json_response["message"]
+
     def add_new_token(user_id:int, token_name:str, token_type:str, json_small_fields:dict, json_large_fields:dict, map_asset="", images=[]):
         compressed_images = []
         for img in images:

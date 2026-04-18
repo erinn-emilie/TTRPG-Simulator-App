@@ -180,6 +180,7 @@ class GridWindow(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
         self.setCentralWidget(self.main_widget)
+        self.showMaximized()
 
 
     def __change_tile_size(self):

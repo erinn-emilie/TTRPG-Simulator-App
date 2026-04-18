@@ -13,8 +13,8 @@
             "JUNGLE": 0,
             "TUNDRA": 0,
             "WASTELAND": 0,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "default_background": "",
         "default_asset": "assets/greyhextile.png"
@@ -33,8 +33,8 @@
             "JUNGLE": 5,
             "TUNDRA": 5,
             "WASTELAND": 5,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "assets/plainsbackground.png",
@@ -54,8 +54,8 @@
             "JUNGLE": 80,
             "TUNDRA": 80,
             "WASTELAND": 45,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "assets/mountainbackground.png",
@@ -75,8 +75,8 @@
             "JUNGLE": 5,
             "TUNDRA": 5,
             "WASTELAND": 70,
-            "NEW TILE": 100,
-            "OOGIE": 0
+            "OOGIE": 0,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "",
@@ -96,8 +96,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 20
+            "OOGIE": 20,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "assets/forestbackground.png",
@@ -117,8 +117,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "assets/desertbackground.png",
@@ -138,8 +138,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "assets/hillsbackground.png",
@@ -159,8 +159,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "",
@@ -180,8 +180,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "",
@@ -201,8 +201,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 100
+            "OOGIE": 100,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "",
@@ -222,8 +222,8 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100,
-            "OOGIE": 10
+            "OOGIE": 10,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "assets/wastelandbackground.png",
@@ -243,8 +243,8 @@
             "JUNGLE": 80,
             "TUNDRA": 0,
             "WASTELAND": 0,
-            "NEW TILE": 100,
-            "OOGIE": 50
+            "OOGIE": 50,
+            "HORMSE": 100
         },
         "save_location": "local",
         "default_background": "",

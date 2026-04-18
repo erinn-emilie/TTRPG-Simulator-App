@@ -11,7 +11,8 @@ from PyQt6.QtWidgets import (
     QFileDialog,
     QMessageBox,
     QMainWindow,
-    QCheckBox
+    QCheckBox,
+    QSizePolicy
     )
 
 from toolbox.Database import Database
@@ -109,9 +110,9 @@ class TokenContainerWidget(QWidget):
         self.overhead_window = overhead_window
         self.token = token
         self.token_ref = token_ref
-        self.setStyleSheet("""
-            background-color: pink;
-        """)
+
+        self.internal_stylesheet = "background-color: #F0F2A6;"
+        
 
         self.token_small_fields = self.token["small_fields"]
         self.token_large_fields = self.token["large_fields"]
@@ -131,6 +132,7 @@ class TokenContainerWidget(QWidget):
 
 
 
+
         self.main_layout = QVBoxLayout()
 
         self.small_fields_layout = QVBoxLayout()
@@ -139,10 +141,36 @@ class TokenContainerWidget(QWidget):
         name_row = QHBoxLayout()
         name_label = QLineEdit(self.token_name)
         name_label.setReadOnly(True)
+        name_label.setMaximumWidth(200)
         self.small_value_changes["name"] = ""
         name_label.textEdited.connect(partial(self.__edit_value_text, key="name"))
-        name_row.addWidget(name_label)
         self.all_labels.append(name_label)
+
+
+
+        map_asset_label = QLabel()
+        map_asset_pix = QPixmap()
+        if(self.map_asset != ""):
+            map_asset_pix.loadFromData(self.map_asset)
+        map_asset_pix = map_asset_pix.scaledToWidth(100)
+        map_asset_pix = map_asset_pix.scaledToHeight(100)
+        map_asset_label.setPixmap(map_asset_pix)
+        change_map_asset_btn = QPushButton("Change Map Asset")
+        change_map_asset_btn.setMaximumWidth(200)
+        change_map_asset_btn.clicked.connect(partial(self.__change_map_asset))
+
+
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+        name_row.addWidget(spacer)
+        name_row.addWidget(map_asset_label)
+        name_label.setStyleSheet(self.internal_stylesheet)
+        name_row.addWidget(name_label)
+    
+        change_map_asset_btn.setStyleSheet(self.internal_stylesheet)
+        name_row.addWidget(change_map_asset_btn)
+        name_row.addWidget(spacer)
 
 
         location = token["save_location"]
@@ -153,34 +181,43 @@ class TokenContainerWidget(QWidget):
             database_checkbox.toggled.connect(partial(self.__change_save_location, checkbox=database_checkbox))
             name_row.addWidget(database_checkbox)
 
+
+
         self.main_layout.addLayout(name_row)
 
-        map_asset_row = QHBoxLayout()
-        map_asset_label = QLabel()
-        map_asset_pix = QPixmap()
-        if(self.map_asset != ""):
-            map_asset_pix.loadFromData(self.map_asset)
-        map_asset_label.setPixmap(map_asset_pix)
-        map_asset_row.addWidget(map_asset_label)
-        change_map_asset_btn = QPushButton("Change Map Asset")
-        change_map_asset_btn.clicked.connect(partial(self.__change_map_asset))
-        map_asset_row.addWidget(change_map_asset_btn)
-        self.main_layout.addLayout(map_asset_row)
 
         self.total_images = 0
         self.images = self.token["large_assets"]
         self.image_labels = []
         self.del_img_btns = []
+        upload_row = QHBoxLayout()
+        upload_row.addWidget(spacer)
+
+        self.img_backward_btn = QPushButton("<")
+        self.img_backward_btn.setStyleSheet(self.internal_stylesheet)
+        self.img_backward_btn.clicked.connect(self.__cycle_last_img)
+
+        upload_row.addWidget(self.img_backward_btn)
+
+        lg_img_row = QHBoxLayout()
         for image in self.images:
             img_label = QLabel()
-            pixmap = QPixmap(image)
+            pixmap = QPixmap()
+            pixmap.loadFromData(image)
             img_label.setPixmap(pixmap)
+            img_label.setMaximumHeight(500)
+            img_label.setMaximumWidth(500)
             self.image_labels.append(img_label)
             del_btn = QPushButton("Remove Image")
+            del_btn.setStyleSheet(self.internal_stylesheet)
+            upload_row.addWidget(del_btn)
             self.del_img_btns.append(del_btn)
             del_btn.clicked.connect(partial(self.__delete_image, image, img_label))
-            self.main_layout.addWidget(img_label)
-            self.main_layout.addWidget(del_btn)
+            lg_img_row.addWidget(spacer)
+            lg_img_row.addWidget(img_label)
+            lg_img_row.addWidget(spacer)
+            self.main_layout.addLayout(lg_img_row)
+
 
 
             self.total_images += 1
@@ -195,15 +232,19 @@ class TokenContainerWidget(QWidget):
 
         self.upload_btn = QPushButton("Upload Image")
         self.upload_btn.clicked.connect(self.__upload_image)
-        self.main_layout.addWidget(self.upload_btn)
-
+        self.upload_btn.setStyleSheet(self.internal_stylesheet)
+        upload_row.addWidget(self.upload_btn)
 
         self.img_forward_btn = QPushButton(">")
-        self.main_layout.addWidget(self.img_forward_btn)
+        self.img_forward_btn.setStyleSheet(self.internal_stylesheet)
         self.img_forward_btn.clicked.connect(self.__cycle_next_img)
-        self.img_backward_btn = QPushButton("<")
-        self.main_layout.addWidget(self.img_backward_btn)
-        self.img_backward_btn.clicked.connect(self.__cycle_last_img)
+        upload_row.addWidget(self.img_forward_btn)
+
+        upload_row.addWidget(spacer)
+
+        
+
+        self.main_layout.addLayout(upload_row)
 
         self.del_btns = []
         self.to_del_keys = []
@@ -234,12 +275,15 @@ class TokenContainerWidget(QWidget):
             del_btn.clicked.connect(partial(self.__queue_for_deletion, field_name, field_value, sm_field, del_btn))
             del_btn.hide()
             self.del_btns.append(del_btn)
-
-
-            
+   
+            new_row.addWidget(spacer)
+            field_name.setStyleSheet(self.internal_stylesheet)
             new_row.addWidget(field_name)
+            field_value.setStyleSheet(self.internal_stylesheet)
             new_row.addWidget(field_value)
-            new_row.addWidget(del_btn)
+            del_btn.setStyleSheet(self.internal_stylesheet)
+            new_row.addWidget(del_btn)   
+            new_row.addWidget(spacer)
             self.small_fields_layout.addLayout(new_row)
             self.total_sm_fields += 1
 
@@ -248,6 +292,7 @@ class TokenContainerWidget(QWidget):
 
         add_sm_btn_row = QHBoxLayout()
         self.add_sm_btn = QPushButton("Add Small Field")
+        self.add_sm_btn.setStyleSheet(self.internal_stylesheet)
         self.add_sm_btn.clicked.connect(self.__add_sm_field)
         self.add_sm_btn.hide()
         add_sm_btn_row .addWidget(self.add_sm_btn)
@@ -257,6 +302,7 @@ class TokenContainerWidget(QWidget):
             new_col = QVBoxLayout()
             label_row = QHBoxLayout()
             label = QLineEdit(lg_field)
+            label.setStyleSheet(self.internal_stylesheet)
             self.all_labels.append(label)
             label.setReadOnly(True)
             label_row.addWidget(label)
@@ -278,6 +324,8 @@ class TokenContainerWidget(QWidget):
             del_btn.hide()
             self.del_btns.append(del_btn)
 
+            new_line.setStyleSheet(self.internal_stylesheet)
+            del_btn.setStyleSheet(self.internal_stylesheet)
             text_row.addWidget(new_line)
             text_row.addWidget(del_btn)
             new_col.addLayout(text_row)
@@ -287,6 +335,7 @@ class TokenContainerWidget(QWidget):
 
         add_lg_btn_row = QHBoxLayout()
         self.add_lg_btn = QPushButton("Add Large Field")
+        self.add_lg_btn.setStyleSheet(self.internal_stylesheet)
         self.add_lg_btn.clicked.connect(self.__add_lg_field)
         self.add_lg_btn.hide()
         add_lg_btn_row .addWidget(self.add_lg_btn)
@@ -295,19 +344,22 @@ class TokenContainerWidget(QWidget):
 
         self.btn_row = QHBoxLayout()
         self.edit_btn = QPushButton("Edit")
+        self.edit_btn.setStyleSheet(self.internal_stylesheet)
         self.edit_btn.clicked.connect(self.__edit_fields)
         self.btn_row.addWidget(self.edit_btn)
 
         self.del_token_btn = QPushButton("Delete")
+        self.del_token_btn.setStyleSheet(self.internal_stylesheet)
         self.del_token_btn.clicked.connect(self.__delete_token)
         self.btn_row.addWidget(self.del_token_btn)
-
         self.save_btn = QPushButton("Save")
+        self.save_btn.setStyleSheet(self.internal_stylesheet)
         self.save_btn.clicked.connect(self.__save_fields)
         self.save_btn.hide()
         self.btn_row.addWidget(self.save_btn)
 
         self.cancel_btn = QPushButton("Cancel")
+        self.cancel_btn.setStyleSheet(self.internal_stylesheet)
         self.cancel_btn.clicked.connect(self.__cancel)
         self.cancel_btn.hide()
         self.btn_row.addWidget(self.cancel_btn)
@@ -328,23 +380,22 @@ class TokenContainerWidget(QWidget):
             try:
                 selected_files_list = file_dialog.selectedFiles()
                 img_path = selected_files_list[0]
-                img_name = os.path.basename(img_path)
+                data = b""
+                with Image.open(img_path) as img:  
+                    buffer = io.BytesIO()  
+                    img.save(buffer, format='PNG')      
+                    data = buffer.getvalue()
 
-                img_name = img_name.replace(".jpg", ".png")
-                img_name = img_name.replace(".jpeg", ".png")
-                cur_dir = os.getcwd()
-                asset_dir = os.path.join(cur_dir, "assets")
-                asset_path = os.path.join(asset_dir, img_name)
-                os.rename(img_path, asset_path)
-                self.token_ref.add_new_large_image(self.token_key, asset_path)
+                self.token_ref.add_new_large_image(self.token_key, data)
                 self.total_images += 1
                 img_label = QLabel()
-                pixmap = QPixmap(asset_path)
+                pixmap = QPixmap()
+                pixmap.loadFromData(data)
                 img_label.setPixmap(pixmap)
                 self.image_labels.append(img_label)
                 del_btn = QPushButton("Remove Image")
                 self.del_img_btns.append(del_btn)
-                del_btn.clicked.connect(partial(self.__delete_image, asset_path, img_label))
+                del_btn.clicked.connect(partial(self.__delete_image, data, img_label))
                 self.main_layout.insertWidget(self.total_images, img_label)
                 self.main_layout.insertWidget(self.total_images + 1, del_btn)
                 for label in self.image_labels:
@@ -584,13 +635,10 @@ class TokenContainerWidget(QWidget):
             self.del_img_btns[0].hide()
 
 
-    def __delete_image(self, img_path, image_label):
-        if os.path.exists(img_path):
-            os.remove(img_path)
-            self.token_ref.remove_large_image(self.token_key, img_path)
-            image_label.hide()
-        else:
-          print("The file does not exist") 
+    def __delete_image(self, data, image_label):
+        self.token_ref.remove_large_image(self.token_key, img_path)
+        image_label.setParent(None)
+
 
     def __delete_token(self):
         answer = QMessageBox.question(self, 'Confirmation', 'Are you sure you want to delete this token?', QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)

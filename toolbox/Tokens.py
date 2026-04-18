@@ -38,6 +38,9 @@ class Tokens():
                     continue
                 data = self.tokens_dict[token]["set_map_asset"]
                 self.tokens_dict[token]["set_map_asset"] = base64.b64decode(data.encode("ascii"))
+                for idx, img in enumerate(self.tokens_dict[token]["large_assets"]):
+                    data = self.tokens_dict[token]["large_assets"][idx] 
+                    self.tokens_dict[token]["large_assets"][idx] = base64.b64decode(data.encode("ascii"))
             self.__setup(change_default=True)
         except FileNotFoundError:
             print("Couldn't find JSON file with tokens!")
@@ -101,21 +104,30 @@ class Tokens():
 
 
 
-    def add_new_large_image(self, token_key, img_path):
-         for token in self.tokens_dict:
-            if(self.tokens_dict[token]["key"] == token_key):
-                self.tokens_dict[token]["large_assets"].append(img_path)
-                self.local_dict[token]["large_assets"].append(img_path)
-                self.__update_json_file()
-                break
-
-    def remove_large_image(self, token_key, img_path):
+    def add_new_large_image(self, token_key, data):
+        user_id = self.account_ref.get_account_id()
+        local = True
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
+                if(local):
+                    self.tokens_dict[token]["large_assets"].append(data)
+                    self.local_dict[token]["large_assets"].append(base64.b64encode(data).decode("ascii"))
+                    self.__update_json_file()
+                else:
+                    Database.update_token_lg_img(user_id, self.tokens_dict[token]["name"], data)
+                    self.tokens_dict[token]["large_assets"].append(data)
+                break
+
+    def remove_large_image(self, token_key, data):
+        for token in self.tokens_dict:
+            if(self.tokens_dict[token]["key"] == token_key):
+                local = self.__check_local(self.tokens_dict[token]["save_location"])
                 for idx, image in enumerate(self.tokens_dict[token]["large_assets"]):
-                    if(image == img_path):
+                    if(image == data):
                         del self.tokens_dict[token]["large_assets"][idx]
-                        del self.local_dict[token]["large_assets"][idx]
+                        if(local):
+                            del self.local_dict[token]["large_assets"][idx]
                         break
                 break
         self.__update_json_file()

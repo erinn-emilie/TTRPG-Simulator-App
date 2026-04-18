@@ -279,6 +279,8 @@ class HomeWindow(QMainWindow):
         self.navbar.setWidget(self.navbarContainer)
 
         self.setCentralWidget(self.scroll)
+        self.showMaximized()
+        #self.resize(self.toolbox.get_screen_width(), self.toolbox.get_screen_height())
            
 
        
