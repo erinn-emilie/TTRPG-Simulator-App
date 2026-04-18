@@ -13,6 +13,11 @@ from Enums.MapLoadLocations import MapLoadLocations
 from TokenRecord import TokenRecord
 from toolbox.Database import Database
 
+from PIL import Image  
+import io  
+import base64
+
+
 class HextileMap():
     def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, screen_width, screen_height, logger_ref, acc_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
         self.local_map = {}
@@ -482,6 +487,13 @@ class HextileMap():
 
             token_dict = token.get_token_dict()
             if(not token_dict["key"] in saved_unmodified_tokens):
+                if(not local):
+                    data = ""
+                    with Image.open(token_dict["set_map_asset"]) as img:  
+                        buffer = io.BytesIO()  
+                        img.save(buffer, format='PNG')      
+                        data = buffer.getvalue()
+                    token_dict["set_map_asset"] = data
                 all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
                 saved_unmodified_tokens.append(token_dict["key"])
             token_dict["save_location"] = save_location
@@ -617,9 +629,7 @@ class HextileMap():
                 token_dict = token
                 if(not token["modified"]):
                     token_dict = unmodified_tokens_dict[name.upper()]
-                    token_dict["set_map_asset"] = unmodified_tokens_dict[name.upper()]["set_map_asset"]
-                if(not token["modified"]):
-                    token_dict = token_type_ref.get_token_by_name(name)
+                token_dict["set_map_asset"] = unmodified_tokens_dict[name.upper()]["set_map_asset"]
 
                 token_record = TokenRecord(self.logger_ref, token_dict, token_type, position=(token["x_position"], token["y_position"]))
 
