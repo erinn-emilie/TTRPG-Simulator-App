@@ -155,6 +155,10 @@ class Database:
         response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "img_b64": data})
         json_response = response.json()
         message = json_response["message"]
+        if("SUCCESS" in message):
+            return data
+        else:
+            return ""
 
     def update_token_name(user_id:int, old_name:str, new_name:str):
         url = f"{URL}/update-token-name"
@@ -213,11 +217,11 @@ class Database:
         json_response = response.json()
         message = json_response["message"]
         if("ERROR" in message or "NONE" in message):
-            return DatabaseMessages.CRITICAL_ERROR
+            return "", DatabaseMessages.CRITICAL_ERROR
         elif("DUPLICATE" in message):
-            return DatabaseMessages.DUPLICATE
+            return "", DatabaseMessages.DUPLICATE
         else:
-            return DatabaseMessages.SUCCESS
+            return data, DatabaseMessages.SUCCESS
 
     def remove_token(user_id:int, token_name:str):
         url = f"{URL}/remove-token"

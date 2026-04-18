@@ -18,26 +18,5 @@
         },
         "large_assets": [],
         "set_map_asset": ""
-    },
-    "WHISPURR": {
-        "key": 1,
-        "name": "Whispurr",
-        "duplicatable": true,
-        "small_fields": {
-            "health": "20",
-            "strength": "10",
-            "dexterity": "12",
-            "constitution": "15",
-            "intelligence": "8",
-            "wisdom": "10",
-            "charisma": "20"
-        },
-        "large_fields": {
-            "biography": "The best kitten.\t",
-            "notes": "Cute fangs."
-        },
-        "large_assets": [],
-        "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\whispurrpixel.png",
-        "save_location": "local"
     }
 }

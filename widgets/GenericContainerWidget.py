@@ -158,10 +158,11 @@ class TokenContainerWidget(QWidget):
         map_asset_row = QHBoxLayout()
         map_asset_label = QLabel()
         map_asset_pix = QPixmap()
-        if("local" in self.token["save_location"]):
-            map_asset_pix = QPixmap(self.map_asset)
-        else:
-            map_asset_pix.loadFromData(self.map_asset)
+        if(self.map_asset != ""):
+            if("local" in self.token["save_location"]):
+                map_asset_pix = QPixmap(self.map_asset)
+            else:
+                map_asset_pix.loadFromData(self.map_asset)
         map_asset_label.setPixmap(map_asset_pix)
         map_asset_row.addWidget(map_asset_label)
         change_map_asset_btn = QPushButton("Change Map Asset")

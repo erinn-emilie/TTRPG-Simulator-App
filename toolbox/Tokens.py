@@ -90,7 +90,8 @@ class Tokens():
                     self.local_dict[token]["set_map_asset"] = img_path
                     self.__update_json_file()
                 else:
-                    Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], img_path)
+                    map_asset = Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], img_path)
+                    self.tokens_dict[token]["set_map_asset"] = map_asset
                 break
 
 
@@ -131,7 +132,8 @@ class Tokens():
             self.__update_json_file()
         else:
             self.tokens_dict[new_name.upper()]["save_location"] = "database"
-            Database.add_new_token(user_id, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
+            map_asset = Database.add_new_token(user_id, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
+            self.tokens_dict[new_name.upper()]["set_map_asset"] = map_asset
         return self.tokens_dict[new_name.upper()]
 
     def change_token_save_location(self, new_token, local=True):
