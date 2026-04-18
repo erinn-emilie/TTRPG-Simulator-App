@@ -11,7 +11,7 @@ import base64
 from Enums.TokenTypes import TokenTypes
 
 
-URL = "hmmmmmmm, somethings missing"
+URL = ""
 
 class DatabaseMessages(Enum):
     NONE = -1

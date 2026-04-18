@@ -529,6 +529,11 @@ class HomeWindow(QMainWindow):
                     self.saved_maps_ref.set_active_save_name("Session Map")
                     self.saved_maps_ref.set_active_save_dict(info)
                     self.hextile_map_obj.loadSavedMap("Session Map", active_save_dict=True)
+                    self.map_layout.removeWidget(self.map_widget)
+                    self.map_widget = QWidget()
+                    self.map_widget.setMinimumSize(3000,3000)
+                    self.__layout_tiles()
+                    self.map_layout.addWidget(self.map_widget)
             except ValueError:
                 self.dlg = QMessageBox(text="The map key must be a number. Please try again!")
                 self.dlg.show()
