@@ -11,7 +11,7 @@ import base64
 from Enums.TokenTypes import TokenTypes
 
 
-URL = "it looks like this should be a url of some kind"
+URL = "hmmmmmmm, somethings missing"
 
 class DatabaseMessages(Enum):
     NONE = -1
@@ -269,6 +269,16 @@ class Database:
             info = json_response["info"]
             return eval(info)
         return {}
+
+    def get_map_from_public_key(public_key:int):
+        url = f"{URL}/get-map-from-key"
+        response = requests.post(url, json={"public_key": public_key})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            info = json_response["info"]
+            return DatabaseMessages.SUCCESS, eval(info)
+        return DatabaseMessages.CRITICAL_ERROR, {}
 
     def remove_map_from_db(user_id:int, map_name:str):
         url = f"{URL}/delete-map"

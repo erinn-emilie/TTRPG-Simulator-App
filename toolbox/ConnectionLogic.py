@@ -13,6 +13,57 @@
 # When a client connect the hosts should send them a map update message and then send the map information which the client loads
 
 
+from enum import Enum
+import threading
+
+class SessionMessages(Enum):
+    REQUEST_JOIN = "REQUEST JOIN"
+    TERMINATE_CONNECTION = "TERMINATE CONNECTION"
+
+
+class ClientSession:
+    def __init__(self, account_ref):
+        self.account_ref = account_ref
+        self.sock = None
+        self.live = False
+
+    def connect_to_host(self, host="127.0.0.0", port=80):
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((host, port))
+
+        self.live = True
+        msg = (f"{SessionMessages.REQUEST_JOIN.value}\n").encode()
+        self.sock.sendall((msg))
+
+        threading.Thread(self.listen_to_host).start()
+
+    def listen_to_host(self):
+        buffer = b""
+        while True:
+            chunk = self.sock.recv(4096)
+            while(b"\n" in buffer):
+                line, buffer = buffer.split(b"\n", 1)
+                msg = line.decode().strip()
+                self.handle_message(msg)
+
+    def handle_message(self, msg):
+        if(msg == SessionMessages.TERMINATE_CONNECTION):
+            self.sock.close()
+            self.live = False
+
+class ServerSession():
+    def __init__(self, account_ref):
+        self.account_ref = account_ref
+        self.sock = None
+        self.live = False
+        
+
+
+
+
+
+"""
+
 import socket
 import threading
 import random
@@ -179,3 +230,4 @@ class Session():
                     sock.connect((ip_address, port))
 
                     threading.Thread(target=self.wait_for_host_updates, args=(sock, )).start()
+                    """

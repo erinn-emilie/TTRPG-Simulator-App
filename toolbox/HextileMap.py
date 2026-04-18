@@ -538,16 +538,16 @@ class HextileMap():
             all_tiles_dict["save_key"] = ""
         else:
             all_tiles_dict["save_location"] = "database"
-        final_dict = {map_name: all_tiles_dict}
+        #final_dict = {map_name: all_tiles_dict}
 
         self.logger_ref.change_save_path("logfiles/" + map_name + ".txt", map_name)
         self.logger_ref.save_log()
         self.saved_maps.set_active_save_name(map_name)
-        self.saved_maps.set_active_save_dict(final_dict)
+        self.saved_maps.set_active_save_dict(all_tiles_dict)
         if(local):
-            self.saved_maps.add_saved_map(map_name, final_dict)
+            self.saved_maps.add_saved_map(map_name, all_tiles_dict)
         else:
-            self.saved_maps.add_saved_map(map_name, final_dict, local=False)
+            self.saved_maps.add_saved_map(map_name, all_tiles_dict, local=False)
 
 
 

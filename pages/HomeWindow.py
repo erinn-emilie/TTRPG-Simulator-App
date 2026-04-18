@@ -32,6 +32,9 @@ from widgets.SessionWidget import SessionWidget
 from Enums.MapSizes import MapSizes
 
 
+from toolbox.Database import Database
+from toolbox.Database import DatabaseMessages
+
 
 
 
@@ -86,7 +89,8 @@ class HomeWindow(QMainWindow):
         self.hextile_map_obj = self.toolbox.get_hextile_map_ref()
         self.tile_types_ref_obj = self.toolbox.get_tile_types_ref()
         self.settings_ref_obj = self.toolbox.get_settings_ref()
-
+        self.account_ref = self.toolbox.get_account_ref()
+        self.saved_maps_ref = self.toolbox.get_saved_maps_ref()
 
         self.tile_labels_list = []
         self.__layout_tiles()
@@ -122,11 +126,7 @@ class HomeWindow(QMainWindow):
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         self.map_settings_toolbar.addWidget(spacer)
 
-        self.seed_input_field = QLineEdit("Enter in a map seed here!")
-        self.seed_input_field.textEdited.connect(self.__recieve_seed_input)
-        self.seed_input_field.setStyleSheet("""background-color: white;""")
-        self.seed_input_field.setMaximumWidth(300)
-        self.map_settings_toolbar.addWidget(self.seed_input_field)
+
 
         self.generate_map_btn = QPushButton("Generate Map", self)
         self.generate_map_btn.clicked.connect(self.__generate_map)
@@ -140,12 +140,12 @@ class HomeWindow(QMainWindow):
         self.save_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.save_map_btn)
 
-        '''
-        self.load_map_btn = QPushButton("Load Map", self)
+        
+        self.load_map_btn = QPushButton("Load Map From Key", self)
         self.load_map_btn.setFlat(True)
         self.load_map_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.load_map_btn)
-        self.load_map_btn.clicked.connect(self.__load_saved_map)'''
+        self.load_map_btn.clicked.connect(self.__load_map_from_key)
 
         self.log_widget_btn = QPushButton("Log Widget", self)
         self.log_widget_btn.setFlat(True)
@@ -347,13 +347,6 @@ class HomeWindow(QMainWindow):
         self.settings_menu_window.show()
 
 
-    def __recieve_seed_input(self, seed_str):
-        try:
-            seed = int(seed_str)
-            self.settings_ref_obj.setNewSeed(seed)
-        except ValueError:
-            self.settings_ref_obj.setNewRandomSeed()
-
     def __generate_map(self):
         self.map_layout.removeWidget(self.map_widget)
         self.map_widget = QWidget()
@@ -514,8 +507,7 @@ class HomeWindow(QMainWindow):
 
 
     def __save_map(self):
-        acc_ref = self.toolbox.get_account_ref()
-        if(not acc_ref.get_logged_in()):
+        if(not self.account_ref.get_logged_in()):
             map_name, ok = QInputDialog.getText(self, "Map Name", "You are not logged in, your map will be saved locally!\nPlease enter a name to save the map under!")
             if ok and map_name:
                 self.hextile_map_obj.saveMap(map_name=map_name)
@@ -523,6 +515,25 @@ class HomeWindow(QMainWindow):
             map_name, ok = QInputDialog.getText(self, "Map Name", "Your map will be saved to your account!\nPlease enter a name to save the map under!")
             if ok and map_name:
                 self.hextile_map_obj.saveMap(map_name=map_name, local=False)
+
+    def __load_map_from_key(self):
+        if(not self.account_ref.get_logged_in()):
+            self.dlg = QMessageBox(text="Please log in to get a map from another user!")
+            self.dlg.show()
+        else:
+            map_key_str, ok = QInputDialog.getText(self, "Map Key", "Please enter the map key!")
+            try:
+                map_key = int(map_key_str)
+                message, info = Database.get_map_from_public_key(map_key)
+                if(message == DatabaseMessages.SUCCESS):
+                    self.saved_maps_ref.set_active_save_name("Session Map")
+                    self.saved_maps_ref.set_active_save_dict(info)
+                    self.hextile_map_obj.loadSavedMap("Session Map", active_save_dict=True)
+            except ValueError:
+                self.dlg = QMessageBox(text="The map key must be a number. Please try again!")
+                self.dlg.show()
+                
+
 
 
 """    def closeEvent(self, event):

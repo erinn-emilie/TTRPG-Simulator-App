@@ -22,7 +22,8 @@ from PyQt6.QtWidgets import (
     QDialogButtonBox
 )
 
-from toolbox.ConnectionLogic import Session
+from toolbox.ConnectionLogic import ClientSession
+from toolbox.ConnectionLogic import ServerSession
 from toolbox.Toolbox import Toolbox
 from toolbox.Database import DatabaseMessages
 
@@ -81,7 +82,8 @@ class SessionWidget(QMainWindow):
         self.toolbox = toolbox
         self.map_ref = self.toolbox.get_hextile_map_ref()
         self.account_ref = self.toolbox.get_account_ref()
-        self.session_ref = self.toolbox.get_session_ref()
+        self.client_session_ref = self.toolbox.get_client_session_ref()
+        self.server_session_ref = self.toolbox.get_server_session_ref()
 
 
         self.username_input = ""
@@ -109,9 +111,9 @@ class SessionWidget(QMainWindow):
         self.session_pass_btn.clicked.connect(self.__change_session_pass_view)
         self.session_pass_btn.hide()
         self.start_session_btn = QPushButton("Start Session")
-        self.start_session_btn.clicked.connect(self.__start_session)
+        #self.start_session_btn.clicked.connect(self.__start_session)
         self.join_session_btn = QPushButton("Join Session")
-        self.join_session_btn.clicked.connect(self.__join_session)
+        #self.join_session_btn.clicked.connect(self.__join_session)
 
         self.main_layout.addWidget(self.user_label)
         self.main_layout.addWidget(self.session_pass_label)

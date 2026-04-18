@@ -47,6 +47,7 @@ class MapExploreWindow(QMainWindow):
 
         for map_name in saved_maps:
             location = saved_maps[map_name]["save_location"]
+
             name_label = QLabel(map_name)
 
             row = QHBoxLayout()
@@ -60,7 +61,13 @@ class MapExploreWindow(QMainWindow):
                 database_checkbox = QCheckBox(text="Saved to account.")
                 database_checkbox.setChecked(True)
                 database_checkbox.toggled.connect(partial(self.__change_save_location, map_name=map_name, map_dict=saved_maps[map_name], checkbox=database_checkbox))
+
+                public_key = saved_maps[map_name]["public_key"]
+
+                public_key_label = QLabel(f"Public Map Key: {public_key}")
+
                 row.addWidget(database_checkbox)
+                row.addWidget(public_key_label)
             self.main_layout.addLayout(row)
 
 
