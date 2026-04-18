@@ -13,17 +13,11 @@
             "JUNGLE": 0,
             "TUNDRA": 0,
             "WASTELAND": 0,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
         "default_background": "",
-        "default_asset": "assets/greyhextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/greyhextile.png"
     },
     "PLAINS": {
         "key": 0,
@@ -39,17 +33,12 @@
             "JUNGLE": 5,
             "TUNDRA": 5,
             "WASTELAND": 5,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "assets/plainsbackground.png",
-        "default_asset": "assets/plainshextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/plainshextile.png"
     },
     "MOUNTAIN": {
         "key": 1,
@@ -65,17 +54,12 @@
             "JUNGLE": 80,
             "TUNDRA": 80,
             "WASTELAND": 45,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "assets/mountainbackground.png",
-        "default_asset": "assets/mountainhextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/mountainhextile.png"
     },
     "SWAMP": {
         "key": 2,
@@ -91,17 +75,12 @@
             "JUNGLE": 5,
             "TUNDRA": 5,
             "WASTELAND": 70,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 0
         },
+        "save_location": "local",
         "default_background": "",
-        "default_asset": "assets/swamphextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/swamphextile.png"
     },
     "FOREST": {
         "key": 3,
@@ -117,17 +96,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 20
         },
+        "save_location": "local",
         "default_background": "assets/forestbackground.png",
-        "default_asset": "assets/foresthextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/foresthextile.png"
     },
     "DESERT": {
         "key": 4,
@@ -143,17 +117,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "assets/desertbackground.png",
-        "default_asset": "assets/deserthextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/deserthextile.png"
     },
     "HILLS": {
         "key": 5,
@@ -169,17 +138,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "assets/hillsbackground.png",
-        "default_asset": "assets/hillshextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/hillshextile.png"
     },
     "ICELAND": {
         "key": 6,
@@ -195,17 +159,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "",
-        "default_asset": "assets/icelandhextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/icelandhextile.png"
     },
     "JUNGLE": {
         "key": 7,
@@ -221,17 +180,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "",
-        "default_asset": "assets/junglehextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/junglehextile.png"
     },
     "TUNDRA": {
         "key": 8,
@@ -247,17 +201,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 100
         },
+        "save_location": "local",
         "default_background": "",
-        "default_asset": "assets/tundrahextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/tundrahextile.png"
     },
     "WASTELAND": {
         "key": 9,
@@ -273,17 +222,12 @@
             "JUNGLE": 80,
             "TUNDRA": 90,
             "WASTELAND": 40,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 10
         },
+        "save_location": "local",
         "default_background": "assets/wastelandbackground.png",
-        "default_asset": "assets/wastelandhextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/wastelandhextile.png"
     },
     "WATER": {
         "key": 10,
@@ -299,16 +243,11 @@
             "JUNGLE": 80,
             "TUNDRA": 0,
             "WASTELAND": 0,
-            "NEW TILE": 100
+            "NEW TILE": 100,
+            "OOGIE": 50
         },
+        "save_location": "local",
         "default_background": "",
-        "default_asset": "assets/waterhextile.png",
-        "user_assets": {
-            "slot1": "",
-            "slot2": "",
-            "slot3": "",
-            "slot4": "",
-            "slot5": ""
-        }
+        "default_asset": "assets/waterhextile.png"
     }
 }

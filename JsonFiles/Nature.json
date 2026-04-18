@@ -19,37 +19,6 @@
     "spawn_all": true,
     "spawnable_tiles": [],
     "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
-  },
-  "A TREE": {
-    "name": "A Tree",
-    "key": 1,
-    "duplicatable": true,
-    "small_fields": {
-      "health": "200",
-      "strength": "10",
-      "dexterity": 0,
-      "constitution": "20",
-      "intelligence": "0",
-      "wisdom": "20",
-      "charisma": 0
-    },
-    "large_fields": {
-      "biography": "A singular tree.",
-      "notes": "Can this even have stats?"
-    },
-    "save_location": "local",
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "assets//tree.png",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
+    "set_map_asset": ""
   }
 }

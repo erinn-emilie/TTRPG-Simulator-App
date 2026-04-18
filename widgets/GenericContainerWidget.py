@@ -17,6 +17,9 @@ from PyQt6.QtWidgets import (
 from toolbox.Database import Database
 from toolbox.Database import DatabaseMessages
 
+from PyQt6.QtGui import QPixmap
+
+
 from functools import partial
 from toolbox.Toolbox import Toolbox
 import os
@@ -93,6 +96,7 @@ class TileProbWindow(QMainWindow):
                 except ValueError:
                     self.new_tile_weights_dict[tile] = ""
                     continue
+        self.close()
 
 
 
@@ -662,7 +666,11 @@ class TileContainerWidget(QWidget):
         self.cancel_name_btn = QPushButton("Cancel Edit")
         self.cancel_name_btn.clicked.connect(self.__set_tile_name_uneditable)
 
-        self.tile_img_pixmap = QPixmap(self.tile_img_path)
+        self.tile_img_pixmap = QPixmap()
+        if(isinstance(self.tile_img_path, bytes)):
+            self.tile_img_pixmap.loadFromData(self.tile_img_path)
+        else:
+            self.tile_img_pixmap = QPixmap(self.tile_img_path)
         self.tile_img_label = QLabel()
         self.tile_img_label.setPixmap(self.tile_img_pixmap)
         self.tile_img_label.setScaledContents(True)
@@ -689,6 +697,12 @@ class TileContainerWidget(QWidget):
         self.edit_tile_probs_btn.clicked.connect(self.__edit_tile_probs)
         self.edit_btn_v_layout.addWidget(self.edit_tile_probs_btn)
         self.edit_btn_v_layout.addStretch()
+
+        
+        self.edit_btn_container_widget = QWidget()
+        self.edit_btn_container_widget.setLayout(self.edit_btn_v_layout)
+
+        self.main_layout.addWidget(self.edit_btn_container_widget)
 
         self.main_layout.addLayout(self.edit_btn_v_layout)
 
@@ -740,12 +754,15 @@ class TileContainerWidget(QWidget):
 
                 img_name = img_name.replace(".jpg", ".png")
                 img_name = img_name.replace(".jpeg", ".png")
-                cur_dir = os.getcwd()
-                asset_dir = os.path.join(cur_dir, "assets")
-                asset_path = os.path.join(asset_dir, img_name)
+                asset_path = f"assets/{img_name}"
                 os.rename(img_path, asset_path)
 
-                self.tile_types_ref.change_tile_image(asset_path)
+                self.tile_img_path = asset_path
+                self.tile_types_ref.change_tile_image(self.old_tile_name, asset_path)
+
+                self.tile_img_pixmap = QPixmap(self.tile_img_path)
+                self.tile_img_label = QLabel()
+                self.tile_img_label.setPixmap(self.tile_img_pixmap)
 
             except FileNotFoundError:
                 print("File couldn't be found")
@@ -753,9 +770,9 @@ class TileContainerWidget(QWidget):
                 print("That file already exists in this location")
 
     def __edit_tile_probs(self):
-        if(not self.tile_probs_window):
-            self.tile_probs_window = TileProbWindow(self.toolbox, self.old_tile_name)
+        self.tile_probs_window = TileProbWindow(self.toolbox, self.old_tile_name)
         self.tile_probs_window.show()
+
 
 
 

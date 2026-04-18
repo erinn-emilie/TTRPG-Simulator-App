@@ -111,6 +111,7 @@ class CustomTileExploreWindow(QMainWindow):
         self.setWindowTitle(self.title)
         self.toolbox = toolbox_ref
         self.tile_types_ref = self.toolbox.get_tile_types_ref()
+        self.account_ref = self.toolbox.get_account_ref()
         self.home_window = home_window
 
         self.main_widget = QWidget()
@@ -121,9 +122,17 @@ class CustomTileExploreWindow(QMainWindow):
         self.add_tile_btn.clicked.connect(self.__add_new_tile)
         self.main_layout.addWidget(self.add_tile_btn)
 
-        """self.save_btn = QPushButton("Save Changes")
-        self.main_layout.addWidget(self.save_btn)
-        self.save_btn.clicked.connect(self.__save_changes)"""
+        self.save_to_local = True
+        self.save_location_check = QCheckBox("Save to Database", parent=self)
+        self.save_location_check.setChecked(False)
+
+        self.main_layout.addWidget(self.save_location_check)
+
+        if(not self.account_ref.get_logged_in()):
+            self.save_location_check.hide()
+
+        self.save_location_check.toggled.connect(self.__change_save_location)
+
 
         self.tile_list = self.tile_types_ref.get_tile_names_list()
         self.tile_widgets = []
@@ -140,6 +149,12 @@ class CustomTileExploreWindow(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self.main_widget)
         self.setCentralWidget(self.scroll)
+
+    def __change_save_location(self, status):
+        if(status):
+            self.save_to_local = False
+        else:
+            self.save_to_local = True
 
 
     def __add_new_tile(self):
@@ -165,7 +180,7 @@ class CustomTileExploreWindow(QMainWindow):
             except FileExistsError:
                 print("That file already exists in this location")
 
-            self.tile_types_ref.add_new_tile("New Tile", asset_path)
+            self.tile_types_ref.add_new_tile("New Tile", asset_path, local=self.save_to_local)
             widget = TileContainerWidget("New Tile", self.toolbox, asset_path)
             self.main_layout.addWidget(widget)
 

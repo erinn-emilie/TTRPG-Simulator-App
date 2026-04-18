@@ -11,7 +11,7 @@ import base64
 from Enums.TokenTypes import TokenTypes
 
 
-URL = ""
+URL = "it looks like this should be a url of some kind"
 
 class DatabaseMessages(Enum):
     NONE = -1
@@ -25,6 +25,60 @@ class DatabaseMessages(Enum):
 
 
 class Database:
+
+    def add_tile(user_id:int, tile_name:str, tile_weights:dict, map_asset:str, background_asset:str):
+        url = f"{URL}/add-tile"
+        map_asset_data = ""
+        if(map_asset != ""):
+            with open(map_asset, "rb") as img: 
+                map_asset_data = base64.b64encode(img.read()).decode("ascii")
+
+        background_asset_data = ""
+        if(background_asset != ""):
+            with open(background_asset, "rb") as img: 
+                background_asset_data = base64.b64encode(img.read()).decode("ascii")
+
+        response = requests.post(url, json={"user_id": user_id, "tile_name": tile_name, "tile_weights": str(tile_weights), "default_asset": map_asset_data, "default_background": background_asset_data})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            return DatabaseMessages.SUCCESS
+        elif("INVAL CREDENTIALS" in message):
+            return DatabaseMessages.INVAL_CREDENTIALS
+        else:
+            return DatabaseMessages.CRITICAL_ERROR
+
+    def change_tile_weight(user_id:int, tile_name:str, tile_weights:dict):
+        url = f"{URL}/change-tile-weight"
+        response = requests.post(url, json={"user_id": user_id, "tile_name": tile_name, "tile_weights": str(tile_weights)})
+
+    def change_tile_img(user_id:int, tile_name:str, tile_img:str):
+        url = f"{URL}/change-tile-img"
+        tile_img_data = None
+        with open(tile_img, "rb") as img: 
+            tile_img_data = base64.b64encode(img.read()).decode("ascii")
+        response = requests.post(url,  json={"user_id": user_id, "tile_name": tile_name, "tile_img": tile_img_data})
+
+    def change_tile_name(user_id:int, new_name:str, old_name:str):
+        url = f"{URL}/change-tile-name"
+        response = requests.post(url, json={"user_id": user_id, "new_name": new_name, "old_name": old_name})
+
+    def change_tile_background(user_id:int, tile_name:str, background_img:str):
+        url = f"{URL}/change-tile-background"
+        background_img_data = None
+        with open(background_img, "rb") as img:
+            background_img_data = base64.b64encode(img.read()).decode("ascii")
+        response = requests.post(url, json={"user_id": user_id, "tile_name": tile_name, "background_img": background_img_data})
+
+    def load_all_tiles(user_id:int):
+        url = f"{URL}/load-all-tiles"
+        response = requests.post(url, json={"user_id": user_id})
+        json_response = response.json()
+        message = json_response["message"]
+        if("SUCCESS" in message):
+            return eval(json_response["info"])
+        else:
+            return {}
 
     def save_log_file(user_id:int, log_name:str, log_contents_list:list):
         url = f"{URL}/save-log-file"

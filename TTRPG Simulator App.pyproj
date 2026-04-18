@@ -57,6 +57,7 @@
   <ItemGroup>
     <Content Include="jsonfiles\Animals.json" />
     <Content Include="jsonfiles\Buildings.json" />
+    <Content Include="jsonfiles\Changes.json" />
     <Content Include="jsonfiles\Monsters.json" />
     <Content Include="jsonfiles\Nature.json" />
     <Content Include="jsonfiles\NonPlayerCharacters.json" />

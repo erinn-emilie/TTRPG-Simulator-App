@@ -17,34 +17,6 @@
       "notes": ""
     },
     "large_assets": [],
-    "set_map_asset": "",
-    "old_map_assets": []
-  },
-  "GERALD": {
-    "key": 2,
-    "name": "Gerald",
-    "duplicatable": false,
-    "small_fields": {
-      "health": "5",
-      "strength": "5",
-      "dexterity": "5",
-      "constitution": "5",
-      "intelligence": "5",
-      "wisdom": "5",
-      "charisma": "5"
-    },
-    "large_fields": {
-      "biography": "its Gerald time",
-      "notes": "time for Gerald?"
-    },
-    "save_location": "local",
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "assets//gerald.png",
-    "old_map_assets": [],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
+    "set_map_asset": ""
   }
 }

@@ -2,7 +2,6 @@
     "DEFAULT": {
         "key": -1,
         "name": "",
-        "duplicatable": false,
         "small_fields": {
             "health": "100",
             "strength": "0",
@@ -16,111 +15,7 @@
             "biography": "This is a brand new character.",
             "notes": ""
         },
-        "spawn_all": true,
-        "spawnable_tiles": [],
         "large_assets": [],
-        "set_map_asset": "",
-        "old_map_assets": [
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        ],
-        "excluded_tiles": {},
-        "base_height_multiplier": 1,
-        "base_width_multiplier": 1
-    },
-  "CALEB": {
-    "key": 1,
-    "name": "Caleb Wickline",
-    "duplicatable": false,
-    "small_fields": {
-      "health": "15",
-      "strength": "20",
-      "dexterity": "8",
-      "constitution": "15",
-      "intelligence": "11.5",
-      "wisdom": "8.5",
-      "charisma": "15"
-    },
-    "large_fields": {
-      "biography": "This is my biography.\n Hello!\n",
-      "notes": "This is my notes.\n yippeee\n"
-    },
-    "save_location": "local",
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [
-      "assets/bigpic1",
-      "assets/bigpic2"
-    ],
-    "set_map_asset": "assets\\cute_smiley.png",
-    "old_map_assets": [
-      "assets/smallasset.png"
-    ],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
-  },
-  "MR GUY": {
-    "key": 0,
-    "name": "Mr Guy",
-    "duplicatable": false,
-    "small_fields": {
-      "health": "12",
-      "strength": "20",
-      "dexterity": "5",
-      "constitution": "12",
-      "intelligence": "12",
-      "wisdom": "9",
-      "charisma": "13"
-    },
-    "large_fields": {
-      "biography": "This is my biography.",
-      "New Notes": ""
-    },
-    "save_location": "local",
-    "large_assets": [
-      "assets\\green_man.png",
-      "assets\\red_guy.png"
-    ],
-    "set_map_asset": "assets/smallasset.png",
-    "old_map_assets": []
-  },
-  "CHARACTER": {
-    "name": "Character",
-    "key": 3,
-    "duplicatable": false,
-    "small_fields": {
-      "health": "100",
-      "strength": "0",
-      "dexterity": "0",
-      "constitution": "0",
-      "intelligence": "0",
-      "wisdom": "0",
-      "favorite word": "word"
-    },
-    "large_fields": {
-      "biography": "This is a brand new character.",
-      "notes": ""
-    },
-    "save_location": "local",
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\new_stick.png",
-    "old_map_assets": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "excluded_tiles": {},
-    "base_height_multiplier": 1,
-    "base_width_multiplier": 1
-  }
+        "set_map_asset": ""
+    }
 }

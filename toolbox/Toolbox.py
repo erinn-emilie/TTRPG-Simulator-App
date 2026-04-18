@@ -14,8 +14,8 @@ class Toolbox():
         self.screen_width = screen_width
         self.screen_height = screen_height
 
-        self.tile_types_ref = TileTypes()
         self.account_ref = Account()
+        self.tile_types_ref = TileTypes(self.account_ref)
         self.logger_ref = Logger(self.account_ref)
         self.player_characters_ref = Tokens("jsonfiles/PlayerCharacters.json", "assets/character.png", TokenTypes.PLAYER_CHARACTERS, self.account_ref)
         self.nonplayer_characters_ref = Tokens("jsonfiles/NonPlayerCharacters.json", "assets/character.png", TokenTypes.NON_PLAYER_CHARACTERS, self.account_ref)
@@ -114,6 +114,7 @@ class Toolbox():
         self.buildings_ref.load_from_database()
         self.structures_ref.load_from_database()
         self.nature_ref.load_from_database()
+        self.tile_types_ref.load_from_database()
 
 
 

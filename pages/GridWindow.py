@@ -218,6 +218,7 @@ class GridWindow(QMainWindow):
                 os.rename(img_path, asset_path)
 
                 self.map_widget.set_background_img(asset_path)
+                self.tile_types_ref.set_default_tile_background_by_name(self.old_tile_name, asset_path)
                 self.map_widget.update()
             except FileNotFoundError:
                 print("File couldn't be found")
