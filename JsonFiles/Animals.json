@@ -17,5 +17,25 @@
         },
         "large_assets": [],
         "set_map_asset": ""
+    },
+    "WHISPURR": {
+        "key": 1,
+        "name": "Whispurr",
+        "small_fields": {
+            "health": "20",
+            "strength": "10",
+            "dexterity": "12",
+            "constitution": "12",
+            "intelligence": "8",
+            "wisdom": "5",
+            "charisma": "20"
+        },
+        "large_fields": {
+            "biography": "The perfect kitten.\t",
+            "notes": "Cute fangs!"
+        },
+        "large_assets": [],
+        "set_map_asset": "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAG70lEQVR4nO3d0W7bOBAFUGmxn1hA3yig/6iF2yyapolrWyI5nDnnJW8WKXEuKVlmlgUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMpZRzcAPtq+bcdXZ2X/vhuzF/rnyg+DlsXP9QQAUxEQ1xIAUJgAYLrZ3SrgOgIACvNEdQKPzHizPx1/ZVafvc8RWAEkYVnMKwRAItVCoFp/WxAAycxYFGfaPGN/IxEACc1UFFe0dab+RiMAkpqhKGZoY3YCILFbgVUpsir9vJoAKEBx8BUBUES0EIjWnqoEQCGKjo8EQHAZi7ZVnzKeq9YEQDGji2T08fmdAChoVBEq/ngEQFFZizFrv1oRAIX1LBaFGZMAKK5HYSr+uAQA6Qo0W39aEgA0pRhjEwD8oFBrEgCB9S7Kq483MlQE2mMEAGkLJ1NfWhEA/MEmHXXYVTUos9c17Bx8nxUAFCYASM1K6j4BAIUJgIDMWs5nLwIAChMAUJgAgMIEQDDu/+lJAEBhAgAKEwCBWP7TmwCAwgQAFCYAgrD8ZwQBEIDiZxT7AQyk8PuzP8DvrAAGUfzOewQCYADFP5bz/4sA6Mzgi8F1+EkAdGTQxbLZNVgAGGy1bcVDwAqgg+qDLLqt8PURAFCYAGis8uwyk63odRIADVUdVLPaCl4vAdBIxcGUwVbsugkAKEwANFBtFsmm0vUTABerNHgy24pcRwEAhQmAC1WZNarYClxPAQCFCYCLVJgtKtqSX1cBAIUJgAtknyWq2xJfXwEAhQmAkzLPDuS/zgIAChMAUJgAOCHrspA61/vfJacuF2r/vv/4u33behwOLpc1ALr6Pwi+IiCIKuu/BptqqSYg5rJ/39PUjRVA4BWEYKA1ARCYYKA1AZDwmcOzrDTqyhoALe/Rpnq+APekeZgR5fvgq2fnHqwA6j4IzLoCCFtMUQMiarueIcieJwCCDNIMBTjaZ+dQKNwnAIIQDG14Ses+ARCcGaytvfg7GAIAHgiGrIEgAOABWZ/RpPgqo7eMPwudTbCCXJdJTdvwkQRATAFCYV0mM12DIxAAc+oYEOsyiWkaGsmsAVD9iXfnYFiXCXgIWESv2e/scUaE0fbhmBedq2OGIAjduKhmWgE8MpjPFl3rcBm9QtnP9y9snYVtWHTRQ+CZQRs9ABKFwboE4xYgmQBPwrv1b9Ttwv7zl4BHhtsCAZBE9sIPGAbr29+pg0AATK5i4Qfbon09sUnMMToEBEDhwu9VLD1/6TgoCNaTq4FhITB8CTKzEQ8CWxT+vc/sPaNG3+9w//tOQMdMdWgFEFSL2fGzYoh2C/G+jVe07fYZE60GuhMAQbQsxFk3G7kqDCa8LejGLUCj24AIxXVvwD/avtHfu199bs/0Zz+3Eei9IHALMLsIBR+5aFv075VzPum3Bc1YAbwu3MV8ZFA/WzRnPrNXkfVaEexJtgJ/L12HqhX9M4O41evBUTbebBkEe8Liv0nZqawF/2ohtZj1X/n8HkHQ6teIuwAoIUXB9yz+V47x6nFGvS+xJy3+m7Qdi1jwM7xU0ysAzhxvwIPZdUkqbccizO6jn8b3mP1fOc6Vx36EIKgVAMOW8aMLftR+AM8eb9R5vKiN65JIqs4MCoA10kYhvWb9q44/YRCsSyKpOvPmGHnORgZA71n/qrZMFgTrkkiqzrw5Rp+j3iEwetYvFgbrkkiqzrw5IpyTHiHwamGNelaRJAjWJZFUnXlzROh/ywCI+rVbliDY7+/5l6pmUnUmmqtDYMY992cLgz3xSz+fKdXZWUMgY+FHDIK9WPHflOvwLCFwVUHMUPwRtgTbCxb/jR2BCm3/NYMWW4J99tn8VDL1oqwCFH6MVcFedPa/KdvxUSHQauegCrNb5f/i20rpznfW5GvBCoXfKQzWpaCSne6o2bsAVQv/I6uCcwRAG2b7AawKnicAgha9Gf4cK4PHCIBgM73Cn2a79nVJIEUnEizv19H7CGT27mu+Vud4XSY1bcM76zJwhMD1vviOv0mILxOastEdDRkoguC8J17uOZbC9TRdgzsIsUwUAq978c2+YylYT9M1uINQM4IgeNzFr/QeFeppugZX2VHoPSHwd43f5z+y1tN0De4gbPILgj8N+CHPkamepmtwB+HTXhAM/QXfkamepmtwgAAIc84qBkHln+624GT+abrNICsEgcJvI+yg5jWZwkDRtycAEpsxDBR9XwKgiMhhoOjHEQCFjQgFxR6LAKDV/zIwtgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgGeM/6QitcW7RPLoAAAAASUVORK5CYII=",
+        "save_location": "local"
     }
 }

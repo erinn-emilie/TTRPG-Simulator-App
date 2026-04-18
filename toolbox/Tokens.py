@@ -33,6 +33,11 @@ class Tokens():
             with open(self.JSON_FILE_PATH, 'r') as file: 
                 self.tokens_dict = json.load(file)
                 self.local_dict = copy.deepcopy(self.tokens_dict)
+            for token in self.tokens_dict:
+                if(token == "DEFAULT"):
+                    continue
+                data = self.tokens_dict[token]["set_map_asset"]
+                self.tokens_dict[token]["set_map_asset"] = base64.b64decode(data.encode("ascii"))
             self.__setup(change_default=True)
         except FileNotFoundError:
             print("Couldn't find JSON file with tokens!")
@@ -79,23 +84,18 @@ class Tokens():
 
 
 
-    def change_map_asset(self, token_key, img_path):
+    def change_map_asset(self, token_key, data:bytes):
         user_id = self.account_ref.get_account_id()
         local = True
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
                 local = self.__check_local(self.tokens_dict[token]["save_location"])
                 if(local):
-                    self.tokens_dict[token]["set_map_asset"] = img_path
-                    self.local_dict[token]["set_map_asset"] = img_path
+                    self.tokens_dict[token]["set_map_asset"] = data
+                    self.local_dict[token]["set_map_asset"] = base64.b64encode(data).decode("ascii")
                     self.__update_json_file()
                 else:
-                    Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], img_path)
-                    data = None
-                    with Image.open(img_path) as img:  
-                        buffer = io.BytesIO()  
-                        img.save(buffer, format='PNG')      
-                        data = buffer.getvalue()
+                    Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], data)
                     self.tokens_dict[token]["set_map_asset"] = data
                 break
 
@@ -128,6 +128,7 @@ class Tokens():
         new_token = copy.deepcopy(default_token)
         new_token["name"] = new_name
         new_token["key"] = self.total_tokens
+        new_token["set_map_asset"] = ""
         self.tokens_list.append(new_token)
         self.tokens_dict[new_name.upper()] = new_token
         if(local):
@@ -137,8 +138,7 @@ class Tokens():
             self.__update_json_file()
         else:
             self.tokens_dict[new_name.upper()]["save_location"] = "database"
-            map_asset, msg = Database.add_new_token(user_id, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
-            self.tokens_dict[new_name.upper()]["set_map_asset"] = map_asset
+            Database.add_new_token(user_id, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
         return self.tokens_dict[new_name.upper()]
 
     def change_token_save_location(self, new_token, local=True):

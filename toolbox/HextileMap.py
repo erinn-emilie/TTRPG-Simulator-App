@@ -478,7 +478,7 @@ class HextileMap():
         all_tiles_dict = {}
         cur_tile_pos_key = 0
         all_tiles_dict[str(cur_tile_pos_key)] = {}
-        all_tiles_dict["unmodified_tokens"] = {}
+        unmodified_tokens = {}
         saved_unmodified_tokens = []
         save_location = "local"
         if(not local):
@@ -488,14 +488,7 @@ class HextileMap():
             token_dict = token.get_token_dict()
             token_dict["save_location"] = save_location
             if(not token_dict["key"] in saved_unmodified_tokens):
-                if(not local):
-                    data = ""
-                    with Image.open(token_dict["set_map_asset"]) as img:  
-                        buffer = io.BytesIO()  
-                        img.save(buffer, format='PNG')      
-                        data = buffer.getvalue()
-                    token_dict["set_map_asset"] = data
-                all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
+                unmodified_tokens[token_dict["name"].upper()] = token_dict
                 saved_unmodified_tokens.append(token_dict["key"])
             if(token.get_default_status):
                 abrev_dict = {
@@ -529,15 +522,7 @@ class HextileMap():
                 token_dict = token.get_token_dict()
                 token_dict["save_location"] = save_location
                 if(not token_dict["key"] in saved_unmodified_tokens):
-                    if(not local):
-                        data = ""
-                        map_asset = token_dict["set_map_asset"]
-                        with Image.open(map_asset) as img:  
-                            buffer = io.BytesIO()  
-                            img.save(buffer, format='PNG')      
-                            data = buffer.getvalue()
-                        token_dict["set_map_asset"] = data
-                    all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
+                    unmodified_tokens[token_dict["name"].upper()] = token_dict
                     saved_unmodified_tokens.append(token_dict["key"])
                 if(token.get_default_status()):
                     abrev_dict = {
@@ -572,7 +557,7 @@ class HextileMap():
             all_tiles_dict["public_key"] = ""
         else:
             all_tiles_dict["save_location"] = "database"
-        #final_dict = {map_name: all_tiles_dict}
+            all_tiles_dict["unmodified_tokens"] = unmodified_tokens
 
         self.logger_ref.change_save_path("logfiles/" + map_name + ".txt", map_name)
         self.logger_ref.save_log()

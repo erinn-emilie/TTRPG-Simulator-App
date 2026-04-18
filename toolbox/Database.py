@@ -147,12 +147,11 @@ class Database:
             img.save(img_byte_arr, format="PNG", quality=quality) 
             return img_byte_arr.getvalue() 
 
-    def update_token_map_asset(user_id:int, token_name:str, image_path:str):
+    def update_token_map_asset(user_id:int, token_name:str, data:bytes):
         url = f"{URL}/update-token-map-asset"
-        data = None
-        with open(image_path, "rb") as img: 
-            data = base64.b64encode(img.read()).decode("ascii")
-        response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "img_b64": data})
+        final_data = base64.b64encode(data).decode("ascii")
+        
+        response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "img_b64": final_data})
         json_response = response.json()
         message = json_response["message"]
 
@@ -200,24 +199,21 @@ class Database:
         for img in images:
             compressed_images.append(Database.compress_image(img))
 
-        data = None
+        data = ""
         if(map_asset != ""):
             with open(map_asset, "rb") as img: 
                 data = base64.b64encode(img.read()).decode("ascii")
-
-        if(not data):
-            data = ""
 
         url = f"{URL}/add-token"
         response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "token_type": token_type, "json_small_fields": str(json_small_fields), "json_large_fields": str(json_large_fields), "images": compressed_images, "map_asset": data})
         json_response = response.json()
         message = json_response["message"]
         if("ERROR" in message or "NONE" in message):
-            return "", DatabaseMessages.CRITICAL_ERROR
+            return DatabaseMessages.CRITICAL_ERROR
         elif("DUPLICATE" in message):
-            return "", DatabaseMessages.DUPLICATE
+            return DatabaseMessages.DUPLICATE
         else:
-            return data, DatabaseMessages.SUCCESS
+            return DatabaseMessages.SUCCESS
 
     def remove_token(user_id:int, token_name:str):
         url = f"{URL}/remove-token"

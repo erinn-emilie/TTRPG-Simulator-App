@@ -159,10 +159,7 @@ class TokenContainerWidget(QWidget):
         map_asset_label = QLabel()
         map_asset_pix = QPixmap()
         if(self.map_asset != ""):
-            if("local" in self.token["save_location"]):
-                map_asset_pix = QPixmap(self.map_asset)
-            else:
-                map_asset_pix.loadFromData(self.map_asset)
+            map_asset_pix.loadFromData(self.map_asset)
         map_asset_label.setPixmap(map_asset_pix)
         map_asset_row.addWidget(map_asset_label)
         change_map_asset_btn = QPushButton("Change Map Asset")
@@ -367,35 +364,21 @@ class TokenContainerWidget(QWidget):
 
         if file_dialog.exec():
             try:
-                local = True
                 pixmap = QPixmap()
                 img_label = QLabel()
                 if("database" in self.token["save_location"]):
                     local = False
                 selected_files_list = file_dialog.selectedFiles()
                 img_path = selected_files_list[0]
-
-                if(local):
-                    img_name = os.path.basename(img_path)
-
-                    img_name = img_name.replace(".jpg", ".png")
-                    img_name = img_name.replace(".jpeg", ".png")
-                    cur_dir = os.getcwd()
-                    asset_dir = os.path.join(cur_dir, "assets")
-                    asset_path = os.path.join(asset_dir, img_name)
-                    os.rename(img_path, asset_path)
-                    self.token_ref.change_map_asset(self.token_key, asset_path)
-                    self.total_images += 1
-                    pixmap = QPixmap(asset_path)
-                else:   
-                    data = None
-                    self.total_images += 1
-                    with Image.open(img_path) as img:  
-                        buffer = io.BytesIO()  
-                        img.save(buffer, format='PNG')      
-                        data = buffer.getvalue()
-                    self.token_ref.change_map_asset(self.token_key, img_path)
-                    pixmap.loadFromData(data)
+                data = b""
+                with Image.open(img_path) as img:  
+                    buffer = io.BytesIO()  
+                    img.save(buffer, format='PNG')      
+                    data = buffer.getvalue()
+                self.token_ref.change_map_asset(self.token_key, data)
+                self.total_images += 1
+                pixmap = QPixmap()
+                pixmap.loadFromData(data)
                 img_label.setPixmap(pixmap)
                 self.image_labels.append(img_label)
                 self.main_layout.insertWidget(self.total_images, img_label)
@@ -825,10 +808,7 @@ class TokenRecordContainerWidget(QWidget):
         map_asset_row = QHBoxLayout()
         map_asset_label = QLabel()
         map_asset_pix = QPixmap()
-        if(self.token_record.get_save_location() == "local"):
-            map_asset_pix = QPixmap(self.map_asset)
-        else:
-            map_asset_pix.loadFromData(self.map_asset)
+        map_asset_pix.loadFromData(self.map_asset)
         map_asset_label.setPixmap(map_asset_pix)
         map_asset_row.addWidget(map_asset_label)
         change_map_asset_btn = QPushButton("Change Map Asset")
