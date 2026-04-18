@@ -2,7 +2,6 @@
   "DEFAULT": {
     "key": -1,
     "name": "",
-    "duplicatable": false,
     "small_fields": {
       "type": "",
       "hours": "",

@@ -2,7 +2,6 @@
     "DEFAULT": {
         "key": -1,
         "name": "",
-        "duplicatable": true,
         "small_fields": {
             "health": 0,
             "strength": 0,

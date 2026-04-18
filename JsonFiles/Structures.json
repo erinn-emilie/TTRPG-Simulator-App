@@ -3,15 +3,15 @@
     "key": -1,
     "name": "",
     "small_fields": {
-      "type": "Monument",
-      "hours": "N/A",
-      "public?": "Yes",
-      "primary material": "Marble",
-      "name": "Duck Statue"
+      "type": "",
+      "hours": "",
+      "public?": "",
+      "primary material": "",
+      "name": ""
     },
     "large_fields": {
-      "biography": "This statue has been there for centuries. Nobody knows who made it.\t",
-      "notes": "Why a duck?"
+      "biography": "",
+      "notes": ""
     },
     "large_assets": [],
     "set_map_asset": ""

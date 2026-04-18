@@ -3,16 +3,15 @@
         "key": -1,
         "name": "",
         "small_fields": {
-            "health": "100",
+            "health": "0",
             "strength": "0",
             "dexterity": "0",
             "constitution": "0",
             "intelligence": "0",
-            "wisdom": "0",
-            "favorite word": "word"
+            "wisdom": "0"
         },
         "large_fields": {
-            "biography": "This is a brand new character.",
+            "biography": "",
             "notes": ""
         },
         "large_assets": [],

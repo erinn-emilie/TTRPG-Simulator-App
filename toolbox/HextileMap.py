@@ -486,6 +486,7 @@ class HextileMap():
         for token in cur_record.get_token_records():
 
             token_dict = token.get_token_dict()
+            token_dict["save_location"] = save_location
             if(not token_dict["key"] in saved_unmodified_tokens):
                 if(not local):
                     data = ""
@@ -496,7 +497,6 @@ class HextileMap():
                     token_dict["set_map_asset"] = data
                 all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
                 saved_unmodified_tokens.append(token_dict["key"])
-            token_dict["save_location"] = save_location
             if(token.get_default_status):
                 abrev_dict = {
                     "name": token_dict["name"],
@@ -527,7 +527,16 @@ class HextileMap():
             all_tiles_dict[str(cur_tile_pos_key)] = {}
             for token in cur_record.get_token_records():
                 token_dict = token.get_token_dict()
+                token_dict["save_location"] = save_location
                 if(not token_dict["key"] in saved_unmodified_tokens):
+                    if(not local):
+                        data = ""
+                        map_asset = token_dict["set_map_asset"]
+                        with Image.open(map_asset) as img:  
+                            buffer = io.BytesIO()  
+                            img.save(buffer, format='PNG')      
+                            data = buffer.getvalue()
+                        token_dict["set_map_asset"] = data
                     all_tiles_dict["unmodified_tokens"][token_dict["name"].upper()] = token_dict
                     saved_unmodified_tokens.append(token_dict["key"])
                 if(token.get_default_status()):
