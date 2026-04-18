@@ -155,10 +155,6 @@ class Database:
         response = requests.post(url, json={"user_id": user_id, "token_name": token_name, "img_b64": data})
         json_response = response.json()
         message = json_response["message"]
-        if("SUCCESS" in message):
-            return data
-        else:
-            return ""
 
     def update_token_name(user_id:int, old_name:str, new_name:str):
         url = f"{URL}/update-token-name"

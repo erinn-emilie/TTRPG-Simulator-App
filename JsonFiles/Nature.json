@@ -1,24 +1,47 @@
 {
-  "DEFAULT": {
-    "key": -1,
-    "name": "",
-    "duplicatable": true,
-    "small_fields": {
-      "health": "200",
-      "strength": "10",
-      "dexterity": 0,
-      "constitution": "20",
-      "intelligence": "0",
-      "wisdom": "20",
-      "charisma": 0
+    "DEFAULT": {
+        "key": -1,
+        "name": "",
+        "duplicatable": true,
+        "small_fields": {
+            "health": "200",
+            "strength": "10",
+            "dexterity": 0,
+            "constitution": "20",
+            "intelligence": "0",
+            "wisdom": "20",
+            "charisma": 0
+        },
+        "large_fields": {
+            "biography": "A singular tree.",
+            "notes": "Can this even have stats?"
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": ""
     },
-    "large_fields": {
-      "biography": "A singular tree.",
-      "notes": "Can this even have stats?"
-    },
-    "spawn_all": true,
-    "spawnable_tiles": [],
-    "large_assets": [],
-    "set_map_asset": ""
-  }
+    "NEW TOKEN": {
+        "key": 2,
+        "name": "new token",
+        "duplicatable": true,
+        "small_fields": {
+            "health": "200",
+            "strength": "10",
+            "dexterity": 0,
+            "constitution": "20",
+            "intelligence": "0",
+            "wisdom": "20",
+            "charisma": 0
+        },
+        "large_fields": {
+            "biography": "A singular tree.",
+            "notes": "Can this even have stats?"
+        },
+        "spawn_all": true,
+        "spawnable_tiles": [],
+        "large_assets": [],
+        "set_map_asset": "C:\\Users\\Erinn\\source\\repos\\TTRPG Simulator App\\assets\\tree.png",
+        "save_location": "local"
+    }
 }

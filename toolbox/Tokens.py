@@ -85,13 +85,18 @@ class Tokens():
         for token in self.tokens_dict:
             if(self.tokens_dict[token]["key"] == token_key):
                 local = self.__check_local(self.tokens_dict[token]["save_location"])
-                self.tokens_dict[token]["set_map_asset"] = img_path
                 if(local):
+                    self.tokens_dict[token]["set_map_asset"] = img_path
                     self.local_dict[token]["set_map_asset"] = img_path
                     self.__update_json_file()
                 else:
-                    map_asset = Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], img_path)
-                    self.tokens_dict[token]["set_map_asset"] = map_asset
+                    Database.update_token_map_asset(user_id, self.tokens_dict[token]["name"], img_path)
+                    data = None
+                    with Image.open(img_path) as img:  
+                        buffer = io.BytesIO()  
+                        img.save(buffer, format='PNG')      
+                        data = buffer.getvalue()
+                    self.tokens_dict[token]["set_map_asset"] = data
                 break
 
 
@@ -132,7 +137,7 @@ class Tokens():
             self.__update_json_file()
         else:
             self.tokens_dict[new_name.upper()]["save_location"] = "database"
-            map_asset = Database.add_new_token(user_id, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
+            map_asset, msg = Database.add_new_token(user_id, new_name, TokenTypes.get_str_from_token_type(self.token_type), new_token["small_fields"], new_token["large_fields"])
             self.tokens_dict[new_name.upper()]["set_map_asset"] = map_asset
         return self.tokens_dict[new_name.upper()]
 
