@@ -1,0 +1,10 @@
+Whispurr was added to the map  2026-04-18 13:09:22
+Whispurr moved from (600, 300) to (400, 200)  2026-04-18 13:09:24
+Whispurr moved from (400, 200) to (700, 200)  2026-04-18 13:09:26
+Whispurr moved from (700, 200) to (600, 100)  2026-04-18 13:09:28
+Whispurr moved from (600, 100) to (650, 150)  2026-04-18 13:09:29
+Whispurr moved from (650, 150) to (600, 250)  2026-04-18 13:09:30
+Whispurr moved from (600, 250) to (250, 150)  2026-04-18 13:09:31
+Whispurr moved from (250, 150) to (300, 150)  2026-04-18 13:09:34
+Whispurr moved from (300, 150) to (450, 400)  2026-04-18 13:09:36
+Whispurr moved from (450, 400) to (800, 100)  2026-04-18 13:09:37

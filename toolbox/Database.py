@@ -244,9 +244,10 @@ class Database:
         message = json_response["message"]
 
         if("SUCCESS" in message):
-            return DatabaseMessages.SUCCESS
+            public_key = json_response["info"]
+            return f"{public_key}"
         else:
-            return DatabaseMessages.CRITICAL_ERROR
+            return ""
 
     def get_map_from_db(user_id:int, map_name:str):
         url = f"{URL}/get-map"

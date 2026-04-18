@@ -53,12 +53,14 @@ class SavedMaps():
             print("Couldn't find JSON file with maps!")
 
     def add_saved_map(self, map_name, map_dict, local=True):
-        self.all_saved_maps[map_name] = map_dict
         if(local):
             self.__write_saved_maps()
         else:
             user_id = self.account_ref.get_account_id()
-            Database.add_map_to_db(user_id, map_name, map_dict)
+            public_key = Database.add_map_to_db(user_id, map_name, map_dict)
+            map_dict["public_key"] = public_key
+        self.all_saved_maps[map_name] = map_dict
+
 
 
     def remove_saved_map(self, map_name, local=True):

@@ -535,7 +535,7 @@ class HextileMap():
 
         if(local):
             all_tiles_dict["save_location"] = "local"
-            all_tiles_dict["save_key"] = ""
+            all_tiles_dict["public_key"] = ""
         else:
             all_tiles_dict["save_location"] = "database"
         #final_dict = {map_name: all_tiles_dict}
