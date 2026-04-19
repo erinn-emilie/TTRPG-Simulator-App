@@ -113,7 +113,7 @@ class Database:
             private_ip = json_response["private_ip"]
             return DatabaseMessages.SUCCESS, ip_address, port, private_ip
         else:
-            return DatabaseMessages.CRITICAL_ERROR, "", -1
+            return DatabaseMessages.CRITICAL_ERROR, "", -1, ""
 
     def load_all_tokens_with_type(user_id:int, token_type:str):
         url = f"{URL}/load-all-tokens-with-type"

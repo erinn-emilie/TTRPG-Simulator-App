@@ -23,6 +23,8 @@ import bcrypt
 from toolbox.Database import Database
 from toolbox.Database import DatabaseMessages
 import ipaddress
+import base64
+import miniupnpc
 
 
 
@@ -54,7 +56,7 @@ class ClientSession:
 
     def connect_to_host(self, username, password, port=80):
         self.live = True
-        account_id = self.acc_ref.get_account_id()
+        account_id = self.account_ref.get_account_id()
         if(account_id != -1):
             msg, ip_address, port, private_ip = Database.get_host_info(username, password)
             if(msg == DatabaseMessages.SUCCESS):
@@ -65,8 +67,9 @@ class ClientSession:
                 else:
                     self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.sock.connect((ip_address, port))   
-                self.sock.sendall(SessionMessages.REQUEST_JOIN.value)
-                threading.Thread(self.listen_to_host).start()
+                msg = bytes(SessionMessages.REQUEST_JOIN.value, "utf-8")
+                self.sock.sendall(msg)
+                threading.Thread(target=self.listen_to_host).start()
 
     def listen_to_host(self):
         buffer = b""
@@ -88,24 +91,51 @@ class ServerSession():
         self.sock = None
         self.live = False
 
-    def start_session(self, port=80):
+
+    def get_private_ip(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
+        return ip_address
+
+    def upnp_map(self, ext_port, int_port):
+        u = miniupnpc.UPnP()
+        u.discoverdelay = 200
+        n_devices = u.discover()
+
+        u.selectigd()
+
+        ext_ip = u.externalipaddress()
+        int_ip = u.lanaddr
+
+        protocol = "TCP"
+        description = "TTRPGSession"
+
+        u.addportmapping(ext_port, protocol, int_ip, int_port, description, '')
+
+        return int_ip, ext_ip
+
+
+    def start_session(self):
         self.live = True
         account_id = self.account_ref.get_account_id()
         if(account_id != -1):
             random.seed()
 
-            ip_address_private = self.get_private_ip()
-            data = str(urlopen('http://checkip.dyndns.com/').read())
-            ip_address_public = re.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(data).group(1)
 
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.sock.bind(("0.0.0.0",port))
             pswd = str(random.randint(10**5, 10**6 - 1))
             pswd_hash = bcrypt.hashpw(pswd.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-            Database.add_host_info_to_db(str(ip_address_public), str(ip_address_private), account_id, pswd_hash, port)
+
+            int_port = 80
+            ext_port = 1024
+            int_ip, ext_ip = self.upnp_map(ext_port, int_port)
+            self.sock.bind(("0.0.0.0",int_port))
+            Database.add_host_info_to_db(str(int_ip), str(ext_ip), account_id, pswd_hash, ext_port)
 
             self.sock.listen(5)
-            threading.Thread(self.listen_for_client).start()
+            threading.Thread(target=self.listen_for_client).start()
         return pswd
 
     def listen_for_client(self):
