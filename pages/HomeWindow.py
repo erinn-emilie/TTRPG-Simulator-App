@@ -336,7 +336,7 @@ class HomeWindow(QMainWindow):
         self.log_widget.show()
 
     def __open_session_mngr(self):
-        self.session_mngr_window = SessionWidget(self.toolbox)
+        self.session_mngr_window = SessionWidget(self.toolbox, self)
         self.session_mngr_window.show()
 
 
@@ -380,6 +380,14 @@ class HomeWindow(QMainWindow):
         self.hextile_map_obj.loadSavedMap(map_name)
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
+
+    def load_save_from_session(self):
+        self.map_layout.removeWidget(self.map_widget)
+        self.map_widget = QWidget()
+        self.map_widget.setMinimumSize(3000,3000)
+        self.__layout_tiles()
+        self.map_layout.addWidget(self.map_widget)
+
 
 
     def __layout_tiles(self):

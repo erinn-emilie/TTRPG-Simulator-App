@@ -77,13 +77,14 @@ class FindSessionDialog(QDialog):
 
 
 class SessionWidget(QMainWindow):
-    def __init__(self, toolbox:Toolbox):
+    def __init__(self, toolbox:Toolbox, home_window):
         super().__init__()
         self.toolbox = toolbox
         self.map_ref = self.toolbox.get_hextile_map_ref()
         self.account_ref = self.toolbox.get_account_ref()
         self.client_session_ref = self.toolbox.get_client_session_ref()
         self.server_session_ref = self.toolbox.get_server_session_ref()
+        self.home_window = home_window
 
 
         self.username_input = ""
@@ -220,6 +221,7 @@ class SessionWidget(QMainWindow):
         dlg = FindSessionDialog(self)
         ok = dlg.exec()
         if(ok):
+            self.client_session_ref.set_home_window(self.home_window)
             self.client_session_ref.connect_to_host(self.username_input, self.password_input)
         self.username_input = ""
         self.password_input = ""

@@ -32,29 +32,22 @@ from queue import Queue
 class SessionMessages(Enum):
     TERMINATE_CONNECTION = "TERMINATE CONNECTION"
     INIT_MAP = "INIT MAP"
+    MAP_FIN = "MAP FIN"
 
 
 class ClientSession:
-    def __init__(self, account_ref, saved_maps_ref):
+    def __init__(self, account_ref, saved_maps_ref, hextile_map_ref):
         self.account_ref = account_ref
         self.saved_maps_ref = saved_maps_ref
+        self.hextile_map_ref = hextile_map_ref
+        self.home_window = None
+        self.reading_map_dict = False
+        self.map_dict_str = ""
         self.sock = None
         self.live = False
 
-
-    def get_private_ip(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip_address = s.getsockname()[0]
-        s.close()
-        return ip_address
-
-    def same_network(self, ip1, ip2, subnet_mask="255.255.255.0"):
-        try:
-            network = ipaddress.ip_network(f"{ip1}/{subnet_mask}", strict=False)
-            return ipaddress.ip_address(ip2) in network
-        except:
-            return False
+    def set_home_window(self, home_window):
+        self.home_window = home_window
 
     def connect_to_host(self, username, password, port=80):
         self.live = True
@@ -62,45 +55,44 @@ class ClientSession:
         if(account_id != -1):
             msg, ip_address, port, private_ip = Database.get_host_info(username, password)
             if(msg == DatabaseMessages.SUCCESS):
-                my_ip = self.get_private_ip()
-                if(self.same_network(my_ip, private_ip)):
-                    self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    self.sock.connect((private_ip, port))
-                else:
-                    self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    self.sock.connect((ip_address, port))   
+                self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.sock.connect((ip_address, port))   
                 threading.Thread(target=self.listen_to_host).start()
 
     def listen_to_host(self):
-        buffer = b""
+        msg = b""
         while True:
-            chunk = self.sock.recv(4096)
-            while(b"\n" in buffer):
-                line, buffer = buffer.split(b"\n", 1)
-                msg = line.decode().strip()
-                self.handle_message(msg)
+            bmsg = self.sock.recv(4096)
+            msg = bmsg.decode().strip()
+            self.handle_message(msg)
 
     def handle_message(self, msg):
         print(msg)
-        if(msg == SessionMessages.TERMINATE_CONNECTION):
+        if(msg == SessionMessages.TERMINATE_CONNECTION.value):
             self.sock.close()
             self.live = False
+        elif(msg == SessionMessages.INIT_MAP.value):
+            self.reading_map_dict = True
+        elif(self.reading_map_dict):
+            self.map_dict_str = self.map_dict_str + msg
+        elif(msg == SessionMessages.MAP_FIN):
+            self.reading_map_dict = False
+            self.map_dict_str = ""
+            self.hextile_map_ref.loadSaveFromKey(eval(self.map_dict_str))
+            self.home_window.load_save_from_session()
+
+
 
 class ServerSession():
-    def __init__(self, account_ref, saved_maps_ref):
+    def __init__(self, account_ref, saved_maps_ref, hextile_map_ref):
         self.account_ref = account_ref
         self.saved_maps_ref = saved_maps_ref
+        self.hextile_map_ref = hextile_map_ref
         self.sock = None
         self.live = False
         self.messages = []
 
 
-    def get_private_ip(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip_address = s.getsockname()[0]
-        s.close()
-        return ip_address
 
     def upnp_map(self, ext_port, int_port):
         u = miniupnpc.UPnP()
@@ -135,7 +127,7 @@ class ServerSession():
             ext_port = 1024
             int_ip, ext_ip = self.upnp_map(ext_port, int_port)
             self.sock.bind(("0.0.0.0",int_port))
-            Database.add_host_info_to_db(str(int_ip), str(ext_ip), account_id, pswd_hash, ext_port)
+            Database.add_host_info_to_db(str(ext_ip), str(int_ip), account_id, pswd_hash, ext_port)
 
             self.sock.listen(5)
             threading.Thread(target=self.listen_for_client).start()
@@ -147,8 +139,10 @@ class ServerSession():
             print(f"Connected by {addr}")
             new_queue = Queue()
             new_queue.put(SessionMessages.INIT_MAP.value)
-            new_queue.put(str(self.saved_maps_ref.get_active_save_name))
+            new_queue.put(str(self.saved_maps_ref.get_active_save_dict()))
+            new_queue.put(SessionMessages.MAP_FIN.value)
             self.messages.append(new_queue)
+            threading.Thread(target=self.watch_queue, args=(conn, new_queue, )).start()
 
     def watch_queue(self, conn, queue):
         while True:
