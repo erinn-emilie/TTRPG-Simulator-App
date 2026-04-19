@@ -25,17 +25,19 @@ from toolbox.Database import DatabaseMessages
 import ipaddress
 import base64
 import miniupnpc
+from queue import Queue
 
 
 
 class SessionMessages(Enum):
-    REQUEST_JOIN = "REQUEST JOIN"
     TERMINATE_CONNECTION = "TERMINATE CONNECTION"
+    INIT_MAP = "INIT MAP"
 
 
 class ClientSession:
-    def __init__(self, account_ref):
+    def __init__(self, account_ref, saved_maps_ref):
         self.account_ref = account_ref
+        self.saved_maps_ref = saved_maps_ref
         self.sock = None
         self.live = False
 
@@ -67,8 +69,6 @@ class ClientSession:
                 else:
                     self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.sock.connect((ip_address, port))   
-                msg = bytes(SessionMessages.REQUEST_JOIN.value, "utf-8")
-                self.sock.sendall(msg)
                 threading.Thread(target=self.listen_to_host).start()
 
     def listen_to_host(self):
@@ -81,15 +81,18 @@ class ClientSession:
                 self.handle_message(msg)
 
     def handle_message(self, msg):
+        print(msg)
         if(msg == SessionMessages.TERMINATE_CONNECTION):
             self.sock.close()
             self.live = False
 
 class ServerSession():
-    def __init__(self, account_ref):
+    def __init__(self, account_ref, saved_maps_ref):
         self.account_ref = account_ref
+        self.saved_maps_ref = saved_maps_ref
         self.sock = None
         self.live = False
+        self.messages = []
 
 
     def get_private_ip(self):
@@ -142,4 +145,15 @@ class ServerSession():
         while True:
             conn, addr = self.sock.accept()
             print(f"Connected by {addr}")
+            new_queue = Queue()
+            new_queue.put(SessionMessages.INIT_MAP.value)
+            new_queue.put(str(self.saved_maps_ref.get_active_save_name))
+            self.messages.append(new_queue)
+
+    def watch_queue(self, conn, queue):
+        while True:
+            if(not queue.empty()):
+                msg = bytes(queue.get(), "utf-8")
+                conn.sendall(msg)
+
 
