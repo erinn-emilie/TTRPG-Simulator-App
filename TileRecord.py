@@ -18,6 +18,9 @@ class TileRecord():
     def add_token_record(self, record:TokenRecord):
         self.all_token_records.append(record)
 
+    def delete_token_record(self, record:TokenRecord):
+        self.all_token_records.remove(record)
+
     def get_token_records(self) -> list:
         return self.all_token_records
 

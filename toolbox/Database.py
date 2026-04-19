@@ -165,7 +165,6 @@ class Database:
                 return DatabaseMessages.CRITICAL_ERROR
             return DatabaseMessages.SUCCESS
         except Exception as e:
-            #print(f"ERROR: {e}")
             return DatabaseMessages.CRITICAL_ERROR
 
     def update_token_small_fields(user_id:int, token_name:str, small_fields:dict):

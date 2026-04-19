@@ -14,7 +14,9 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QLineEdit,
     QInputDialog,
-    QFileDialog
+    QFileDialog,
+    QMessageBox,
+    QPushButton
 )
 
 import base64
@@ -30,6 +32,11 @@ import os
 from HextileNode import HextileNode
 from toolbox.Toolbox import Toolbox
 from TokenRecord import TokenRecord
+
+
+
+
+          
 
 
 
@@ -104,7 +111,7 @@ class TokenLabel(QLabel):
             if(self.token_record_window is None):
                 self.scroll = QScrollArea()
                 self.scroll.setWidgetResizable(True)
-                self.token_record_window = TokenRecordContainerWidget(self.token_record, self.toolbox)
+                self.token_record_window = TokenRecordContainerWidget(self.token_record, self.toolbox, self)
                 self.scroll.setWidget(self.token_record_window)
             self.scroll.show()
         event.accept()
@@ -123,8 +130,10 @@ class TokenLabel(QLabel):
                     self.grid_window.move_token_label(self, global_pos)
         event.accept()
 
-    def keyPressEvent(self, event):
-        print("Child")
+    def delete_token(self):
+        self.grid_window.delete_token(self, self.token_record)
+        self.scroll.close()
+        self.token_record_window = None
 
 class GridWindow(QMainWindow):
     def __init__(self, hex_node:HextileNode, toolbox:Toolbox):
@@ -225,6 +234,11 @@ class GridWindow(QMainWindow):
                 print("File couldn't be found")
             except FileExistsError:
                 print("That file already exists in this location")
+
+    def delete_token(self, token_label, token_record):
+        token_label.deleteLater()
+        self.tile_record.remove_empty_position(token_record.get_position())
+        self.tile_record.delete_token_record(token_record)
 
     def deselect_token_label(self):
         self.selected_label = None

@@ -811,19 +811,23 @@ class TileContainerWidget(QWidget):
         
 
 class TokenRecordContainerWidget(QWidget):
-    def __init__(self, token_record, toolbox:Toolbox):
+    def __init__(self, token_record, toolbox:Toolbox, token_label=None):
         super().__init__()
         self.toolbox = toolbox
+        self.account_ref = self.toolbox.get_account_ref()
         self.token_record = token_record
-        self.setStyleSheet("""
-            background-color: pink;
-        """)
+        self.token_label = token_label
+
+        self.internal_stylesheet = "background-color: #F0F2A6;"
+        
 
         self.token_small_fields = self.token_record.get_small_fields()
         self.token_large_fields = self.token_record.get_large_fields()
         self.token_name = self.token_record.get_token_name()
         self.token_key = self.token_record.get_token_key()
         self.map_asset = self.token_record.get_map_asset()
+
+
 
         self.all_labels = []
 
@@ -837,6 +841,7 @@ class TokenRecordContainerWidget(QWidget):
 
 
 
+
         self.main_layout = QVBoxLayout()
 
         self.small_fields_layout = QVBoxLayout()
@@ -845,34 +850,73 @@ class TokenRecordContainerWidget(QWidget):
         name_row = QHBoxLayout()
         name_label = QLineEdit(self.token_name)
         name_label.setReadOnly(True)
+        name_label.setMaximumWidth(200)
         self.small_value_changes["name"] = ""
-        
         name_label.textEdited.connect(partial(self.__edit_value_text, key="name"))
-        name_row.addWidget(name_label)
         self.all_labels.append(name_label)
+
+
+
+        map_asset_label = QLabel()
+        map_asset_pix = QPixmap()
+        if(self.map_asset != ""):
+            map_asset_pix.loadFromData(self.map_asset)
+        map_asset_pix = map_asset_pix.scaledToWidth(100)
+        map_asset_pix = map_asset_pix.scaledToHeight(100)
+        map_asset_label.setPixmap(map_asset_pix)
+
+
+
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+        name_row.addWidget(spacer)
+        name_row.addWidget(map_asset_label)
+        name_label.setStyleSheet(self.internal_stylesheet)
+        name_row.addWidget(name_label)
+
+        del_token_btn = QPushButton("Delete From Map")
+        del_token_btn.setStyleSheet(self.internal_stylesheet)
+        del_token_btn.clicked.connect(self.__del_from_map)
+        name_row.addWidget(del_token_btn)
+
+        name_row.addWidget(spacer)
+
+
+
 
         self.main_layout.addLayout(name_row)
 
-        map_asset_row = QHBoxLayout()
-        map_asset_label = QLabel()
-        map_asset_pix = QPixmap()
-        map_asset_pix.loadFromData(self.map_asset)
-        map_asset_label.setPixmap(map_asset_pix)
-        map_asset_row.addWidget(map_asset_label)
-        change_map_asset_btn = QPushButton("Change Map Asset")
-        map_asset_row.addWidget(change_map_asset_btn)
-        self.main_layout.addLayout(map_asset_row)
 
         self.total_images = 0
         self.images = self.token_record.get_large_assets()
         self.image_labels = []
+        self.del_img_btns = []
+        upload_row = QHBoxLayout()
+        upload_row.addWidget(spacer)
+
+        self.img_backward_btn = QPushButton("<")
+        self.img_backward_btn.setStyleSheet(self.internal_stylesheet)
+        self.img_backward_btn.clicked.connect(self.__cycle_last_img)
+
+        upload_row.addWidget(self.img_backward_btn)
+
+        lg_img_row = QHBoxLayout()
         for image in self.images:
             img_label = QLabel()
-            pixmap = QPixmap(image)
+            pixmap = QPixmap()
+            pixmap.loadFromData(image)
             img_label.setPixmap(pixmap)
+            img_label.setMaximumHeight(500)
+            img_label.setMaximumWidth(500)
             self.image_labels.append(img_label)
 
-            self.main_layout.addWidget(img_label)
+            lg_img_row.addWidget(spacer)
+            lg_img_row.addWidget(img_label)
+            lg_img_row.addWidget(spacer)
+            self.main_layout.addLayout(lg_img_row)
+
+
 
             self.total_images += 1
 
@@ -881,15 +925,19 @@ class TokenRecordContainerWidget(QWidget):
         for idx, label in enumerate(self.image_labels):
             if(idx != 0):
                 label.hide()
-
+                self.del_img_btns[idx].hide()
 
 
         self.img_forward_btn = QPushButton(">")
-        self.main_layout.addWidget(self.img_forward_btn)
+        self.img_forward_btn.setStyleSheet(self.internal_stylesheet)
         self.img_forward_btn.clicked.connect(self.__cycle_next_img)
-        self.img_backward_btn = QPushButton("<")
-        self.main_layout.addWidget(self.img_backward_btn)
-        self.img_backward_btn.clicked.connect(self.__cycle_last_img)
+        upload_row.addWidget(self.img_forward_btn)
+
+        upload_row.addWidget(spacer)
+
+        
+
+        self.main_layout.addLayout(upload_row)
 
         self.del_btns = []
         self.to_del_keys = []
@@ -920,36 +968,34 @@ class TokenRecordContainerWidget(QWidget):
             del_btn.clicked.connect(partial(self.__queue_for_deletion, field_name, field_value, sm_field, del_btn))
             del_btn.hide()
             self.del_btns.append(del_btn)
-
-
-            
+   
+            new_row.addWidget(spacer)
+            field_name.setStyleSheet(self.internal_stylesheet)
             new_row.addWidget(field_name)
+            field_value.setStyleSheet(self.internal_stylesheet)
             new_row.addWidget(field_value)
-            new_row.addWidget(del_btn)
+            del_btn.setStyleSheet(self.internal_stylesheet)
+            new_row.addWidget(del_btn)   
+            new_row.addWidget(spacer)
             self.small_fields_layout.addLayout(new_row)
             self.total_sm_fields += 1
 
 
         self.small_fields_layout.addLayout(new_row)
 
-        add_sm_btn_row = QHBoxLayout()
-        self.add_sm_btn = QPushButton("Add Small Field")
-        #self.add_sm_btn.clicked.connect(self.__add_sm_field)
-        self.add_sm_btn.hide()
-        add_sm_btn_row .addWidget(self.add_sm_btn)
-        self.small_fields_layout.addLayout(add_sm_btn_row)
+
 
         for lg_field in self.token_large_fields:
             new_col = QVBoxLayout()
             label_row = QHBoxLayout()
             label = QLineEdit(lg_field)
+            label.setStyleSheet(self.internal_stylesheet)
             self.all_labels.append(label)
             label.setReadOnly(True)
             label_row.addWidget(label)
             new_col.addLayout(label_row)
 
             self.lg_key_changes[lg_field] = ""
-            
             label.textEdited.connect(partial(self.__edit_key_text_lg, old_key=lg_field))
 
             text_row = QHBoxLayout()
@@ -965,6 +1011,8 @@ class TokenRecordContainerWidget(QWidget):
             del_btn.hide()
             self.del_btns.append(del_btn)
 
+            new_line.setStyleSheet(self.internal_stylesheet)
+            del_btn.setStyleSheet(self.internal_stylesheet)
             text_row.addWidget(new_line)
             text_row.addWidget(del_btn)
             new_col.addLayout(text_row)
@@ -972,26 +1020,22 @@ class TokenRecordContainerWidget(QWidget):
             self.total_lg_fields += 1
 
 
-        add_lg_btn_row = QHBoxLayout()
-        self.add_lg_btn = QPushButton("Add Large Field")
-        #self.add_lg_btn.clicked.connect(self.__add_lg_field)
-        self.add_lg_btn.hide()
-        add_lg_btn_row .addWidget(self.add_lg_btn)
-        self.large_fields_layout.addLayout(add_lg_btn_row)
 
 
         self.btn_row = QHBoxLayout()
         self.edit_btn = QPushButton("Edit")
+        self.edit_btn.setStyleSheet(self.internal_stylesheet)
         self.edit_btn.clicked.connect(self.__edit_fields)
         self.btn_row.addWidget(self.edit_btn)
 
-
         self.save_btn = QPushButton("Save")
+        self.save_btn.setStyleSheet(self.internal_stylesheet)
         self.save_btn.clicked.connect(self.__save_fields)
         self.save_btn.hide()
         self.btn_row.addWidget(self.save_btn)
 
         self.cancel_btn = QPushButton("Cancel")
+        self.cancel_btn.setStyleSheet(self.internal_stylesheet)
         self.cancel_btn.clicked.connect(self.__cancel)
         self.cancel_btn.hide()
         self.btn_row.addWidget(self.cancel_btn)
@@ -1000,6 +1044,7 @@ class TokenRecordContainerWidget(QWidget):
         self.main_layout.addLayout(self.large_fields_layout)
         self.main_layout.addLayout(self.btn_row)
         self.setLayout(self.main_layout)
+
 
 
     def __edit_value_text(self, new_value, key=""):
@@ -1112,4 +1157,7 @@ class TokenRecordContainerWidget(QWidget):
         self.add_lg_btn.show()
         for btn in self.del_btns:
             btn.show()
+
+    def __del_from_map(self):
+        self.token_label.delete_token()
 

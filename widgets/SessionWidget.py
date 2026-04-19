@@ -111,7 +111,7 @@ class SessionWidget(QMainWindow):
         self.session_pass_btn.clicked.connect(self.__change_session_pass_view)
         self.session_pass_btn.hide()
         self.start_session_btn = QPushButton("Start Session")
-        #self.start_session_btn.clicked.connect(self.__start_session)
+        self.start_session_btn.clicked.connect(self.__start_session)
         self.join_session_btn = QPushButton("Join Session")
         #self.join_session_btn.clicked.connect(self.__join_session)
 
@@ -203,7 +203,7 @@ class SessionWidget(QMainWindow):
 
 
     def __start_session(self):
-        password = self.session_ref.start_session_as_host()
+        password = self.server_session_ref.start_session_as_host()
         self.session_pass_label.setText(password)
         self.map_ref.saveMap(local=False)
         self.start_session_btn.hide()
@@ -220,7 +220,7 @@ class SessionWidget(QMainWindow):
         dlg = FindSessionDialog(self)
         ok = dlg.exec()
         if(ok):
-            self.session_ref.join_session_as_client(self.username_input, self.password_input)
+            self.client_session_ref.connect_to_host(self.username_input, self.password_input)
         self.username_input = ""
         self.password_input = ""
 
