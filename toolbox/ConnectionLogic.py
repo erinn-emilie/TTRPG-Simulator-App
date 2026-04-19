@@ -26,7 +26,7 @@ import ipaddress
 import base64
 import miniupnpc
 from queue import Queue
-
+from PyQt6.QtCore import pyqtSignal, QObject
 
 
 class SessionMessages(Enum):
@@ -35,8 +35,10 @@ class SessionMessages(Enum):
     MAP_FIN = "MAP FIN"
 
 
-class ClientSession:
+class ClientSession(QObject):
+    load_map = pyqtSignal()
     def __init__(self, account_ref, saved_maps_ref, hextile_map_ref):
+        super().__init__()
         self.account_ref = account_ref
         self.saved_maps_ref = saved_maps_ref
         self.hextile_map_ref = hextile_map_ref
@@ -77,7 +79,8 @@ class ClientSession:
             self.reading_map_dict = False
             self.hextile_map_ref.loadSaveFromKey(eval(self.map_dict_str))
             self.map_dict_str = ""
-            self.home_window.load_save_from_session()
+            self.load_map.emit()
+            #self.home_window.load_save_from_session()
         elif(self.reading_map_dict):
             self.map_dict_str = self.map_dict_str + msg
 

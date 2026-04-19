@@ -31,6 +31,7 @@ from widgets.DiceRoller import DiceRoller
 from widgets.SessionWidget import SessionWidget
 from Enums.MapSizes import MapSizes
 
+from toolbox.ConnectionLogic import ClientSession
 
 from toolbox.Database import Database
 from toolbox.Database import DatabaseMessages
@@ -91,6 +92,8 @@ class HomeWindow(QMainWindow):
         self.settings_ref_obj = self.toolbox.get_settings_ref()
         self.account_ref = self.toolbox.get_account_ref()
         self.saved_maps_ref = self.toolbox.get_saved_maps_ref()
+        self.client_session_ref = self.toolbox.get_client_session_ref()
+        self.server_session_ref = self.toolbox.get_server_session_ref()
 
         self.tile_labels_list = []
         self.__layout_tiles()
@@ -277,6 +280,7 @@ class HomeWindow(QMainWindow):
         self.navbar.setWidget(self.navbarContainer)
 
         self.setCentralWidget(self.scroll)
+        self.client_session_ref.load_map.connect(self.load_save_from_session)
         self.showMaximized()
            
 
