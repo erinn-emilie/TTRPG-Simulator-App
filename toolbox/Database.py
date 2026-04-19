@@ -11,7 +11,7 @@ import base64
 from Enums.TokenTypes import TokenTypes
 
 
-URL = ""
+URL = "http://216.183.246.76:5000"
 
 class DatabaseMessages(Enum):
     NONE = -1

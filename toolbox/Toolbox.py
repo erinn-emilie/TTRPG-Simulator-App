@@ -28,8 +28,8 @@ class Toolbox():
         self.settings_ref = Settings(self.tile_types_ref)
         self.saved_maps_ref = SavedMaps(self.account_ref)
         self.hextile_map_ref = HextileMap(self.tile_types_ref, self.settings_ref, self.player_characters_ref, self.nonplayer_characters_ref, self.animals_ref, self.monsters_ref, self.buildings_ref, self.structures_ref, self.nature_ref, self.saved_maps_ref, self.screen_width, self.screen_height, self.logger_ref, self.account_ref)
-        self.client_session_ref = ClientSession(self.account_ref, self.saved_maps_ref, self.hextile_maps_ref)
-        self.server_session_ref = ServerSession(self.account_ref, self.saved_maps_ref, self.hextile_maps_ref)
+        self.client_session_ref = ClientSession(self.account_ref, self.saved_maps_ref, self.hextile_map_ref)
+        self.server_session_ref = ServerSession(self.account_ref, self.saved_maps_ref, self.hextile_map_ref)
 
 
     def get_tile_types_ref(self) -> TileTypes:

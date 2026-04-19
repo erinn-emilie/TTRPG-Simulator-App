@@ -103,8 +103,6 @@ class HomeWindow(QMainWindow):
         self.map_layout.addWidget(self.map_widget)
         self.main_widget.setLayout(self.map_layout)
 
-        self.map_widget.setMinimumSize(3000,3000)
-
         self.map_widget_stylesheet = """
             background-color: #F0F2A6;
         """
@@ -153,7 +151,7 @@ class HomeWindow(QMainWindow):
         self.map_settings_toolbar.addWidget(self.log_widget_btn)
         self.log_widget_btn.clicked.connect(self.__open_log_widget)
 
-        self.session_mng_btn = QPushButton("Session Manager", self)
+        self.session_mng_btn = QPushButton("Account", self)
         self.session_mng_btn.setFlat(True)
         self.session_mng_btn.setStyleSheet(self.map_settings_btn_stylesheet)
         self.map_settings_toolbar.addWidget(self.session_mng_btn)
@@ -169,7 +167,7 @@ class HomeWindow(QMainWindow):
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(self.main_widget)
+        self.scroll.setWidget(self.map_widget)
 
         self.navbar = QDockWidget("Custom Tokens", self)
         self.navbar.setDockLocation(Qt.DockWidgetArea.RightDockWidgetArea)
@@ -280,51 +278,53 @@ class HomeWindow(QMainWindow):
 
         self.setCentralWidget(self.scroll)
         self.showMaximized()
-        #self.resize(self.toolbox.get_screen_width(), self.toolbox.get_screen_height())
            
 
        
     def __show_custom_tiles_window(self):
         self.customTilesWindow = CustomTileExploreWindow(self.toolbox, self)
+        self.customTilesWindow.setWindowIcon(QIcon("assets/tiles.png"))
+
         self.customTilesWindow.show()
 
     def __show_custom_players_window(self):
-        if(self.customPlayersWindow is None):
-            self.customPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.PLAYER_CHARACTERS)
+        self.customPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.PLAYER_CHARACTERS)
+        self.customPlayerWindow.setWindowIcon(QIcon("assets/character.png"))
         self.customPlayersWindow.show()
 
     def __show_custom_nonplayers_window(self):
-        if(self.customNonPlayersWindow is None):
-            self.customNonPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NON_PLAYER_CHARACTERS)
+        self.customNonPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NON_PLAYER_CHARACTERS)
+        self.customNonPlayersWindow.setWindowIcon(QIcon("assets/character.png"))
         self.customNonPlayersWindow.show()
 
     def __show_custom_animals_window(self):
         self.customAnimalsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.ANIMALS)
+        self.customAnimalsWindow.setWindowIcon(QIcon("assets/animal.png"))
         self.customAnimalsWindow.show()
 
     def __show_custom_monsters_window(self):
-        if(self.customMonstersWindow is None):
-            self.customMonstersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.MONSTERS)
+        self.customMonstersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.MONSTERS)
+        self.customMonstersWindow.setWindowIcon(QIcon("assets/monsters.png"))  
         self.customMonstersWindow.show()
 
     def __show_custom_buildings_window(self):
-        if(self.customBuildingsWindow is None):
-            self.customBuildingsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.BUILDINGS)
+        self.customBuildingsWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.BUILDINGS)
+        self.customBuildingsWindow.setWindowIcon(QIcon("assets/buildings.png"))
         self.customBuildingsWindow.show()
 
     def __show_custom_structures_window(self):
-        if(self.customStructuresWindow is None):
-            self.customStructuresWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.STRUCTURES)
+        self.customStructuresWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.STRUCTURES)
+        self.customStructuresWindow.setWindowIcon(QIcon("assets/buildings.png"))
         self.customStructuresWindow.show()
 
     def __show_custom_nature_window(self):
-        if(self.customNatureWindow is None):
-            self.customNatureWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
+        self.customNatureWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.NATURE)
+        self.customNatureWindow.setWindowIcon(QIcon("assets/nature.png"))
         self.customNatureWindow.show()
 
     def __show_dice_roller_window(self):
-        if(self.diceRollerWindow is None):
-            self.diceRollerWindow = DiceRoller(self.toolbox)
+        self.diceRollerWindow = DiceRoller(self.toolbox)
+        self.diceRollerWindow.setWindowIcon(QIcon("assets/d20.png"))
         self.diceRollerWindow.show()
 
     def __show_map_saves_window(self):
@@ -352,31 +352,20 @@ class HomeWindow(QMainWindow):
     def __generate_map(self):
         self.map_layout.removeWidget(self.map_widget)
         self.map_widget = QWidget()
-        map_size = self.settings_ref_obj.getMapSize()
-        min_size = 0
-        match(map_size):
-            case MapSizes.XSMALL:
-                min_size = 1000
-            case MapSizes.SMALL:
-                min_size = 2000
-            case MapSizes.MEDIUM:
-                min_size = 3000
-            case MapSizes.LARGE:
-                min_size = 4000
-            case MapSizes.XLARGE:
-                min_size = 5000
-            case _:
-                min_size = 3000
         
-        self.map_widget.setMinimumSize(min_size, min_size)
         self.hextile_map_obj.generateMap()
         self.__layout_tiles()
-        self.map_layout.addWidget(self.map_widget)
+        self.scroll = QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self.scroll.setWidget(self.map_widget)
+        self.setCentralWidget(self.scroll)
 
     def load_saved_map(self, map_name):
         self.map_layout.removeWidget(self.map_widget)
         self.map_widget = QWidget()
-        self.map_widget.setMinimumSize(3000,3000)
         self.hextile_map_obj.loadSavedMap(map_name)
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
@@ -384,7 +373,6 @@ class HomeWindow(QMainWindow):
     def load_save_from_session(self):
         self.map_layout.removeWidget(self.map_widget)
         self.map_widget = QWidget()
-        self.map_widget.setMinimumSize(3000,3000)
         self.__layout_tiles()
         self.map_layout.addWidget(self.map_widget)
 
@@ -499,6 +487,29 @@ class HomeWindow(QMainWindow):
                 pivY = posY
                 pivotNode = nextNode
 
+        min_x = float('inf')
+        min_y = float('inf')
+        max_x = 0
+        max_y = 0
+        
+        for label in self.tile_labels_list:
+            rect = label.geometry()
+            min_x = min(min_x, rect.x())
+            min_y = min(min_y, rect.y())
+            max_x = max(max_x, rect.right())
+            max_y = max(max_y, rect.bottom())
+        
+        padding = 100
+        offset_x = padding - min_x
+        offset_y = padding - min_y
+        
+        for label in self.tile_labels_list:
+            label.move(label.x() + offset_x, label.y() + offset_y)
+        
+        required_width = max_x - min_x + padding * 2
+        required_height = max_y - min_y + padding * 2
+        self.map_widget.setMinimumSize(int(required_width), int(required_height))
+
             
 
 
@@ -512,7 +523,6 @@ class HomeWindow(QMainWindow):
         label.setScaledContents(True)
         label.setFixedSize(157,157)
         label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        label.installEventFilter(self)        
         return label
 
 
@@ -549,9 +559,3 @@ class HomeWindow(QMainWindow):
                 self.dlg.show()
                 
 
-
-
-"""    def closeEvent(self, event):
-        user_id = self.toolbox.get_account_ref().get_account_id()
-        if(self.toolbox.get_account_ref().get_logged_in()):
-            Database.remove_host_info(user_id)"""

@@ -14,6 +14,9 @@ class HextileNode():
         self.positionVector = positionVector
         self.placed = False
 
+    def setDefaultStatus(self, status):
+        self.tileRecord.set_default_status(status)
+
     def getPlacedStatus(self):
         return self.placed
 

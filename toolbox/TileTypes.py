@@ -78,10 +78,12 @@ class TileTypes():
                 if(local):
                     self.local_dict[tile]["name"] = new_name
                     self.local_dict[new_name.upper()] = self.local_dict.pop(old_name.upper())
+                    self.local_dict[new_name.upper()]["default"] = False
                 else:
                     Database.change_tile_name(user_id, new_name, old_name)
                 self.tiles_dict[tile]["name"] = new_name
                 self.tiles_dict[new_name.upper()] = self.tiles_dict.pop(old_name.upper())
+                self.tiles_dict[new_name.upper()]["default"] = False
             else:
                 self.tiles_dict[tile]["tile_weights"][new_name.upper()] = self.tiles_dict[tile]["tile_weights"].pop(old_name.upper())
                 if(self.account_ref.get_logged_in()):
@@ -138,6 +140,9 @@ class TileTypes():
         except KeyError:
             return dict
 
+    def get_tile_default_by_name(self, tileName:str):
+        return self.tiles_dict[tileName.upper()]["default"]
+
 
     def get_default_tile_asset_by_name(self, tileName:str) -> str:
         try: 
@@ -154,11 +159,13 @@ class TileTypes():
     def set_default_tile_background_by_name(self, tileName:str, tileBackground:str):
         if(self.tiles_dict[tileName]["save_location"] == "local"):
             self.local_dict[tileName]["default_background"] = tileBackground
+            self.local_dict[tileName]["default"] = False
             self.__update_json_file()
         else:
             user_id = self.acccount_ref.get_account_id()
             Database.change_tile_background(user_id, tileName, tileBackground)
         self.tiles_dict[tileName]["default_background"] = tileBackground
+        self.tiles_dict[tileName]["default"] = False
         self.__update_json_file()
 
     def add_new_tile(self, tile_name:str, tile_default_asset:str, local=True):
@@ -182,7 +189,8 @@ class TileTypes():
                 "name": tile_name,
                 "tile_weights": {},
                 "default_background": "",
-                "default_asset": tile_default_asset
+                "default_asset": tile_default_asset,
+                "default": False
             }
         }
 
@@ -218,12 +226,16 @@ class TileTypes():
         self.__create_hexagonal_image_mask(img_path_str)
         if(self.tiles_dict[tile_name.upper()]["save_location"] == "local"):
             self.local_dict[tile_name.upper()]["default_asset"] = img_path_str
+            self.local_dict[tile_name.upper()]["default"] = False
             self.__update_json_file()
         else:
             user_id = self.account_ref.get_account_id()
             Database.change_tile_img(user_id, tile_name, img_path_str)
         self.tiles_dict[tile_name.upper()]["default_asset"] = img_path_str 
+        self.tiles_dict[tile_name.upper()]["default"] = False 
 
+    def change_tile_img_current(self, tile_name:str, data):
+        self.tiles_dict[tile_name.upper()]["default_asset"] = data
 
 
     def __create_hexagonal_image_mask(self, img_path_str:str):

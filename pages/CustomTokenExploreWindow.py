@@ -31,11 +31,6 @@ class CustomTokenExploreWindow(QMainWindow):
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
 
-        #AA6373
-        #F0F2A6
-        #self.setStyleSheet("background-color: #AA6373;")
-
-
 
 
         self.add_token_btn = QPushButton("Add New Token")
@@ -121,11 +116,14 @@ class CustomTileExploreWindow(QMainWindow):
         self.account_ref = self.toolbox.get_account_ref()
         self.home_window = home_window
 
+        self.setStyleSheet("background-color: #F0F2A6")
+
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
 
 
         self.add_tile_btn = QPushButton("Add New Tile")
+        self.add_tile_btn.setStyleSheet("background-color: #AA6373; color: #F0F2A6;")
         self.add_tile_btn.clicked.connect(self.__add_new_tile)
         self.main_layout.addWidget(self.add_tile_btn)
 

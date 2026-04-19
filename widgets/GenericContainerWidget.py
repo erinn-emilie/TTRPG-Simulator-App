@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt, QPoint, QPointF
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtWidgets import (
     QLabel,
     QVBoxLayout,
@@ -683,20 +683,25 @@ class TileContainerWidget(QWidget):
         self.new_tile_name = ""
         self.tile_img_path = tile_img_path
         self.tile_probs_window = None
+        self.btn_stylesheet = """background-color: #392061; color: #F0F2A6;"""
 
         self.main_layout = QHBoxLayout()
 
         self.tile_name_label = QLineEdit(self.old_tile_name)
+        self.tile_name_label.setStyleSheet("color: #1A1B25;")
         self.tile_name_label.textEdited.connect(self.__change_tile_name)
         self.tile_name_label.setReadOnly(True)
         self.tile_name_label.setMaximumWidth(100)
 
         self.edit_name_btn = QPushButton("Edit Name")
+        self.edit_name_btn.setStyleSheet(self.btn_stylesheet)
         self.edit_name_btn.clicked.connect(self.__set_tile_name_editable)
         self.save_name_btn = QPushButton("Save Edit")
+        self.save_name_btn.setStyleSheet(self.btn_stylesheet)
         self.save_name_btn.clicked.connect(self.__save_tile_name)
         self.cancel_name_btn = QPushButton("Cancel Edit")
         self.cancel_name_btn.clicked.connect(self.__set_tile_name_uneditable)
+        self.cancel_name_btn.setStyleSheet(self.btn_stylesheet)
 
         self.tile_img_pixmap = QPixmap()
         if(isinstance(self.tile_img_path, bytes)):
@@ -710,6 +715,7 @@ class TileContainerWidget(QWidget):
         self.tile_img_label.setMaximumWidth(200)
 
         self.change_tile_img_btn = QPushButton("Change Tile Image")
+        self.change_tile_img_btn.setStyleSheet("background-color: #392061; color: #F0F2A6; padding: 5px;")
         self.change_tile_img_btn.clicked.connect(self.__change_tile_img)
 
         self.main_layout.addStretch()
@@ -726,6 +732,7 @@ class TileContainerWidget(QWidget):
         self.edit_btn_v_layout.addLayout(self.edit_btn_layout)
 
         self.edit_tile_probs_btn = QPushButton("Edit Tile Probabilities")
+        self.edit_tile_probs_btn.setStyleSheet(self.btn_stylesheet)
         self.edit_tile_probs_btn.clicked.connect(self.__edit_tile_probs)
         self.edit_btn_v_layout.addWidget(self.edit_tile_probs_btn)
         self.edit_btn_v_layout.addStretch()

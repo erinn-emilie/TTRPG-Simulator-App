@@ -73,13 +73,13 @@ class ClientSession:
             self.live = False
         elif(msg == SessionMessages.INIT_MAP.value):
             self.reading_map_dict = True
+        elif(msg == SessionMessages.MAP_FIN.value):
+            self.reading_map_dict = False
+            self.hextile_map_ref.loadSaveFromKey(eval(self.map_dict_str))
+            self.map_dict_str = ""
+            self.home_window.load_save_from_session()
         elif(self.reading_map_dict):
             self.map_dict_str = self.map_dict_str + msg
-        elif(msg == SessionMessages.MAP_FIN):
-            self.reading_map_dict = False
-            self.map_dict_str = ""
-            self.hextile_map_ref.loadSaveFromKey(eval(self.map_dict_str))
-            self.home_window.load_save_from_session()
 
 
 

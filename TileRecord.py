@@ -7,7 +7,13 @@ class TileRecord():
         self.all_token_records = []
         self.background_img_path = background_img_path
         self.empty_positions = []
+        self.default = True
 
+    def set_default_status(self, status):
+        self.default = status
+
+    def get_default_status(self):
+        return self.default
 
     def get_background_img_path(self) -> str:
         return self.background_img_path

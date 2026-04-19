@@ -21,7 +21,7 @@ import base64
 class HextileMap():
     def __init__(self, tile_types_ref, settings_ref, players_ref, nonplayers_ref, animals_ref, monsters_ref, buildings_ref, structures_ref, nature_ref, saved_maps_ref, screen_width, screen_height, logger_ref, acc_ref, load_location=MapLoadLocations.GENERATED, saved_map_name=""):
         self.local_map = {}
-        self.tileTypes = tile_types_ref
+        self.tile_types_ref = tile_types_ref
         self.settings = settings_ref
         self.seed = settings_ref.getSeedRef()
         self.logger_ref = logger_ref
@@ -265,21 +265,21 @@ class HextileMap():
         newBiomeName = ""
         while(True):
             posBiome = self.seed.getNextBiomeInt()
-            posName = self.tileTypes.get_tile_name_by_key(posBiome)
+            posName = self.tile_types_ref.get_tile_name_by_key(posBiome)
             while(posName == "WATER" and self.totalwater == 0):
                 posBiome = self.seed.getNextBiomeInt()
-                posName = self.tileTypes.get_tile_name_by_key(posBiome)
+                posName = self.tile_types_ref.get_tile_name_by_key(posBiome)
             if(posName == "WATER"):
                 self.__setUpWater(node)
                 self.totalwater -= 1
             while(self.settings.findExcludedType(posName)):
                 posBiome = self.seed.getNextBiomeInt()
-                posName = self.tileTypes.get_tile_name_by_key(posBiome)
+                posName = self.tile_types_ref.get_tile_name_by_key(posBiome)
 
             totalValue = 0
             for i in range(0, len(typeArr)):
-                curBiome = self.tileTypes.get_tile_key_by_name(typeArr[i])
-                totalValue = totalValue + self.tileTypes.get_tile_weight_by_key(curBiome, posBiome)
+                curBiome = self.tile_types_ref.get_tile_key_by_name(typeArr[i])
+                totalValue = totalValue + self.tile_types_ref.get_tile_weight_by_key(curBiome, posBiome)
             valueToBeat = 100
             if(len(typeArr) != 0):
                 valueToBeat = int(totalValue / len(typeArr))
@@ -370,10 +370,10 @@ class HextileMap():
     def __populateMapGenericSettings(self):
         curNode = self.centerNode
         biomeInt = self.seed.getNextBiomeInt()
-        prevType = self.tileTypes.get_tile_name_by_key(biomeInt)
+        prevType = self.tile_types_ref.get_tile_name_by_key(biomeInt)
         while(self.settings.findExcludedType(prevType)):
             biomeInt = self.seed.getNextBiomeInt()
-            prevType = self.tileTypes.get_tile_name_by_key(biomeInt)
+            prevType = self.tile_types_ref.get_tile_name_by_key(biomeInt)
         curNode.setTileType(prevType)
         sameTypeChance = 80
 
@@ -395,6 +395,7 @@ class HextileMap():
                 else:
                     newType = self.__findNewTileType(curNode)
                     curNode.setTileType(newType)
+                    curNode.setDefaultStatus(self.tile_types_ref.get_tile_default_by_name(newType))
                     if(newType == prevType):
                         sameTypeChance -=5
                     else:
@@ -419,10 +420,10 @@ class HextileMap():
     def __populateRandomSettings(self):
         curNode = self.centerNode
         biomeInt = self.seed.getNextBiomeInt()
-        biome = self.tileTypes.get_tile_name_by_key(biomeInt)
+        biome = self.tile_types_ref.get_tile_name_by_key(biomeInt)
         while(self.settings.findExcludedType(biome)):
             biomeInt = self.seed.getNextBiomeInt()
-            biome = self.tileTypes.get_tile_name_by_key(biomeInt)
+            biome = self.tile_types_ref.get_tile_name_by_key(biomeInt)
         curNode.setTileType(biome)
         curRingNumber = 1
         curTileNum = 0
@@ -431,11 +432,12 @@ class HextileMap():
         while(curRingNumber < self.mapSize.value + 1):
             curTileNum += 1
             biomeInt = self.seed.getNextBiomeInt()
-            biome = self.tileTypes.get_tile_name_by_key(biomeInt)
+            biome = self.tile_types_ref.get_tile_name_by_key(biomeInt)
             while(self.settings.findExcludedType(biome)):
                 biomeInt = self.seed.getNextBiomeInt()
-                biome = self.tileTypes.get_tile_name_by_key(biomeInt)
+                biome = self.tile_types_ref.get_tile_name_by_key(biomeInt)
             curNode.setTileType(biome)
+            curNode.setDefaultStatus(self.tile_types_ref.get_tile_default_by_name(biome))
             if(curTileNum == numTilesInRing):
                 curRingNumber += 1
                 if(not curRingNumber > self.mapSize.value):
@@ -503,10 +505,15 @@ class HextileMap():
                 cur_tokens_list.append(abrev_dict)
             else:
                 cur_tokens_list.append(token_dict)
+        cur_type =  cur_record.get_tile_type()
         all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
-        all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
-        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tileTypes.get_tile_key_by_name(cur_record.get_tile_type())
-
+        all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_type
+        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tile_types_ref.get_tile_key_by_name(cur_type)            
+        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tile_types_ref.get_tile_key_by_name(cur_typel)            
+        if(not cur_record.get_default_status()):
+                all_tiles_dict[str(cur_tile_pos_key)]["default"] = False
+                all_tiles_dict[str(cur_tile_pos_key)]["tile_img"] = self.tile_types_ref.get_default_tile_asset_by_name(cur_type)
+                all_tiles_dict[str(cur_tile_pos_key)]["tile_background"] = self.tile_types_ref.get_default_tile_background_by_name(cur_type)
 
 
         curRingNumber = 1
@@ -538,9 +545,16 @@ class HextileMap():
                     token_dict = token.get_token_dict()
                     token_dict["modified"] = True
                     cur_tokens_list.append(token_dict)
+            cur_type = cur_record.get_tile_type()
             all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
-            all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_record.get_tile_type()
-            all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tileTypes.get_tile_key_by_name(cur_record.get_tile_type())
+            all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_type
+            all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tile_types_ref.get_tile_key_by_name(cur_type)
+            all_tiles_dict[str(cur_tile_pos_key)]["default"] = True
+            if(not cur_record.get_default_status()):
+                all_tiles_dict[str(cur_tile_pos_key)]["default"] = False
+                all_tiles_dict[str(cur_tile_pos_key)]["tile_img"] = self.tile_types_ref.get_default_tile_asset_by_name(cur_type)
+                all_tiles_dict[str(cur_tile_pos_key)]["tile_background"] = self.tile_types_ref.get_default_tile_background_by_name(cur_type)
+
             if(curTileNum == numTilesInRing):
                 curRingNumber += 1
                 if(not curRingNumber > self.mapSize.value):
@@ -582,11 +596,18 @@ class HextileMap():
 
         curNode.setTileType(tile_type)
 
+
         unmodified_tokens_dict = map_dict["unmodified_tokens"]
 
         record_key = 0
         tokens = map_dict[str(dict_pos)]["tokens"]
         curRecord = curNode.getTileRecord()
+
+        if(not map_dict[str(dict_pos)]["default"]):
+            curRecord.set_default_status(False)
+            curRecord.set_background_img_path(map_dict[str(dict_pos)]["tile_background"])
+            self.tile_types_ref.change_tile_img_current(map_dict[str(dict_pos)]["tile_background"])
+
         for token in tokens:           
             record_key += 1
             token_type = self.__findTokenTypeFromStr(token["token_type"])
@@ -614,6 +635,10 @@ class HextileMap():
             dict_pos += 1
             curNode.setTileType(tile_type)
             curRecord = curNode.getTileRecord()
+            if(not map_dict[str(dict_pos)]["default"]):
+                curRecord.set_default_status(False)
+                curRecord.set_background_img_path(map_dict[str(dict_pos)]["tile_background"])
+                self.tile_types_ref.change_tile_img_current(map_dict[str(dict_pos)]["tile_background"])
             for token in tokens:           
                 record_key += 1
                 token_type = self.__findTokenTypeFromStr(token["token_type"])
@@ -629,6 +654,7 @@ class HextileMap():
 
                 self.tokens_on_map.append(token_record)
                 curRecord.add_token_record(token_record)
+
 
             if(curTileNum == numTilesInRing):
                 curRingNumber += 1
