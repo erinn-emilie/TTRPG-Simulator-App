@@ -206,7 +206,7 @@ class SessionWidget(QMainWindow):
     def __start_session(self):
         password = self.server_session_ref.start_session()
         self.session_pass_label.setText(password)
-        self.map_ref.saveMap(local=False)
+        self.map_ref.saveMap(local=False, can_save_to_db=False)
         self.start_session_btn.hide()
         self.join_session_btn.hide()
         self.session_pass_btn.show()

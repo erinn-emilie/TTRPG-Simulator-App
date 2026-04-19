@@ -46,11 +46,14 @@ class HexLabel(QLabel):
         self.hex_node = hex_node
         self.toolbox = toolbox
         self.tile_types_ref = self.toolbox.get_tile_types_ref()
-        self.gridWindow = None
+        self.gridWindow = GridWindow(self.hex_node, self.toolbox)
         self.home_window = home_window
 
     def get_hex_node(self) -> HextileNode:
         return self.hex_node
+
+    def get_grid_window(self):
+        return self.gridWindow
 
     def mousePressEvent(self, event):
         if(event.button() == Qt.MouseButton.RightButton):
@@ -66,7 +69,7 @@ class HexLabel(QLabel):
                 self.setPixmap(pixmap)
         if(event.button() == Qt.MouseButton.LeftButton):
             self.gridWindow = GridWindow(self.hex_node, self.toolbox)
-            self.gridWindow.show()
+            self.gridWindow.showMaximized()
             
         return super().mousePressEvent(event)
 
@@ -281,6 +284,7 @@ class HomeWindow(QMainWindow):
 
         self.setCentralWidget(self.scroll)
         self.client_session_ref.load_map.connect(self.load_save_from_session)
+        self.client_session_ref.add_token.connect(self.add_token_from_session)
         self.showMaximized()
            
 
@@ -378,11 +382,27 @@ class HomeWindow(QMainWindow):
         self.map_layout.removeWidget(self.map_widget)
         self.map_widget = QWidget()
         self.__layout_tiles()
-        self.map_layout.addWidget(self.map_widget)
+        self.scroll = QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self.scroll.setWidget(self.map_widget)
+        self.setCentralWidget(self.scroll)
 
-
+    def add_token_from_session(self, token_info_dict):
+        node_pos = token_info_dict["node_pos"]
+        token = token_info_dict["token_info"]
+        for tile in self.tile_labels_list:
+            node = tile.get_hex_node()
+            if(node_pos == node.getPositionIdx()):
+                record = node.getTileRecord()
+                window = tile.get_grid_window()
+                window.add_session_token(token)
+ 
 
     def __layout_tiles(self):
+        self.tile_labels_list.clear()
         centerNode = self.hextile_map_obj.getCenterNode()
         pivotNode = centerNode
         curRingNumber = 0

@@ -34,45 +34,6 @@ from pages.HomeWindow import HomeWindow
 
         
 
-
-
-
-class GenericContainerWidget(QWidget):
-    def __init__(self, tile_name:str, tile_list:list, tile_image_path:str):
-        super().__init__()
-        self.mainLayout = QVBoxLayout()
-        # make special label with stylesheet thats automatically disabled
-        self.setStyleSheet("""
-            background-color: pink;
-        """)
-
-        self.tileNamePromptLabel = QLabel("Tile Name:")
-        self.tileNameLabel = QLineEdit(tile_name)
-        self.tileNameLabel.setEnabled(False)
-        self.tileNameLabel.setMaximumWidth(200)
-        self.tileNamePromptLabel.setMaximumWidth(200)
-        self.tileImagePixmap = QPixmap(tile_image_path)
-        self.tileImageLabel = QLabel()
-        self.tileImageLabel.setPixmap(self.tileImagePixmap)
-        self.tileImageLabel.setScaledContents(True)
-        self.tileImageLabel.setMaximumWidth(300)
-        self.tileImageLabel.setMaximumHeight(300)
-        self.tileNameRow = QHBoxLayout()
-        self.tileNameRow.addWidget(self.tileNamePromptLabel)
-        self.tileNameRow.addWidget(self.tileNameLabel)
-        self.tileNameRow.addWidget(self.tileImageLabel)
-        self.mainLayout.addLayout(self.tileNameRow)
-        self.setLayout(self.mainLayout)
-
-    def enable_tile_name_label(self):
-        self.tileNameLabel.setEnabled(True)
-
-    def disable_tile_name_label(self):
-        self.tileNameLabel.setEnabled(False)
-
-       
-
-
 if __name__ == "__main__":
     app = QApplication([])
 

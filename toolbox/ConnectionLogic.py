@@ -33,10 +33,13 @@ class SessionMessages(Enum):
     TERMINATE_CONNECTION = "TERMINATE CONNECTION"
     INIT_MAP = "INIT MAP"
     MAP_FIN = "MAP FIN"
+    TOKEN_ADD_START = "TOKEN ADD START"
+    TOKEN_ADD_STOP = "TOKEN ADD STOP"
 
 
 class ClientSession(QObject):
     load_map = pyqtSignal()
+    add_token = pyqtSignal()
     def __init__(self, account_ref, saved_maps_ref, hextile_map_ref):
         super().__init__()
         self.account_ref = account_ref
@@ -44,7 +47,9 @@ class ClientSession(QObject):
         self.hextile_map_ref = hextile_map_ref
         self.home_window = None
         self.reading_map_dict = False
+        self.adding_token = False
         self.map_dict_str = ""
+        self.add_token_str = ""
         self.sock = None
         self.live = False
 
@@ -75,14 +80,25 @@ class ClientSession(QObject):
             self.live = False
         elif(msg == SessionMessages.INIT_MAP.value):
             self.reading_map_dict = True
-        elif(msg == SessionMessages.MAP_FIN.value):
+        elif(SessionMessages.MAP_FIN.value in msg):
             self.reading_map_dict = False
+            map_part = msg.replace(SessionMessages.MAP_FIN.value, "")
+            self.map_dict_str = self.map_dict_str + map_part
             self.hextile_map_ref.loadSaveFromKey(eval(self.map_dict_str))
             self.map_dict_str = ""
             self.load_map.emit()
-            #self.home_window.load_save_from_session()
         elif(self.reading_map_dict):
             self.map_dict_str = self.map_dict_str + msg
+        elif(msg == SessionMessages.TOKEN_ADD_START.value):
+            self.adding_token = True
+        elif(SessionMessages.TOKEN_ADD_STOP.value in msg):
+            self.adding_token = False
+            info_part = msg.replace(SessionMessages.TOKEN_ADD_STOP.value, "")
+        elif(self.adding_token):
+            self.add_token_str = self.add_token_str + msg
+            self.add_token.emit(eval(self.add_token_str))
+            self.add_token_str = ""
+
 
 
 
@@ -114,6 +130,9 @@ class ServerSession():
 
         return int_ip, ext_ip
 
+    def get_live_status(self):
+        return self.live
+
 
     def start_session(self):
         self.live = True
@@ -135,6 +154,10 @@ class ServerSession():
             self.sock.listen(5)
             threading.Thread(target=self.listen_for_client).start()
         return pswd
+
+    def add_message_to_all_queues(self, msg):
+        for queue in self.messages:
+            queue.put(msg)
 
     def listen_for_client(self):
         while True:

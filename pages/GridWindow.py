@@ -33,6 +33,8 @@ from HextileNode import HextileNode
 from toolbox.Toolbox import Toolbox
 from TokenRecord import TokenRecord
 
+from toolbox.ConnectionLogic import SessionMessages
+
 
 
 
@@ -140,6 +142,8 @@ class GridWindow(QMainWindow):
         super().__init__()
         self.toolbox = toolbox
         self.token_labels = []
+        self.hextile_map_ref = self.toolbox.get_hextile_map_ref()
+        self.saved_maps_ref = self.toolbox.get_saved_maps_ref()
         self.logger_ref = self.toolbox.get_logger_ref()
         self.settings_ref = self.toolbox.get_settings_ref()
         self.tile_size = self.settings_ref.getTileSize()
@@ -148,6 +152,8 @@ class GridWindow(QMainWindow):
         self.tile_type = self.tile_record.get_tile_type()
 
         self.tile_types_ref = self.toolbox.get_tile_types_ref() 
+        self.client_session_ref = self.toolbox.get_client_session_ref() 
+        self.server_session_ref = self.toolbox.get_server_session_ref() 
         self.background_img_path = self.tile_types_ref.get_default_tile_background_by_name(self.tile_type)
 
         self.screen_width = self.toolbox.get_screen_width()
@@ -189,7 +195,7 @@ class GridWindow(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
         self.setCentralWidget(self.main_widget)
-        self.showMaximized()
+        #self.showMaximized()
 
 
     def __change_tile_size(self):
@@ -341,6 +347,7 @@ class GridWindow(QMainWindow):
             y_pos = token_record.get_y_position()
             token_label.move(x_pos, y_pos)
 
+
             self.token_labels.append(token_label)
 
 
@@ -369,7 +376,40 @@ class GridWindow(QMainWindow):
 
             token_label.show()
             self.token_labels.append(token_label)
+            if(self.server_session_ref.get_live_status()):
+                self.server_session_ref.add_message_to_all_queues(SessionMessages.TOKEN_ADD_START.value)
+                token_move_info = {
+                    "node_pos": self.hex_node.getPositionIdx(),
+                    "token_info": token
+                }
+                self.server_session_ref.add_message_to_all_queues(str(token_move_info))
+                self.server_session_ref.add_message_to_all_queues(SessionMessages.TOKEN_ADD_STOP.value)
+
             combo.setCurrentIndex(0)
+
+    def add_session_token(self, token):
+        token_record = TokenRecord(self.logger_ref, token, token["token_type"], position=(self.middle_x, self.middle_y))
+        self.tile_record.add_token_record(token_record)
+        token_label = TokenLabel(self.toolbox, token_record, self, parent=self.map_widget)
+        data = token_record.get_map_asset()
+        pixmap = QPixmap()
+        pixmap.loadFromData(data)
+        scaled_pixmap = pixmap.scaled(
+            self.tile_size, self.tile_size,
+            aspectRatioMode=Qt.AspectRatioMode.KeepAspectRatio,
+            transformMode =Qt.TransformationMode.SmoothTransformation
+        )
+
+        token_label.setPixmap(scaled_pixmap)
+        token_label.resize(self.tile_size, self.tile_size)
+        token_label.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+
+        token_label.move(self.middle_x, self.middle_y)
+
+        token_label.show()
+        self.token_labels.append(token_label)
+
+
 
 
     def __move_existing_tokens(self):

@@ -473,7 +473,7 @@ class HextileMap():
                 return curTile
         return None
 
-    def saveMap(self, map_name="Session Map", local=True):
+    def saveMap(self, map_name="Session Map", local=True, can_save_to_db=True):
         cur_node = self.centerNode
         cur_record = cur_node.getTileRecord()
         cur_tokens_list = []
@@ -509,7 +509,8 @@ class HextileMap():
         all_tiles_dict[str(cur_tile_pos_key)]["tokens"] = cur_tokens_list
         all_tiles_dict[str(cur_tile_pos_key)]["type_str"] = cur_type
         all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tile_types_ref.get_tile_key_by_name(cur_type)            
-        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tile_types_ref.get_tile_key_by_name(cur_typel)            
+        all_tiles_dict[str(cur_tile_pos_key)]["type_key"] = self.tile_types_ref.get_tile_key_by_name(cur_type)    
+        all_tiles_dict[str(cur_tile_pos_key)]["default"] = True
         if(not cur_record.get_default_status()):
                 all_tiles_dict[str(cur_tile_pos_key)]["default"] = False
                 all_tiles_dict[str(cur_tile_pos_key)]["tile_img"] = self.tile_types_ref.get_default_tile_asset_by_name(cur_type)
@@ -580,7 +581,7 @@ class HextileMap():
         if(local):
             self.saved_maps.add_saved_map(map_name, all_tiles_dict)
         else:
-            self.saved_maps.add_saved_map(map_name, all_tiles_dict, local=False)
+            self.saved_maps.add_saved_map(map_name, all_tiles_dict, local=False, can_save_to_db=can_save_to_db)
 
 
     def loadSaveFromKey(self, map_dict):
@@ -632,7 +633,6 @@ class HextileMap():
             curTileNum += 1
             tile_type = map_dict[str(dict_pos)]["type_str"]
             tokens = map_dict[str(dict_pos)]["tokens"]
-            dict_pos += 1
             curNode.setTileType(tile_type)
             curRecord = curNode.getTileRecord()
             if(not map_dict[str(dict_pos)]["default"]):
@@ -654,6 +654,8 @@ class HextileMap():
 
                 self.tokens_on_map.append(token_record)
                 curRecord.add_token_record(token_record)
+
+            dict_pos += 1
 
 
             if(curTileNum == numTilesInRing):
