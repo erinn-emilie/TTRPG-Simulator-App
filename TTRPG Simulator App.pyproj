@@ -23,7 +23,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="enums\MapLoadLocations.py" />
-    <Compile Include="enums\TileSizeUnits.py" />
     <Compile Include="enums\TokenTypes.py" />
     <Compile Include="pages\GridWindow.py" />
     <Compile Include="pages\MapExploreWindow.py" />
