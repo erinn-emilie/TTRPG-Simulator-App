@@ -234,7 +234,7 @@ class GridWindow(QMainWindow):
                 os.rename(img_path, asset_path)
 
                 self.map_widget.set_background_img(asset_path)
-                self.tile_types_ref.set_default_tile_background_by_name(self.old_tile_name, asset_path)
+                self.tile_types_ref.set_default_tile_background_by_name(self.tile_type, asset_path)
                 self.map_widget.update()
             except FileNotFoundError:
                 print("File couldn't be found")
@@ -320,7 +320,8 @@ class GridWindow(QMainWindow):
                 icon = None
                 data = token["set_map_asset"]
                 pixmap = QPixmap()
-                pixmap.loadFromData(data)
+                if(data != ""):
+                    pixmap.loadFromData(data)
                 icon = QIcon(pixmap)
                 combo.addItem(icon, name)
             self.toolbar.addWidget(combo)

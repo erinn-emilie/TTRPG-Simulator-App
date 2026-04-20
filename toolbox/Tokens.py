@@ -112,7 +112,8 @@ class Tokens():
                 local = self.__check_local(self.tokens_dict[token]["save_location"])
                 if(local):
                     self.tokens_dict[token]["large_assets"].append(data)
-                    self.local_dict[token]["large_assets"].append(base64.b64encode(data).decode("ascii"))
+                    ascii_data = base64.b64encode(data).decode("ascii")
+                    self.local_dict[token]["large_assets"].append(ascii_data)
                     self.__update_json_file()
                 else:
                     Database.update_token_lg_img(user_id, self.tokens_dict[token]["name"], data)

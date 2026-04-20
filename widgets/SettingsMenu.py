@@ -80,8 +80,9 @@ class SettingsMenu(QMainWindow):
         self.checkbox_layout = QVBoxLayout()
         self.checkbox_group.setLayout(self.checkbox_layout)
 
-        # !!!
-        # This needs to be better
+        self.checked_boxes = 0
+        self.total_boxes = 0
+
         tileNamesList = self.tile_types.get_tile_names_list()
         for name in tileNamesList:
             new_checkbox = QCheckBox(text=str(name), parent=self)
@@ -98,6 +99,7 @@ class SettingsMenu(QMainWindow):
                 }
             """)   
             new_checkbox.toggled.connect(self.__on_checkbox_change)
+            self.total_boxes += 1
             self.checkbox_layout.addWidget(new_checkbox)
 
         self.save_btn = QPushButton("Save Settings", self)
@@ -151,10 +153,13 @@ class SettingsMenu(QMainWindow):
     def __on_checkbox_change(self, state):
         checkbox = self.sender()
         if(state):
+            self.checked_boxes += 1
             self.settings_ref.addExcludedType(checkbox.text().upper())
+            if(self.checked_boxes > self.total_boxes // 3):
+                checkbox.setChecked(False)
         else: 
             self.settings_ref.removeExcludedType(checkbox.text().upper())
-
+            self.checked_boxes -= 1
 
     def __save_settings(self):
         self.settings_ref.setMapSize(self.new_map_size)

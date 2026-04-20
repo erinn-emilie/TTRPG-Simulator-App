@@ -161,13 +161,13 @@ class TokenContainerWidget(QWidget):
 
 
 
-        map_asset_label = QLabel()
-        map_asset_pix = QPixmap()
+        self.map_asset_label = QLabel()
+        self.map_asset_pix = QPixmap()
         if(self.map_asset != ""):
-            map_asset_pix.loadFromData(self.map_asset)
-        map_asset_pix = map_asset_pix.scaledToWidth(100)
-        map_asset_pix = map_asset_pix.scaledToHeight(100)
-        map_asset_label.setPixmap(map_asset_pix)
+            self.map_asset_pix.loadFromData(self.map_asset)
+        self.map_asset_pix = self.map_asset_pix.scaledToWidth(100)
+        self.map_asset_pix = self.map_asset_pix.scaledToHeight(100)
+        self.map_asset_label.setPixmap(self.map_asset_pix)
         change_map_asset_btn = QPushButton("Change Map Asset")
         change_map_asset_btn.setMaximumWidth(200)
         change_map_asset_btn.clicked.connect(partial(self.__change_map_asset))
@@ -177,7 +177,7 @@ class TokenContainerWidget(QWidget):
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 
         name_row.addWidget(spacer)
-        name_row.addWidget(map_asset_label)
+        name_row.addWidget(self.map_asset_label)
         name_label.setStyleSheet(self.internal_stylesheet)
         name_row.addWidget(name_label)
     
@@ -428,10 +428,6 @@ class TokenContainerWidget(QWidget):
 
         if file_dialog.exec():
             try:
-                pixmap = QPixmap()
-                img_label = QLabel()
-                if("database" in self.token["save_location"]):
-                    local = False
                 selected_files_list = file_dialog.selectedFiles()
                 img_path = selected_files_list[0]
                 data = b""
@@ -440,15 +436,13 @@ class TokenContainerWidget(QWidget):
                     img.save(buffer, format='PNG')      
                     data = buffer.getvalue()
                 self.token_ref.change_map_asset(self.token_key, data)
-                self.total_images += 1
-                pixmap = QPixmap()
-                pixmap.loadFromData(data)
-                img_label.setPixmap(pixmap)
-                self.image_labels.append(img_label)
-                self.main_layout.insertWidget(self.total_images, img_label)
-                for label in self.image_labels:
-                    label.hide()
-                img_label.show()
+                self.map_asset = data
+                self.map_asset_pix = QPixmap()
+                if(self.map_asset != ""):
+                    self.map_asset_pix.loadFromData(self.map_asset)
+                self.map_asset_pix = self.map_asset_pix.scaledToWidth(100)
+                self.map_asset_pix = self.map_asset_pix.scaledToHeight(100)
+                self.map_asset_label.setPixmap(self.map_asset_pix)
             except FileNotFoundError:
                 print("File couldn't be found")
             except FileExistsError:
