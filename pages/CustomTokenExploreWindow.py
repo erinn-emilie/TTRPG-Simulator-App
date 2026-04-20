@@ -34,6 +34,7 @@ class CustomTokenExploreWindow(QMainWindow):
 
 
         self.add_token_btn = QPushButton("Add New Token")
+        self.add_token_btn.setStyleSheet("background-color: #AA6373; color: #F0F2A6;")
         self.main_layout.addWidget(self.add_token_btn)
         self.add_token_btn.clicked.connect(self.__add_new_token)
 
@@ -154,6 +155,8 @@ class CustomTileExploreWindow(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self.main_widget)
         self.setCentralWidget(self.scroll)
+
+        self.showMaximized()
 
     def __change_save_location(self, status):
         if(status):

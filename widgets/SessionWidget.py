@@ -85,11 +85,15 @@ class SessionWidget(QMainWindow):
         self.client_session_ref = self.toolbox.get_client_session_ref()
         self.server_session_ref = self.toolbox.get_server_session_ref()
         self.home_window = home_window
+        self.setWindowTitle("Account Manager")
+
+        self.setStyleSheet("background-color: #F0F2A6")
 
 
         self.username_input = ""
         self.password_input = ""
         self.email_input = ""
+
 
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
@@ -105,56 +109,103 @@ class SessionWidget(QMainWindow):
         self.setCentralWidget(self.main_widget)
 
     def __layout_with_acc(self):
-        self.user_label = QLabel("User " + self.account_ref.get_username())
-        self.session_pass_label = QLabel()
-        self.session_pass_label.hide()
-        self.session_pass_btn = QPushButton("Show Session Password")
-        self.session_pass_btn.clicked.connect(self.__change_session_pass_view)
-        self.session_pass_btn.hide()
-        self.start_session_btn = QPushButton("Start Session")
-        self.start_session_btn.clicked.connect(self.__start_session)
-        self.join_session_btn = QPushButton("Join Session")
-        self.join_session_btn.clicked.connect(self.__join_session)
+        username = self.account_ref.get_username()
+        if(self.client_session_ref.get_live_status()):
+            label_txt = f"Welcome {username}! You are currently in a session! Have fun!"
+            self.user_label = QLabel(label_txt)
+            self.main_layout.addWidget(self.user_label)
+        elif(self.server_session_ref.get_live_status()):
+            password = self.server_ref.get_password()
+            label_txt = f"Welcome {username}! You are currently hosting a session! The password is: {password}"
+            self.user_label = QLabel(label_txt)
+            self.main_layout.addWidget(self.user_label)
+        else:
+            label_txt = f"Welcome {username}! Would you like to join or start hosting a session?"
+            self.user_label = QLabel(label_txt)
+            self.start_session_btn = QPushButton("Start Session")
+            self.start_session_btn.clicked.connect(self.__start_session)
+            self.join_session_btn = QPushButton("Join Session")
+            self.join_session_btn.clicked.connect(self.__join_session)
 
-        self.main_layout.addWidget(self.user_label)
-        self.main_layout.addWidget(self.session_pass_label)
-        self.main_layout.addWidget(self.session_pass_btn)
-        self.main_layout.addWidget(self.start_session_btn)
-        self.main_layout.addWidget(self.join_session_btn)
+            self.main_layout.addWidget(self.user_label)
+            self.main_layout.addWidget(self.start_session_btn)
+            self.main_layout.addWidget(self.join_session_btn)
 
     def __layout_without_acc(self):
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
         self.change_form_btn = QPushButton("Don't have an account? Sign up here!")
         self.change_form_btn.clicked.connect(partial(self.__change_form, "signup"))
         self.change_form_btn.setFlat(True)
         
-        self.main_layout.addWidget(self.change_form_btn)
+        change_form_row = QHBoxLayout()
+        change_form_row.addWidget(spacer)
+        change_form_row.addWidget(self.change_form_btn)
+        change_form_row.addWidget(spacer)
+        self.main_layout.addStretch()
+        self.main_layout.addLayout(change_form_row)
 
-        self.email_prompt = QLineEdit("enter your email")
+        self.email_label = QLabel("Email")
+        self.email_label.hide()
+        self.email_prompt = QLineEdit()
         self.email_prompt.textEdited.connect(self.__email_input_edited)
         self.email_prompt.hide()
 
-        self.username_prompt = QLineEdit("enter your username")
+        email_row = QHBoxLayout()
+        email_row.addStretch()
+        email_row.addWidget(self.email_label)
+        email_row.addWidget(self.email_prompt)
+        email_row.addStretch()
+
+
+        self.username_label = QLabel("Username")
+        self.username_prompt = QLineEdit()
         self.username_prompt.textEdited.connect(self.__username_input_edited)
-        self.password_prompt = QLineEdit("enter your password")
+        
+        username_row = QHBoxLayout()
+        username_row.addStretch()
+        username_row.addWidget(self.username_label)
+        username_row.addWidget(self.username_prompt)
+        username_row.addStretch()
+
+        self.password_label = QLabel("Password")
+        self.password_prompt = QLineEdit()
+        self.password_prompt.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_prompt.textEdited.connect(self.__password_input_edited)
+
+        password_row = QHBoxLayout()
+        password_row.addStretch()
+        password_row.addWidget(self.password_label)
+        password_row.addWidget(self.password_prompt)
+        password_row.addStretch()
+
         self.log_in_btn = QPushButton("Log In")
         self.log_in_btn.clicked.connect(self.__try_log_in)
+
 
         self.sign_up_btn = QPushButton("Sign Up")
         self.sign_up_btn.clicked.connect(self.__try_sign_up)
         self.sign_up_btn.hide()
 
-        self.main_layout.addWidget(self.email_prompt)
-        self.main_layout.addWidget(self.username_prompt)
-        self.main_layout.addWidget(self.password_prompt)
-        self.main_layout.addWidget(self.log_in_btn)
-        self.main_layout.addWidget(self.sign_up_btn)
+        btn_row = QHBoxLayout()
+        btn_row.addStretch()
+        btn_row.addWidget(self.log_in_btn)
+        btn_row.addWidget(self.sign_up_btn)
+        btn_row.addStretch()
+
+        self.main_layout.addLayout(email_row)
+        self.main_layout.addLayout(username_row)
+        self.main_layout.addLayout(password_row)
+        self.main_layout.addLayout(btn_row)
+        self.main_layout.addStretch()
 
     def __change_form(self, new_type):
         if(new_type == "signup"):
             self.change_form_btn.setText("Already have an account? Log in here!")
             self.log_in_btn.hide()
             self.email_prompt.show()
+            self.email_label.show()
             self.sign_up_btn.show()
             self.change_form_btn.clicked.disconnect()
             self.change_form_btn.clicked.connect(partial(self.__change_form, "login"))
@@ -163,6 +214,7 @@ class SessionWidget(QMainWindow):
             self.change_form_btn.setText("Don't have an account? Sign up here!")
             self.sign_up_btn.hide()
             self.email_prompt.hide()
+            self.email_label.hide()
             self.log_in_btn.show()
             self.change_form_btn.clicked.disconnect()
             self.change_form_btn.clicked.connect(partial(self.__change_form, "signup"))
@@ -188,11 +240,11 @@ class SessionWidget(QMainWindow):
         msg = self.account_ref.try_log_in(username=self.username_input, password=self.password_input)
         self.__clear_input()
         if(msg == DatabaseMessages.SUCCESS):
-            for i in reversed(range(self.main_layout.count()-1)): 
-                self.main_layout.itemAt(i).widget().setParent(None)            
+            self.main_layout = QVBoxLayout()    
             self.__layout_with_acc()
             self.toolbox.reset_tokens_to_database()
             self.toolbox.get_saved_maps_ref().fetch_from_database()
+            self.close()
 
 
     def __try_sign_up(self):
@@ -204,12 +256,9 @@ class SessionWidget(QMainWindow):
 
 
     def __start_session(self):
-        password = self.server_session_ref.start_session()
-        self.session_pass_label.setText(password)
+        self.self.server_session_ref.start_session()
         self.map_ref.saveMap(local=False, can_save_to_db=False)
-        self.start_session_btn.hide()
-        self.join_session_btn.hide()
-        self.session_pass_btn.show()
+        self.close()
 
     def set_join_username(self, text):
         self.username_input = text

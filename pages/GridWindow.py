@@ -377,6 +377,7 @@ class GridWindow(QMainWindow):
             token_label.show()
             self.token_labels.append(token_label)
             if(self.server_session_ref.get_live_status()):
+                print("sending")
                 self.server_session_ref.add_message_to_all_queues(SessionMessages.TOKEN_ADD_START.value)
                 token_move_info = {
                     "node_pos": self.hex_node.getPositionIdx(),

@@ -37,6 +37,8 @@ class TileProbWindow(QMainWindow):
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout()
 
+        self.setWindowTitle(f"{tile_name} Probabilities")
+        self.setStyleSheet("background-color: #F0F2A6")
 
 
         self.name_labels = []
@@ -45,6 +47,7 @@ class TileProbWindow(QMainWindow):
         self.old_tile_weights_dict = {}
 
         self.save_btn = QPushButton("Save Changes")
+        self.save_btn.setStyleSheet("background-color: #AA6373; color: #F0F2A6;")
         self.save_btn.clicked.connect(self.__save_changes)
 
         self.main_layout.addWidget(self.save_btn)
@@ -56,23 +59,33 @@ class TileProbWindow(QMainWindow):
 
     def __setup_layout(self):
         weights = self.tile_types_ref.get_tile_weights_by_name(self.tile_name)
-
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        self.main_layout.addWidget(spacer)
         for tile in weights:
             if(tile.upper() == self.tile_name.upper()):
                 continue
             row = QHBoxLayout()
             self.new_tile_weights_dict[tile] = ""
-            name_label = QLabel(tile)
+            name_label = QLabel(tile,  alignment=Qt.AlignmentFlag.AlignCenter)
+            name_label.setMinimumWidth(75)
+            name_label.setStyleSheet("background-color: #AA6373; color: #F0F2A6; border-radius: 15px")
+
             self.name_labels.append(name_label)
             weight = weights[tile]
             self.old_tile_weights_dict[tile] = weight
             weight_label = QLineEdit(str(weight))
+            weight_label.setStyleSheet("color: #1A1B25;")
+            weight_label.setMaximumWidth(100)
             weight_label.textEdited.connect(partial(self.__change_tile_weight, name_key=tile, label=weight_label))
             self.weight_labels.append(weight_label)
 
+            row.addWidget(spacer)
             row.addWidget(name_label)
             row.addWidget(weight_label)
+            row.addWidget(spacer)
             self.main_layout.addLayout(row)
+        self.main_layout.addWidget(spacer)
 
     def __change_tile_weight(self, new_weight, name_key="", label=None):
         if(new_weight != ""):

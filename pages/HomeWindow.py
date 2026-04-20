@@ -297,7 +297,7 @@ class HomeWindow(QMainWindow):
 
     def __show_custom_players_window(self):
         self.customPlayersWindow = CustomTokenExploreWindow(self.toolbox, self, TokenTypes.PLAYER_CHARACTERS)
-        self.customPlayerWindow.setWindowIcon(QIcon("assets/character.png"))
+        self.customPlayersWindow.setWindowIcon(QIcon("assets/character.png"))
         self.customPlayersWindow.show()
 
     def __show_custom_nonplayers_window(self):
@@ -552,11 +552,11 @@ class HomeWindow(QMainWindow):
 
     def __save_map(self):
         if(not self.account_ref.get_logged_in()):
-            map_name, ok = QInputDialog.getText(self, "Map Name", "You are not logged in, your map will be saved locally!\nPlease enter a name to save the map under!")
+            map_name, ok = QInputDialog.getText(self, "Save Map", "You are not logged in, your map will be saved locally!\nPlease enter a name to save the map under!")
             if ok and map_name:
                 self.hextile_map_obj.saveMap(map_name=map_name)
         else:
-            map_name, ok = QInputDialog.getText(self, "Map Name", "Your map will be saved to your account!\nPlease enter a name to save the map under!")
+            map_name, ok = QInputDialog.getText(self, "Save Map", "Your map will be saved to your account!\nPlease enter a name to save the map under!")
             if ok and map_name:
                 self.hextile_map_obj.saveMap(map_name=map_name, local=False)
 

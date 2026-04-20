@@ -16,5 +16,24 @@
         },
         "large_assets": [],
         "set_map_asset": ""
+    },
+    "NEW TOKEN": {
+        "key": 1,
+        "name": "new token",
+        "small_fields": {
+            "health": "0",
+            "strength": "0",
+            "dexterity": "0",
+            "constitution": "0",
+            "intelligence": "0",
+            "wisdom": "0"
+        },
+        "large_fields": {
+            "biography": "",
+            "notes": ""
+        },
+        "large_assets": [],
+        "set_map_asset": "",
+        "save_location": "local"
     }
 }

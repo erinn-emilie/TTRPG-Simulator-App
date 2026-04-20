@@ -53,6 +53,9 @@ class ClientSession(QObject):
         self.sock = None
         self.live = False
 
+    def get_live_status(self):
+        return self.live
+
     def set_home_window(self, home_window):
         self.home_window = home_window
 
@@ -94,10 +97,12 @@ class ClientSession(QObject):
         elif(SessionMessages.TOKEN_ADD_STOP.value in msg):
             self.adding_token = False
             info_part = msg.replace(SessionMessages.TOKEN_ADD_STOP.value, "")
-        elif(self.adding_token):
-            self.add_token_str = self.add_token_str + msg
+            self.add_token_str = self.add_token_str + info_part
             self.add_token.emit(eval(self.add_token_str))
             self.add_token_str = ""
+        elif(self.adding_token):
+            self.add_token_str = self.add_token_str + msg
+
 
 
 
@@ -110,7 +115,7 @@ class ServerSession():
         self.sock = None
         self.live = False
         self.messages = []
-
+        self.password = None
 
 
     def upnp_map(self, ext_port, int_port):
@@ -132,6 +137,9 @@ class ServerSession():
 
     def get_live_status(self):
         return self.live
+
+    def get_password(self):
+        return self.password
 
 
     def start_session(self):

@@ -141,7 +141,10 @@ class TileTypes():
             return dict
 
     def get_tile_default_by_name(self, tileName:str):
-        return self.tiles_dict[tileName.upper()]["default"]
+        try:
+            return self.tiles_dict[tileName.upper()]["default"]
+        except KeyError:
+            return False
 
 
     def get_default_tile_asset_by_name(self, tileName:str) -> str:
